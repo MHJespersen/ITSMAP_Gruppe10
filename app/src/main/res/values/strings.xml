@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Grp10_AppProject</string>
+    <string name="txtItem">Item</string>
+    <string name="txtPrice">0.00</string>
+    <string name="txtDescription">Description</string>
 </resources>
