@@ -5,7 +5,95 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context="mhj.Grp10_AppProject.Activities.DetailsActivity">
+    android:scrollbars="vertical"
+    tools:context="mhj.Grp10_AppProject.Activities.DetailsActivity"
+    tools:ignore="MissingPrefix">
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/detailsTextPrice"
+        app:layout_constraintStart_toStartOf="@+id/detailsTextTitle"
+        app:layout_constraintTop_toBottomOf="@+id/detailsTextTitle" />
+
+    <TextView
+        android:id="@+id/detailsTextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Chair"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/detailsImage"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/detailsTextTitle"
+        app:layout_constraintTop_toBottomOf="@+id/detailsTextTitle"
+        app:srcCompat="@drawable/sample_chair"/>
+
+    <TextView
+        android:id="@+id/detailsTextPriceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Price"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="@+id/detailsImage"
+        app:layout_constraintTop_toBottomOf="@+id/detailsImage" />
+
+    <TextView
+        android:id="@+id/detailsTextPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100 kr"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="@+id/detailsImage"
+        app:layout_constraintTop_toTopOf="@+id/detailsTextPriceLabel" />
+
+    <TextView
+        android:id="@+id/detailsTextDesc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="vertical"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus orci, faucibus id pretium et, imperdiet bibendum nisl. Duis ultricies consequat convallis. Cras nec odio sit amet augue placerat maximus quis id diam. In justo ante, ultricies sit amet turpis in, vehicula lacinia libero. Nullam fermentum elit non condimentum ullamcorper. Sed maximus quam ac molestie ornare. Cras ac vehicula nulla. Fusce porttitor lectus cursus lacus tincidunt, et ultricies urna ultrices. Mauris eleifend metus odio, vel maximus libero rhoncus ac. Vestibulum tincidunt odio ligula, quis vulputate risus commodo feugiat."
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/detailsBtnBack"
+        app:layout_constraintEnd_toEndOf="@+id/detailsTextPrice"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/detailsTextPriceLabel"
+        app:layout_constraintTop_toBottomOf="@+id/detailsTextPriceLabel"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus orci, faucibus id pretium et, imperdiet bibendum nisl. Duis ultricies consequat convallis. Cras nec odio sit amet augue placerat maximus quis id diam. In justo ante, ultricies sit amet turpis in, vehicula lacinia libero. Nullam fermentum elit non condimentum ullamcorper. Sed maximus quam ac molestie ornare. Cras ac vehicula nulla. Fusce porttitor lectus cursus lacus tincidunt, et ultricies urna ultrices. Mauris eleifend metus odio, vel maximus libero rhoncus ac. Vestibulum tincidunt odio ligula, quis vulputate risus commodo feugiat." />
+
+    <Button
+        android:id="@+id/detailsBtnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="@+id/detailsBtnMessage"
+        app:layout_constraintStart_toStartOf="@+id/detailsTextDesc" />
+
+    <Button
+        android:id="@+id/detailsBtnMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Message"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/detailsTextDesc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
