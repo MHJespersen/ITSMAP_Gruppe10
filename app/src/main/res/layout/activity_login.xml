@@ -5,4 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context="mhj.Grp10_AppProject.Activities.LoginActivity"/>
+    tools:context="mhj.Grp10_AppProject.Activities.LoginActivity">
+
+    <Button
+        android:id="@+id/SignInBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="256dp"
+        android:text="Login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:onClick="SignIn"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

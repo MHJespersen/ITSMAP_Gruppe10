@@ -9,6 +9,7 @@ import mhj.Grp10_AppProject.Model.SalesItem;
 
 //**** USE FIREBASE INSTEAD OF ROOM //
 
+//Inspired from Lection 10, Demo videos, Moble backends(firebase)
 @Database(entities = {SalesItem.class}, version = 1)
 public abstract class MarketsDatabase extends RoomDatabase {
 
