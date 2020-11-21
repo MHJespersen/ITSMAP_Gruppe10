@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import mhj.Grp10_AppProject.Adapter.MarketAdapter;
-import mhj.Grp10_AppProject.Database.MarketsDatabase;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModel;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModelFactory;
@@ -24,7 +23,6 @@ public class MarketsActivity extends AppCompatActivity {
     private MarketAdapter adapter;
 
     //state
-    private MarketsDatabase db;
     private SharedPreferences.Editor editor;
 
 
