@@ -1,17 +1,10 @@
 package mhj.Grp10_AppProject.Model;
 
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
 
-@Entity
 public class SalesItem implements Serializable {
 
     public int ImageResourceId;
-    @PrimaryKey
-    @NonNull
     public int ItemId;
     public String Description;
     public float Price;
