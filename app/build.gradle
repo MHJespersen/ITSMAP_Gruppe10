@@ -6,7 +6,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "GRP10.APProject"
+        applicationId "mhj.Grp10_AppProject"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
