@@ -6,12 +6,9 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModel;
@@ -20,6 +17,7 @@ import mhj.Grp10_AppProject.ViewModels.DetailsViewModelFactory;
 
 
 public class DetailsActivity extends AppCompatActivity {
+    public static final String EXTRA_ITEM_ID = "extra_itemId";
     private static final String TAG = "DetailsActivity";
     private DetailsViewModel viewModel;
     private TextView textItemTitle, textItemPrice, textItemDesc, textItemLocation;
@@ -36,7 +34,7 @@ public class DetailsActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this, new DetailsViewModelFactory(this.getApplicationContext()))
                 .get(DetailsViewModel.class);
 
-        dummyItem = new DummyItem("Chair", "Great chair, please buy", "Aarhus", "some_img", 200, 0);
+        dummyItem = new DummyItem(0, 0, "Chair", "Great chair, please buy", "Aarhus", "some_img", 200);
         setupUI();
 
 
@@ -68,29 +66,35 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void gotoMessage() {
-        Intent i = new Intent(this, MessageActivity.class);
-        startActivity(i);
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra(EXTRA_ITEM_ID, dummyItem.getItemId());
+        startActivity(intent);
     }
 }
 
 // Dummy Item to test with
 class DummyItem {
+    private int itemId, userId;
     private String title, description, location, img;
     private float price;
-    private int userId;
 
     public DummyItem() {
     }
 
-    public DummyItem(String title, String description, String location, String img, float price, int userId) {
+    public DummyItem(int itemId, int userId, String title, String description, String location, String img, float price) {
+        this.userId = itemId;
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.location = location;
         this.img = img;
         this.price = price;
-        this.userId = userId;
     }
 
+    public int getItemId() { return itemId; }
+    public void setItemId(int itemId) {this.itemId = itemId;}
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) {this.userId = userId;}
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getDescription() { return description; }
@@ -101,6 +105,4 @@ class DummyItem {
     public void setImg(String img) { this.img = img; }
     public float getPrice() { return price; }
     public void setPrice(float price) { this.price = price; }
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) {this.userId = userId;}
 }
