@@ -20,7 +20,7 @@ import mhj.Grp10_AppProject.ViewModels.DetailsViewModelFactory;
 
 
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends BaseActivity {
     public static final String EXTRA_ITEM_ID = "extra_itemId";
     private static final String TAG = "DetailsActivity";
     private DetailsViewModel viewModel;

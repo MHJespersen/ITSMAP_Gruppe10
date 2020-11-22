@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Grp10_AppProject</string>
+    <string name="app_name">SmartSale</string>
     <string name="txtItem">Vare</string>
     <string name="txtPrice">0.00</string>
     <string name="txtDescription">Beskrivelse</string>
@@ -14,4 +14,5 @@
     <string name="btn_cancel">Annullér</string>
     <string name="facebook_application_id">809327973247815</string>
     <string name="fb_login_protocol_scheme">fb809327973247815</string>
+    <string name="title_activity_maps">Kort</string>
 </resources>

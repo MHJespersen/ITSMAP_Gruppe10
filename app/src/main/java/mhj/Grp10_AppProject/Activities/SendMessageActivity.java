@@ -13,7 +13,7 @@ import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModelFactory;
 
-public class SendMessageActivity extends AppCompatActivity {
+public class SendMessageActivity extends BaseActivity {
     private static final String TAG = "SendMessageActivity";
     private SendMessageViewModel viewModel;
     private TextView textRecipient, textItem;

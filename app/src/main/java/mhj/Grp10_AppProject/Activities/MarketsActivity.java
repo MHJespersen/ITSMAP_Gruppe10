@@ -17,7 +17,7 @@ import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModel;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModelFactory;
 
-public class MarketsActivity extends AppCompatActivity {
+public class MarketsActivity extends BaseActivity {
 
     MarketsActivity context;
     MarketsViewModel viewModel;

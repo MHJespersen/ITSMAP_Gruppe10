@@ -1,7 +1,6 @@
 package mhj.Grp10_AppProject.Activities;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -21,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private LoginViewModel viewModel;
     FirebaseAuth auth;
@@ -42,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this,
                 new LoginViewModelFactory(this.getApplicationContext())).get(LoginViewModel.class);
         auth = FirebaseAuth.getInstance();
-
 
     }
 
@@ -85,7 +83,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-
     public void SignOut(View view) {
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {

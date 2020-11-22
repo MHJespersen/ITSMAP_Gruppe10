@@ -7,7 +7,7 @@ import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModel;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
-public class CreateSaleActivity extends AppCompatActivity {
+public class CreateSaleActivity extends BaseActivity {
     private CreateSaleViewModel viewModel;
 
     @Override
