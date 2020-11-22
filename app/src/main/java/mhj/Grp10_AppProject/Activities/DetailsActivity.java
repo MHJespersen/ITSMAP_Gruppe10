@@ -6,9 +6,14 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModel;
@@ -23,9 +28,11 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView textItemTitle, textItemPrice, textItemDesc, textItemLocation;
     private ImageView imgItem;
     private Button btnBack, btnMessage;
+    private ImageButton btnMap;
     
     private DummyItem dummyItem;
-    
+    public static ArrayList<DummyItem> dummyItems = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +41,11 @@ public class DetailsActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this, new DetailsViewModelFactory(this.getApplicationContext()))
                 .get(DetailsViewModel.class);
 
-        dummyItem = new DummyItem(0, 0, "Chair", "Great chair, please buy", "Aarhus", "some_img", 200);
+        dummyItems.add(new DummyItem(0, 0, "Chair", "Great chair, please buy", "Aarhus", "sample_chair", 200));
+        dummyItems.add(new DummyItem(1, 0, "Bed", "Great bed, please buy", "Aarhus", "sample_bed", 500));
+        dummyItems.add(new DummyItem(2, 1, "Dress", "Great dress, please buy", "Copenhagen", "sample_dress", 500));
+
+        dummyItem = dummyItems.get(2);
         setupUI();
 
 
@@ -43,6 +54,11 @@ public class DetailsActivity extends AppCompatActivity {
     private void setupUI() {
         textItemTitle = findViewById(R.id.detailsTextTitle);
         textItemTitle.setText(dummyItem.getTitle());
+
+        imgItem = findViewById(R.id.detailsImage);
+        String s = dummyItem.getImg();
+        int id = getApplicationContext().getResources().getIdentifier(s, "drawable", getApplicationContext().getPackageName());
+        imgItem.setImageResource(id);
         
         textItemPrice = findViewById(R.id.detailsTextPrice);
         textItemPrice.setText(String.valueOf(dummyItem.getPrice()));
@@ -62,7 +78,8 @@ public class DetailsActivity extends AppCompatActivity {
         btnMessage = findViewById(R.id.detailsBtnMessage);
         btnMessage.setOnClickListener(view -> gotoMessage());
 
-        
+        btnMap = findViewById(R.id.detailsBtnMap);
+        btnMap.setOnClickListener(view -> gotoMap());
     }
 
     private void gotoMessage() {
@@ -70,9 +87,16 @@ public class DetailsActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_ITEM_ID, dummyItem.getItemId());
         startActivity(intent);
     }
+
+    private void gotoMap() {
+        Toast.makeText(this, "map", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 }
 
-// Dummy Item to test with
+// Dummy Item to test with, delete later
 class DummyItem {
     private int itemId, userId;
     private String title, description, location, img;
@@ -82,7 +106,7 @@ class DummyItem {
     }
 
     public DummyItem(int itemId, int userId, String title, String description, String location, String img, float price) {
-        this.userId = itemId;
+        this.itemId = itemId;
         this.userId = userId;
         this.title = title;
         this.description = description;

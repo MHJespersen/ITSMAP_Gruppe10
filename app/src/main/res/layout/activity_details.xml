@@ -63,8 +63,9 @@
         android:id="@+id/detailsTextLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/detailsImage"
+        app:layout_constraintEnd_toStartOf="@+id/detailsBtnMap"
         app:layout_constraintTop_toTopOf="@+id/detailsLabelLocation"
         tools:text="Vesuvius" />
 
@@ -73,7 +74,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toEndOf="@+id/detailsLabelPrice"
         app:layout_constraintTop_toTopOf="@+id/detailsLabelPrice"
@@ -83,7 +83,7 @@
         android:id="@+id/detailsTextDesc"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:scrollbars="vertical"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -113,5 +113,16 @@
         android:text="@string/btn_message"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/detailsTextDesc" />
+
+    <ImageButton
+        android:id="@+id/detailsBtnMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:tint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/detailsTextLocation"
+        app:layout_constraintEnd_toEndOf="@+id/detailsImage"
+        app:layout_constraintTop_toTopOf="@+id/detailsTextLocation"
+        app:srcCompat="@drawable/ic_location_32" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

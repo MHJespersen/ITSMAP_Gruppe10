@@ -20,6 +20,8 @@ public class MessageActivity extends AppCompatActivity {
     private TextView textRecipient, textItem;
     private EditText inputMessage;
     private Button btnCancel, btnSend;
+    private int userId;
+    private String itemTitle, itemImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +31,18 @@ public class MessageActivity extends AppCompatActivity {
                 .get(MessageViewModel.class);
 
         int itemId = getIntent().getIntExtra(DetailsActivity.EXTRA_ITEM_ID, 42);
-        Log.d(TAG, "onCreate: " + itemId);
+        userId = DetailsActivity.dummyItems.get(itemId).getUserId();
+        itemTitle = DetailsActivity.dummyItems.get(itemId).getTitle();
 
         setupUI();
     }
 
     private void setupUI() {
         textRecipient = findViewById(R.id.messageTextRecipient);
-        textRecipient.setText("User");
+        textRecipient.setText(String.valueOf(userId));
 
         textItem = findViewById(R.id.messageTextItem);
-        textItem.setText("Fancy Couch");
+        textItem.setText(itemTitle);
 
         inputMessage = findViewById(R.id.messageInputMessage);
         inputMessage.requestFocus();
