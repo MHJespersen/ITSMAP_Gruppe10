@@ -33,8 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Location:"
+        android:text="@string/label_location"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toStartOf="@+id/detailsTextLocation"
         app:layout_constraintTop_toTopOf="@+id/detailsLabelPrice" />
@@ -64,8 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="Price:"
+        android:text="@string/label_price"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toEndOf="@+id/detailsImage"
         app:layout_constraintTop_toTopOf="@+id/detailsImage" />
@@ -101,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_outer"
-        android:text="Back"
+        android:text="@string/btn_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/detailsTextDesc" />
 
@@ -110,10 +108,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="Message"
+        android:text="@string/btn_message"
         app:layout_constraintBottom_toBottomOf="@+id/detailsBtnBack"
         app:layout_constraintEnd_toEndOf="parent" />
 

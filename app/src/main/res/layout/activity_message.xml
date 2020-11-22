@@ -12,17 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginTop="@dimen/margin_outer"
-        android:text="Recipient:"
+        android:text="@string/label_recipient"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/messageLabelSendMessage" />
 
     <TextView
         android:id="@+id/messageLabelRegarding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Regarding:"
+        android:text="@string/label_regarding"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/messageLabelRecipient"
         app:layout_constraintTop_toBottomOf="@+id/messageLabelRecipient" />
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginBottom="@dimen/margin_outer"
-        android:text="Cancel"
+        android:text="@string/btn_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -79,7 +79,18 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_outer"
         android:layout_marginBottom="@dimen/margin_outer"
-        android:text="Send"
+        android:text="@string/btn_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/messageLabelSendMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_outer"
+        android:layout_marginTop="@dimen/margin_outer"
+        android:text="@string/label_send_message"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

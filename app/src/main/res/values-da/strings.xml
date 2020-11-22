@@ -3,4 +3,13 @@
     <string name="txtItem">Vare</string>
     <string name="txtPrice">0.00</string>
     <string name="txtDescription">Beskrivelse</string>
+    <string name="btn_send">Send</string>
+    <string name="label_price">Pris:</string>
+    <string name="label_location">Lokation:</string>
+    <string name="btn_back">Tilbage</string>
+    <string name="btn_message">Send besked</string>
+    <string name="label_send_message">Send besked</string>
+    <string name="label_recipient">Modtager:</string>
+    <string name="label_regarding">Angående:</string>
+    <string name="btn_cancel">Annullér</string>
 </resources>
