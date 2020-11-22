@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel viewModel;
