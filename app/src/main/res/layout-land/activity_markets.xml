@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MarketsActivity">
+    tools:context=".Activities.MarketsActivity"
+    android:background="@color/backgroundColor">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvItems"
