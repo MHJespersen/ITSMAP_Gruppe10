@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this,
                 new LoginViewModelFactory(this.getApplicationContext())).get(LoginViewModel.class);
         auth = FirebaseAuth.getInstance();
+
+
     }
 
     public void SignIn(View view) {
@@ -56,12 +58,15 @@ public class LoginActivity extends AppCompatActivity {
         else {
             List<AuthUI.IdpConfig> providers = Arrays.asList(
                     new AuthUI.IdpConfig.EmailBuilder().build(),
-                    new AuthUI.IdpConfig.GoogleBuilder().build()
+                    new AuthUI.IdpConfig.GoogleBuilder().build(),
+                    new AuthUI.IdpConfig.GitHubBuilder().build(),
+                    new AuthUI.IdpConfig.FacebookBuilder().build()
             );
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setAvailableProviders(providers)
+                            .setIsSmartLockEnabled(false)
                             .build(), REQUEST_LOGIN
             );
         }
