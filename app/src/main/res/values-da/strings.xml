@@ -12,4 +12,6 @@
     <string name="label_recipient">Modtager:</string>
     <string name="label_regarding">Angående:</string>
     <string name="btn_cancel">Annullér</string>
+    <string name="facebook_application_id">809327973247815</string>
+    <string name="fb_login_protocol_scheme">fb809327973247815</string>
 </resources>

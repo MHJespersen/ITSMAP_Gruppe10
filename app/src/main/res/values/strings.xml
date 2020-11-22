@@ -13,4 +13,6 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_send">Send</string>
     <string name="title_activity_maps">Map</string>
+    <string name="facebook_application_id">809327973247815</string>
+    <string name="fb_login_protocol_scheme">fb809327973247815</string>
 </resources>
