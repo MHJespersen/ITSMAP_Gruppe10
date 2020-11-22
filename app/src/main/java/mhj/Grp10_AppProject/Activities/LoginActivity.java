@@ -34,8 +34,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         context = this;
-        loginBtn = findViewById(R.id.SignInBtn);
-        userName = findViewById(R.id.UserNameTxt);
+        loginBtn = findViewById(R.id.SignInBtn);    
 
         //Calling / creating ViewModel with the factory pattern is inspired from: https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this,
@@ -50,7 +49,6 @@ public class LoginActivity extends BaseActivity {
         }
         if (auth.getCurrentUser() != null) {
             //Bruger er logget ind
-            updateUserName();
             //Åben ListActivity eller hvad den første activity er
         }
         else {
@@ -79,27 +77,19 @@ public class LoginActivity extends BaseActivity {
 
                 Toast.makeText(context,  auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "You have logged in", Toast.LENGTH_SHORT).show();
-                updateUserName();
             }
         }
     }
-    public void SignOut(View view) {
-        auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            FirebaseAuth.getInstance().signOut();
-            Toast.makeText(context, "You have logged out", Toast.LENGTH_SHORT).show();
-            updateUserName();
-        }
-    }
 
-    private void updateUserName()
-    {
-        if (auth.getCurrentUser() != null) {
-            userName.setText(auth.getCurrentUser().getEmail());
-        }
-        else
-        {
-            userName.setText("");
-        }
-    }
+//    private void updateUserName()
+//    {
+//        if (auth.getCurrentUser() != null) {
+//            userName.setText(auth.getCurrentUser().getPhotoUrl().toString());
+//            Log.d("this", auth.getCurrentUser().getPhotoUrl().toString());
+//        }
+//        else
+//        {
+//            userName.setText("");
+//        }
+//    }
 }
