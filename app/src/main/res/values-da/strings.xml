@@ -15,4 +15,6 @@
     <string name="facebook_application_id">809327973247815</string>
     <string name="fb_login_protocol_scheme">fb809327973247815</string>
     <string name="title_activity_maps">Kort</string>
+    <string name="AppBarMenuSettings">Bruger indstillinger</string>
+    <string name="AppBarMenuLogOut">Log out</string>
 </resources>
