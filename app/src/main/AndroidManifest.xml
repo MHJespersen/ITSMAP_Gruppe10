@@ -36,7 +36,7 @@
             android:name=".Activities.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
         <activity
-            android:name=".Activities.MessageActivity"
+            android:name=".Activities.SendMessageActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".Activities.MarketsActivity" />
 

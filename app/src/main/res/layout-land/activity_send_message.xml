@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MessageActivity"
+    tools:context=".Activities.SendMessageActivity"
     android:background="@color/backgroundColor">
 
     <TextView
-        android:id="@+id/messageLabelSendMessage2"
+        android:id="@+id/sendMessageLabelSendMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_outer"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/messageLabelRecipient"
+        android:id="@+id/sendMessageLabelRecipient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_outer"
@@ -27,20 +27,20 @@
         android:text="@string/label_recipient"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageLabelSendMessage2" />
+        app:layout_constraintTop_toBottomOf="@+id/sendMessageLabelSendMessage" />
 
     <TextView
-        android:id="@+id/messageLabelRegarding"
+        android:id="@+id/sendMessageLabelRegarding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/label_regarding"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toStartOf="@+id/messageLabelRecipient"
-        app:layout_constraintTop_toBottomOf="@+id/messageLabelRecipient" />
+        app:layout_constraintStart_toStartOf="@+id/sendMessageLabelRecipient"
+        app:layout_constraintTop_toBottomOf="@+id/sendMessageLabelRecipient" />
 
     <EditText
-        android:id="@+id/messageInputMessage"
+        android:id="@+id/sendMessageInputMessage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/margin_outer"
@@ -51,32 +51,32 @@
         android:gravity="start|top"
         android:hint="Type message here"
         android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/messageBtnSend"
+        app:layout_constraintBottom_toTopOf="@+id/sendMessageBtnSend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageLabelRegarding" />
+        app:layout_constraintTop_toBottomOf="@+id/sendMessageLabelRegarding" />
 
     <TextView
-        android:id="@+id/messageTextRecipient"
+        android:id="@+id/sendMessageTextRecipient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_outer"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/messageLabelRecipient"
+        app:layout_constraintBottom_toBottomOf="@+id/sendMessageLabelRecipient"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="SomeUser" />
 
     <TextView
-        android:id="@+id/messageTextItem"
+        android:id="@+id/sendMessageTextItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="@+id/messageLabelRegarding"
-        app:layout_constraintEnd_toEndOf="@+id/messageTextRecipient"
+        app:layout_constraintBottom_toBottomOf="@+id/sendMessageLabelRegarding"
+        app:layout_constraintEnd_toEndOf="@+id/sendMessageTextRecipient"
         tools:text="Some Item" />
 
     <Button
-        android:id="@+id/messageBtnCancel"
+        android:id="@+id/sendMessageBtnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_outer"
@@ -86,7 +86,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/messageBtnSend"
+        android:id="@+id/sendMessageBtnSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_outer"

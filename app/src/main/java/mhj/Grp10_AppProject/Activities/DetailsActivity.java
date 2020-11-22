@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -76,14 +75,14 @@ public class DetailsActivity extends AppCompatActivity {
         btnBack.setOnClickListener(view -> finish());
 
         btnMessage = findViewById(R.id.detailsBtnMessage);
-        btnMessage.setOnClickListener(view -> gotoMessage());
+        btnMessage.setOnClickListener(view -> gotoSendMessage());
 
         btnMap = findViewById(R.id.detailsBtnMap);
         btnMap.setOnClickListener(view -> gotoMap());
     }
 
-    private void gotoMessage() {
-        Intent intent = new Intent(this, MessageActivity.class);
+    private void gotoSendMessage() {
+        Intent intent = new Intent(this, SendMessageActivity.class);
         intent.putExtra(EXTRA_ITEM_ID, dummyItem.getItemId());
         startActivity(intent);
     }

@@ -4,9 +4,9 @@ import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
 
-public class MessageViewModel extends ViewModel {
+public class SendMessageViewModel extends ViewModel {
 
-    public MessageViewModel(Context context) {
+    public SendMessageViewModel(Context context) {
 
     }
 }
