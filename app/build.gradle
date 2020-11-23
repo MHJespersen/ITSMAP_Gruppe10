@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:22.0.0'
     implementation 'androidx.mediarouter:mediarouter:1.2.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.firebase:firebase-database:19.5.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.google.firebase:firebase-auth'
     testImplementation 'junit:junit:4.12'
