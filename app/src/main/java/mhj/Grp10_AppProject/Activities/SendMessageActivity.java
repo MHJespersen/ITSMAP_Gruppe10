@@ -9,6 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModelFactory;
@@ -57,6 +63,25 @@ public class SendMessageActivity extends BaseActivity {
         String message = inputMessage.getText().toString();
         Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    //Real section
+    //guide: https://www.youtube.com/watch?v=f1HKTg2hyf0&ab_channel=KODDev
+    private void sendMessages() {
+        String message = inputMessage.getText().toString();
+        if(message != ""){
+            //viewModel.sendMessage(message);
+        }
+        Toast.makeText(this, "You can't send empty messages ", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    //repository action saving to db, move to repo.
+    private void saveToDb() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("message",inputMessage);
+        reference.child("Messages").setValue(hashMap);
     }
 
 
