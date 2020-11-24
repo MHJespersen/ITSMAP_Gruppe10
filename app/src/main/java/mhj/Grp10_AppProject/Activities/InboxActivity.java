@@ -1,12 +1,14 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
+
 
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModelFactory;
 
 
-public class InboxActivity extends AppCompatActivity implements InboxAdapter.IMessageClickedListener {
+public class InboxActivity extends BaseActivity implements InboxAdapter.IMessageClickedListener {
 
     InboxActivity context;
     private InboxViewModel viewModel;
@@ -50,5 +52,19 @@ public class InboxActivity extends AppCompatActivity implements InboxAdapter.IMe
     @Override
     public void onMessageClicked(int index) {
         Toast.makeText(context, "Message clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    //Added for menu, if the user is logged in
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
+        MenuItem userItem = menu.findItem(R.id.userTxt);
+        if(auth.getCurrentUser() != null)
+        {
+            logoutItem.setVisible(true);
+            userItem.setVisible(true);
+            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 }

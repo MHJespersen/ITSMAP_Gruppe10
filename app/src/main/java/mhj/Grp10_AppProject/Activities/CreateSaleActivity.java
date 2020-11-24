@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,6 +108,18 @@ public class CreateSaleActivity extends BaseActivity {
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
+    //Added for menu, if the user is logged in
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
+        MenuItem userItem = menu.findItem(R.id.userTxt);
+        if(auth.getCurrentUser() != null)
+        {
+            logoutItem.setVisible(true);
+            userItem.setVisible(true);
+            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 }
 

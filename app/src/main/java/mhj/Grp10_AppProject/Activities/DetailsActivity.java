@@ -3,6 +3,8 @@ package mhj.Grp10_AppProject.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -92,7 +94,22 @@ public class DetailsActivity extends BaseActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
+
+    //Added for menu, if the user is logged in
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
+        MenuItem userItem = menu.findItem(R.id.userTxt);
+        if(auth.getCurrentUser() != null)
+        {
+            logoutItem.setVisible(true);
+            userItem.setVisible(true);
+            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 }
+
 
 // Dummy Item to test with, delete later
 class DummyItem {

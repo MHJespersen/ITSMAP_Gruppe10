@@ -1,6 +1,8 @@
 package mhj.Grp10_AppProject.Activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -8,8 +10,8 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
@@ -76,10 +78,24 @@ public class SendMessageActivity extends BaseActivity {
 
     //repository action saving to db, move to repo.
     private void saveToDb() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("message",inputMessage);
-        reference.child("Messages").setValue(hashMap);
+        //reference.child("Messages").setValue(hashMap);
+    }
+
+    //Added for menu, if the user is logged in
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
+        MenuItem userItem = menu.findItem(R.id.userTxt);
+        if(auth.getCurrentUser() != null)
+        {
+            logoutItem.setVisible(true);
+            userItem.setVisible(true);
+            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
 
