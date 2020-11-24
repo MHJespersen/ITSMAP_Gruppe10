@@ -16,5 +16,12 @@
     <string name="fb_login_protocol_scheme">fb809327973247815</string>
     <string name="title_activity_maps">Kort</string>
     <string name="AppBarMenuSettings">Bruger indstillinger</string>
-    <string name="AppBarMenuLogOut">Log out</string>
+    <string name="AppBarMenuLogOut">Log ud</string>
+    <string name="label_inbox">Inbox</string>
+    <string name="label_from">Fra:</string>
+    <string name="label_date">Dato:</string>
+    <string name="label_read">Læst</string>
+    <string name="label_unread">Ulæst</string>
+    <string name="label_message">Besked</string>
+    <string name="btn_reply">Svar</string>
 </resources>

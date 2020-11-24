@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.BaseActivity"></activity>
+        <activity android:name=".Activities.ViewMessageActivity"></activity>
+        <activity android:name=".Activities.BaseActivity" />
         <activity android:name=".Activities.InboxActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,11 +40,9 @@
         <activity
             android:name=".Activities.MapsActivity"
             android:label="@string/title_activity_maps" />
-
         <activity
             android:name=".Activities.SendMessageActivity"
             android:windowSoftInputMode="adjustResize" />
-
         <activity android:name=".Activities.MarketsActivity" />
 
         <service
@@ -54,6 +53,7 @@
         <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

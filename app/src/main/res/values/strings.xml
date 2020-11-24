@@ -22,4 +22,6 @@
     <string name="label_unread">Unread</string>
     <string name="AppBarMenuSettings">Account settings</string>
     <string name="AppBarMenuLogOut">Log out</string>
+    <string name="label_message">Message</string>
+    <string name="btn_reply">Reply</string>
 </resources>
