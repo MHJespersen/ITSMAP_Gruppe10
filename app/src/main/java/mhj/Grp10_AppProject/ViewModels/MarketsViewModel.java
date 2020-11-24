@@ -32,6 +32,7 @@ public class MarketsViewModel extends ViewModel {
         //salesitemLiveData = repository.getItems();
     }
 
+<<<<<<< Updated upstream
     public LiveData<List<SalesItem>> getItems()
     {
         if(salesitemLiveData == null)
@@ -63,5 +64,16 @@ public class MarketsViewModel extends ViewModel {
                     }
                 });
     }
+=======
+    public LiveData<List<SalesItem>> getSalesitemLiveData(){
+        return salesitemLiveData;
+    }
+
+    public void selectAItem(int index){
+        int item = salesitemLiveData.getValue().get(index).ItemId;
+        //Add call to setter in repository when possible
+    }
+
+>>>>>>> Stashed changes
 }
 

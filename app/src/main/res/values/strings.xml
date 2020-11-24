@@ -3,6 +3,11 @@
     <string name="txtItem">Item</string>
     <string name="txtPrice">0.00</string>
     <string name="txtDescription">Description</string>
+    <string name="txtCreateSaleHeader">Create Sale</string>
+    <string name="editTxtEnterDescription">Enter description here please!</string>
+    <string name="btnTakePhoto">Take Photo</string>
+    <string name="btnBack">Back</string>
+    <string name="btnPublish">Publish</string>
     <string name="label_price">Price:</string>
     <string name="label_location">Location:</string>
     <string name="btn_back">Back</string>

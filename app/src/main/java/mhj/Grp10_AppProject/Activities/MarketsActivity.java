@@ -12,6 +12,10 @@ import android.os.Bundle;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Adapter.MarketAdapter;
+<<<<<<< Updated upstream
+=======
+import mhj.Grp10_AppProject.Database.MarketsDatabase;
+>>>>>>> Stashed changes
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModel;
@@ -40,6 +44,7 @@ public class MarketsActivity extends BaseActivity {
         itemList = findViewById(R.id.rcvItems);
 
         viewModel = new ViewModelProvider(context, new MarketsViewModelFactory(this.getApplicationContext())).get(MarketsViewModel.class);
+<<<<<<< Updated upstream
 
         viewModel.getItems().observe(this, updateObserver);
     }
@@ -56,5 +61,19 @@ public class MarketsActivity extends BaseActivity {
             adapter.updateSalesItemList(UpdatedItems);
         }
     };
+=======
+        viewModel.getSalesitemLiveData().observe(context, salesItemListUpdateObserver);
+    }
+
+    Observer<List<SalesItem>> salesItemListUpdateObserver = new
+            Observer<List<SalesItem>>() {
+                @Override
+                public void onChanged(List<SalesItem> items){
+                    //adapter = new MarketAdapter(context);
+                }
+
+            };
+
+>>>>>>> Stashed changes
 
 }
