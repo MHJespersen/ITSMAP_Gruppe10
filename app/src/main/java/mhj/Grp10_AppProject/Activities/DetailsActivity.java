@@ -1,8 +1,5 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -11,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 

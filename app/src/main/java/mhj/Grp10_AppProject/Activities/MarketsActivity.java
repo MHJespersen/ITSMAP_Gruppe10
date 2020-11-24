@@ -1,25 +1,21 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.SharedPreferences;
-import android.os.Bundle;
-
 import java.util.List;
 
 import mhj.Grp10_AppProject.Adapter.MarketAdapter;
-<<<<<<< Updated upstream
-=======
-import mhj.Grp10_AppProject.Database.MarketsDatabase;
->>>>>>> Stashed changes
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModel;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModelFactory;
+
 
 public class MarketsActivity extends BaseActivity {
 
@@ -44,7 +40,6 @@ public class MarketsActivity extends BaseActivity {
         itemList = findViewById(R.id.rcvItems);
 
         viewModel = new ViewModelProvider(context, new MarketsViewModelFactory(this.getApplicationContext())).get(MarketsViewModel.class);
-<<<<<<< Updated upstream
 
         viewModel.getItems().observe(this, updateObserver);
     }
@@ -60,10 +55,9 @@ public class MarketsActivity extends BaseActivity {
             itemList.setAdapter(adapter);
             adapter.updateSalesItemList(UpdatedItems);
         }
+
+        //viewModel.getSalesitemLiveData().observe(context, salesItemListUpdateObserver);
     };
-=======
-        viewModel.getSalesitemLiveData().observe(context, salesItemListUpdateObserver);
-    }
 
     Observer<List<SalesItem>> salesItemListUpdateObserver = new
             Observer<List<SalesItem>>() {
@@ -73,7 +67,5 @@ public class MarketsActivity extends BaseActivity {
                 }
 
             };
-
->>>>>>> Stashed changes
 
 }

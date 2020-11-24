@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -32,7 +31,6 @@ public class MarketsViewModel extends ViewModel {
         //salesitemLiveData = repository.getItems();
     }
 
-<<<<<<< Updated upstream
     public LiveData<List<SalesItem>> getItems()
     {
         if(salesitemLiveData == null)
@@ -64,7 +62,7 @@ public class MarketsViewModel extends ViewModel {
                     }
                 });
     }
-=======
+
     public LiveData<List<SalesItem>> getSalesitemLiveData(){
         return salesitemLiveData;
     }
@@ -74,6 +72,5 @@ public class MarketsViewModel extends ViewModel {
         //Add call to setter in repository when possible
     }
 
->>>>>>> Stashed changes
 }
 
