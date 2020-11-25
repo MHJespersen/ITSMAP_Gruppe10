@@ -23,7 +23,7 @@
         android:text="@string/txtItem"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/txtPrice"
+        app:layout_constraintBottom_toTopOf="@+id/txtSalePrice"
         app:layout_constraintStart_toEndOf="@+id/imgItem"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtPrice"
+        android:id="@+id/txtSalePrice"
         android:layout_width="124dp"
         android:layout_height="33dp"
         android:layout_marginStart="16dp"

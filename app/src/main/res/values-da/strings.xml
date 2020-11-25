@@ -29,4 +29,6 @@
     <string name="label_unread">Ulæst</string>
     <string name="label_message">Besked</string>
     <string name="btn_reply">Svar</string>
+    <string name="txtSaleHeader">Indtast Titel</string>
+    <string name="txtSalePrice">Indtast pris</string>
 </resources>

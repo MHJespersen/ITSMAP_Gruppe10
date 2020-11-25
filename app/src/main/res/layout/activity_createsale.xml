@@ -11,43 +11,46 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
         android:text="@string/btnTakePhoto"
-        app:layout_constraintBottom_toTopOf="@+id/btnBack"
-        app:layout_constraintEnd_toStartOf="@+id/btnPublish" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnPublish"
+        app:layout_constraintEnd_toStartOf="@+id/btnPublish"
+        app:layout_constraintStart_toEndOf="@+id/btnBack" />
 
     <Button
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
-        android:layout_marginLeft="67dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="7dp"
         android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnPublish"
+        app:layout_constraintEnd_toStartOf="@+id/btnTakePhoto"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtEnterDescription"
         tools:text="@string/btnBack" />
 
     <Button
         android:id="@+id/btnPublish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/btnPublish"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnTakePhoto"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
 
     <TextView
         android:id="@+id/txtCreateSaleHeader"
         android:layout_width="102dp"
-        android:layout_height="38dp"
+        android:layout_height="47dp"
         android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="@string/txtCreateSaleHeader"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imgTaken"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,17 +60,55 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="22dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="89dp"
         android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/editTxtEnterDescription"
-        app:layout_constraintBottom_toTopOf="@+id/btnTakePhoto"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtCreateSaleHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSalePrice" />
+
+    <ImageView
+        android:id="@+id/imgTaken"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtSaleHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCreateSaleHeader"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txtSaleHeader"
+        android:layout_width="361dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="19dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/txtSalePrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgTaken"
+        tools:text="@string/txtSaleHeader" />
+
+    <TextView
+        android:id="@+id/txtSalePrice"
+        android:layout_width="363dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="10dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/editTxtEnterDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSaleHeader"
+        tools:text="@string/txtSalePrice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
