@@ -82,7 +82,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
             img = itemView.findViewById(R.id.imgItem);
             name = itemView.findViewById(R.id.txtItem);
             description = itemView.findViewById(R.id.txtDescription);
-            price = itemView.findViewById(R.id.txtPrice);
+            price = itemView.findViewById(R.id.txtSalePrice);
         }
 
         //react to a click on a listitem

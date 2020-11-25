@@ -37,4 +37,13 @@
     <string name="title_activity_maps">Kort</string>
     <string name="AppBarMenuSettings">Bruger indstillinger</string>
     <string name="AppBarMenuLogOut">Log ud</string>
+    <string name="label_inbox">Inbox</string>
+    <string name="label_from">Fra:</string>
+    <string name="label_date">Dato:</string>
+    <string name="label_read">Læst</string>
+    <string name="label_unread">Ulæst</string>
+    <string name="label_message">Besked</string>
+    <string name="btn_reply">Svar</string>
+    <string name="txtSaleHeader">Indtast Titel</string>
+    <string name="txtSalePrice">Indtast pris</string>
 </resources>

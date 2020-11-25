@@ -52,7 +52,7 @@ public class MarketsActivity extends BaseActivity {
         @Override
         public void onChanged(List<SalesItem> UpdatedItems) {
             adapter = new MarketAdapter((MarketAdapter.IItemClickedListener) context);
-            itemList = findViewById(R.id.country_list);
+            itemList = findViewById(R.id.rcvItems);
             itemList.setLayoutManager(new LinearLayoutManager(context));
             itemList.setAdapter(adapter);
             adapter.updateSalesItemList(UpdatedItems);

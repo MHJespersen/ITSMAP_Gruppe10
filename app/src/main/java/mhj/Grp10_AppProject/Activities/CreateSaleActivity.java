@@ -62,6 +62,7 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     //Code for the Camera inspired by https://developer.android.com/training/camera/photobasics
+    //and https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
     //Intent to capture photo
     private void dispatchTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

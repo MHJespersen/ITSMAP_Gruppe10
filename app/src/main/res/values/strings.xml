@@ -37,4 +37,8 @@
     <string name="fb_login_protocol_scheme">fb809327973247815</string>
     <string name="AppBarMenuSettings">Account settings</string>
     <string name="AppBarMenuLogOut">Log out</string>
+    <string name="label_message">Message</string>
+    <string name="btn_reply">Reply</string>
+    <string name="txtSaleHeader">Enter Title</string>
+    <string name="txtSalePrice">Enter Price</string>
 </resources>
