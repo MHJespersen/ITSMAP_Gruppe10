@@ -24,13 +24,48 @@
         android:roundIcon="@mipmap/app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ViewMessageActivity"></activity>
+
+        <activity android:name=".Activities.ViewMessageActivity" />
         <activity android:name=".Activities.BaseActivity" />
         <activity android:name=".Activities.InboxActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Activities.MapsActivity"
+            android:label="@string/title_activity_maps" />
+
+        <activity
+            android:name=".Activities.SendMessageActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".Activities.CreateSaleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".Activities.MarketsActivity" />
+
+        <activity android:name=".Activities.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.DetailsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".Services.ForegroundService"
+            android:enabled="true"
+            android:exported="false" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -43,31 +78,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".Activities.MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".Activities.SendMessageActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".Activities.MarketsActivity" />
-
-        <service
-            android:name=".Services.ForegroundService"
-            android:enabled="true"
-            android:exported="false" />
-
-        <activity android:name=".Activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Activities.DetailsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
