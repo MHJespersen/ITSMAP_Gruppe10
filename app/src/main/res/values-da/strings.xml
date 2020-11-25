@@ -13,7 +13,7 @@
     <string name="btn_message">Send besked</string>
     <string name="btn_cancel">Annullér</string>
     <string name="btn_reply">Svar</string>
-    <string name="btn_get_location">Hent nuværende lokation</string>
+    <string name="btn_get_location">Hent lokation</string>
     <string name="label_price">Pris</string>
     <string name="label_location">Lokation</string>
     <string name="label_send_message">Send besked</string>

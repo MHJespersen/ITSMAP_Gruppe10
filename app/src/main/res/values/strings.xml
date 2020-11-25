@@ -13,7 +13,7 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_send">Send</string>
     <string name="btn_reply">Reply</string>
-    <string name="btn_get_location">Get current<br/>location</string>
+    <string name="btn_get_location">Get location</string>
     <string name="label_price">Price</string>
     <string name="label_price_col">Price:</string>
     <string name="label_location">Location</string>
