@@ -1,11 +1,8 @@
 package mhj.Grp10_AppProject.Activities;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +10,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,21 +21,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModel;
@@ -47,58 +34,84 @@ import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
 public class CreateSaleActivity extends BaseActivity {
     private static final String TAG = "CreateSaleActivity";
+
+    public static CreateSaleActivity context;
     private CreateSaleViewModel viewModel;
 
-    CreateSaleActivity context;
+    private final int PERMISSIONS_REQUEST_LOCATION = 789;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static boolean locationPermissionGranted = Boolean.FALSE;
 
     //widgets
     private TextView saleHeader;
-    private EditText description;
+    private EditText description, location;
     private ImageView itemImage;
-    private Button btnCapture, btnGetLocation;
+    private Button btnBack, btnCapture, btnGetLocation;
 
     String currentPhotoPath;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    Location currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_createsale);
 
         context = this;
 
-        setContentView(R.layout.activity_createsale);
-        btnCapture = findViewById(R.id.btnTakePhoto);
-        btnGetLocation = findViewById(R.id.createSaleBtnGetLocation);
-        itemImage = findViewById(R.id.imgTaken);
-
-        btnCapture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
-            }
-        });
-
-        btnGetLocation.setOnClickListener(view -> {
-            checkPermissions();
-            getDeviceLocation();
-        });
-
-        //Calling / creating ViewModel with the factory pattern is inspired from:
+        // Calling / creating ViewModel with the factory pattern is inspired from:
         // https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this, new CreateSaleViewModelFactory(this.getApplicationContext()))
                 .get(CreateSaleViewModel.class);
 
-        Button btnBack = (Button) findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        setupUI();
+
+    }
+
+    private void setupUI() {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(view -> finish());
+
+        btnCapture = findViewById(R.id.btnTakePhoto);
+        btnCapture.setOnClickListener(view -> {
+            Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
         });
 
+        btnGetLocation = findViewById(R.id.createSaleBtnGetLocation);
+        btnGetLocation.setOnClickListener(view -> {
+            checkPermissions();
+            recursiveGetLocation();
+//            currentLocation = viewModel.getDeviceLocation();
+            Log.d(TAG, "setupUI: " + currentLocation);
+
+//            recursiveShit();
+
+//            String s = viewModel.getCityName(currentLocation.getLatitude(), currentLocation.getLongitude());
+//            location.setText(s);
+        });
+
+
+        itemImage = findViewById(R.id.imgTaken);
         saleHeader = findViewById(R.id.txtCreateSaleHeader);
         description = findViewById(R.id.editTxtEnterDescription);
+        location = findViewById(R.id.createSaleTextLocation);
+
+    }
+
+    // Location is retrieved via a Task, which is async. Therefore location is null if we don't wait for it to finish.
+    // Not pretty, but here we run the function repeatedly until we have a result -> async to not freeze UI
+    // TODO: Consider just waiting a few ms before call instead of calling several times
+    private void recursiveGetLocation() {
+        ExecutorService execService = Executors.newSingleThreadExecutor();
+        execService.submit(() -> {
+            currentLocation = viewModel.getDeviceLocation();
+            if (currentLocation != null) {
+                String s = viewModel.getCityName(currentLocation.getLatitude(), currentLocation.getLongitude());
+                location.setText(s);
+            } else {
+                recursiveGetLocation();
+            }
+        });
     }
 
     //Get the thumbnail
@@ -114,6 +127,7 @@ public class CreateSaleActivity extends BaseActivity {
             }
         }
     }
+
     //Create a file name for the full images
     private File createImageFile() throws IOException{
         //Create image file name
@@ -169,52 +183,12 @@ public class CreateSaleActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-
-    // Location stuff
+    // Location permissions - should they be in view model?
     // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
-    private static final int PERMISSIONS_REQUEST_LOCATION = 789;
-
-    private FusedLocationProviderClient fusedLocationClient;
-    private Location lastLocation = null;
-
-    private Boolean locationPermissionGranted = Boolean.FALSE;
-
-    private void getDeviceLocation() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        try {
-            if (locationPermissionGranted) {
-                Task<Location> locationResult = fusedLocationClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful()) {
-                            lastLocation = task.getResult();
-                            if (lastLocation != null) {
-                                double lat = lastLocation.getLatitude();
-                                double lon = lastLocation.getLongitude();
-                                Log.d(TAG, "onComplete:" + lat + ", " + lon);
-                                Toast.makeText(context, lat + ", " + lon, Toast.LENGTH_SHORT).show();
-                                getCityName(lat, lon);
-
-                            }
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
-                        }
-                    }
-                });
-            }
-        } catch (SecurityException e)  {
-            Log.e("Exception: %s", e.getMessage(), e);
-        }
-    }
-
-
     private void checkPermissions() {
         try {
             if (locationPermissionGranted) {
-
+                // something
             } else {
                 getLocationPermission();
             }
@@ -229,12 +203,12 @@ public class CreateSaleActivity extends BaseActivity {
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+        if (ContextCompat.checkSelfPermission(context,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
         } else {
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(CreateSaleActivity.context,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_LOCATION);
         }
@@ -253,23 +227,6 @@ public class CreateSaleActivity extends BaseActivity {
                     locationPermissionGranted = true;
                 }
             }
-        }
-//        checkPermissions();
-    }
-
-    private void getCityName(double lat, double lng) {
-        Geocoder gcd = new Geocoder(context, Locale.getDefault());
-        List<Address> addresses = null;
-        try {
-            addresses = gcd.getFromLocation(lat, lng, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (addresses.size() > 0) {
-            Log.d(TAG, "getCityName: " + addresses.get(0).getLocality());
-        }
-        else {
-            // do your stuff
         }
     }
 
