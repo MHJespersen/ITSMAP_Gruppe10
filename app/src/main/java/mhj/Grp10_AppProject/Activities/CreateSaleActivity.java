@@ -3,7 +3,10 @@ package mhj.Grp10_AppProject.Activities;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,12 +24,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.Task;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModel;
@@ -38,9 +43,14 @@ public class CreateSaleActivity extends BaseActivity {
     public static CreateSaleActivity context;
     private CreateSaleViewModel viewModel;
 
-    private final int PERMISSIONS_REQUEST_LOCATION = 789;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    public static boolean locationPermissionGranted = Boolean.FALSE;
+    private static final long MIN_TIME_BETWEEN_LOCATION_UPDATES = 5 * 1000;    // milisecs
+    private static final float MIN_DISTANCE_MOVED_BETWEEN_LOCATION_UPDATES = 1;  // meters
+    private static final int PERMISSIONS_REQUEST_LOCATION = 789;
+    public static boolean locationPermissionGranted = false;
+    private LocationManager locationManager;
+    private Location lastLocation = null;
+    private Boolean isTrackingLocation;
 
     //widgets
     private TextView saleHeader;
@@ -65,6 +75,39 @@ public class CreateSaleActivity extends BaseActivity {
 
         setupUI();
 
+        startTrackingLocation();
+        Log.d(TAG, "onCreate: started tracking");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(!isTrackingLocation){
+            startTrackingLocation();
+            Log.d(TAG, "onResume: started tracking");
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+        stopTrackingLocation();
+        Log.d(TAG, "onPause: stopped tracking");
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if (isTrackingLocation) {
+            stopTrackingLocation();
+            Log.d(TAG, "onDestroy: stopped tracking");
+        }
+
+        super.onDestroy();
+
     }
 
     private void setupUI() {
@@ -80,14 +123,7 @@ public class CreateSaleActivity extends BaseActivity {
         btnGetLocation = findViewById(R.id.createSaleBtnGetLocation);
         btnGetLocation.setOnClickListener(view -> {
             checkPermissions();
-            recursiveGetLocation();
-//            currentLocation = viewModel.getDeviceLocation();
-            Log.d(TAG, "setupUI: " + currentLocation);
-
-//            recursiveShit();
-
-//            String s = viewModel.getCityName(currentLocation.getLatitude(), currentLocation.getLongitude());
-//            location.setText(s);
+            getDeviceLocation();
         });
 
 
@@ -96,22 +132,6 @@ public class CreateSaleActivity extends BaseActivity {
         description = findViewById(R.id.editTxtEnterDescription);
         location = findViewById(R.id.createSaleTextLocation);
 
-    }
-
-    // Location is retrieved via a Task, which is async. Therefore location is null if we don't wait for it to finish.
-    // Not pretty, but here we run the function repeatedly until we have a result -> async to not freeze UI
-    // TODO: Consider just waiting a few ms before call instead of calling several times
-    private void recursiveGetLocation() {
-        ExecutorService execService = Executors.newSingleThreadExecutor();
-        execService.submit(() -> {
-            currentLocation = viewModel.getDeviceLocation();
-            if (currentLocation != null) {
-                String s = viewModel.getCityName(currentLocation.getLatitude(), currentLocation.getLongitude());
-                location.setText(s);
-            } else {
-                recursiveGetLocation();
-            }
-        });
     }
 
     //Get the thumbnail
@@ -183,8 +203,39 @@ public class CreateSaleActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    // Location permissions - should they be in view model?
+
+
+    // Location permissions - should apparently not be in view model?
     // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
+    // Also from L8 demo 2/3
+
+    private void getDeviceLocation() {
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = fusedLocationClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        lastLocation = task.getResult();
+                        if (lastLocation != null) {
+                            double lat = lastLocation.getLatitude();
+                            double lon = lastLocation.getLongitude();
+                            Log.d(TAG, "getDeviceLocation: " + lat + ", " + lon);
+                            String s = viewModel.getCityName(lat, lon);
+                            location.setText(s);
+                        }
+                    } else {
+                        Log.d(TAG, "Current location is null. Using defaults.");
+                        Log.e(TAG, "Exception: %s", task.getException());
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage(), e);
+        }
+    }
+
     private void checkPermissions() {
         try {
             if (locationPermissionGranted) {
@@ -215,9 +266,7 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         locationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_LOCATION: {
@@ -229,6 +278,80 @@ public class CreateSaleActivity extends BaseActivity {
             }
         }
     }
+
+    private void startTrackingLocation() {
+        try {
+            if (locationManager == null) {
+                locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            }
+
+            long minTime = MIN_TIME_BETWEEN_LOCATION_UPDATES;
+            float minDistance = MIN_DISTANCE_MOVED_BETWEEN_LOCATION_UPDATES;
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
+
+            if (locationManager != null) {
+                try {
+//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, locationListener);         //for specifying GPS provider
+//                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, locationListener);     //for specifying Network provider
+                    locationManager.requestLocationUpdates(minTime, minDistance, criteria, locationListener, null);
+                    //Use criteria to chose best provider
+                } catch (SecurityException ex) {
+                    //TODO: user have disabled location permission - need to validate this permission for newer versions
+                }
+            }
+
+            isTrackingLocation = true;
+        } catch (Exception ex) {
+            //things can go wrong
+            Log.e("TRACKER", "Error starting location tracking", ex);
+        }
+    }
+
+    private void stopTrackingLocation() {
+        try {
+            try {
+                locationManager.removeUpdates(locationListener);
+                isTrackingLocation = false;
+            } catch (SecurityException ex) {
+                //TODO: user have disabled location permission - need to validate this permission for newer versions
+            }
+
+        } catch (Exception ex) {
+            //things can go wrong here as well (listener is null)
+            Log.e("TRACKER", "Error stopping location tracking", ex);
+        }
+    }
+
+    private LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+            Log.d(TAG, "onLocationChanged: " + location.getLatitude());
+//            userLocation = location;
+//            updateStatus();
+//            broadcastLocationUpdate(location);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+
+
 
 }
 
