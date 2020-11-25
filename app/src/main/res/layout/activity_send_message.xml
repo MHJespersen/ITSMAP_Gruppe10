@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginTop="@dimen/margin_outer"
-        android:text="@string/label_recipient"
+        android:text="@string/label_recipient_col"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sendMessageLabelSendMessage" />
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/label_regarding"
+        android:text="@string/label_regarding_col"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/sendMessageLabelRecipient"
         app:layout_constraintTop_toBottomOf="@+id/sendMessageLabelRecipient" />

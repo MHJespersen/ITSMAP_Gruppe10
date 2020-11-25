@@ -25,7 +25,7 @@ public class DetailsActivity extends BaseActivity {
     public static final String EXTRA_ITEM_ID = "extra_itemId";
     private static final String TAG = "DetailsActivity";
     private DetailsViewModel viewModel;
-    private TextView textItemTitle, textItemPrice, textItemDesc, textItemLocation;
+    private TextView textTitle, textPrice, textDescription, textLocation;
     private ImageView imgItem;
     private Button btnBack, btnMessage;
     private ImageButton btnMap;
@@ -52,23 +52,24 @@ public class DetailsActivity extends BaseActivity {
     }
 
     private void setupUI() {
-        textItemTitle = findViewById(R.id.detailsTextTitle);
-        textItemTitle.setText(dummyItem.getTitle());
+
+        textTitle = findViewById(R.id.detailsTextTitle);
+        textTitle.setText(dummyItem.getTitle());
 
         imgItem = findViewById(R.id.detailsImage);
         String s = dummyItem.getImg();
         int id = getApplicationContext().getResources().getIdentifier(s, "drawable", getApplicationContext().getPackageName());
         imgItem.setImageResource(id);
         
-        textItemPrice = findViewById(R.id.detailsTextPrice);
-        textItemPrice.setText(String.valueOf(dummyItem.getPrice()));
+        textPrice = findViewById(R.id.detailsTextPrice);
+        textPrice.setText(String.valueOf(dummyItem.getPrice()));
         
-        textItemDesc = findViewById(R.id.detailsTextDesc);
-        textItemDesc.setMovementMethod(new ScrollingMovementMethod());
-        textItemDesc.setText(dummyItem.getDescription());
+        textDescription = findViewById(R.id.detailsTextDesc);
+        textDescription.setMovementMethod(new ScrollingMovementMethod());
+        textDescription.setText(dummyItem.getDescription());
         
-        textItemLocation = findViewById(R.id.detailsTextLocation);
-        textItemLocation.setText(dummyItem.getLocation());
+        textLocation = findViewById(R.id.detailsTextLocation);
+        textLocation.setText(dummyItem.getLocation());
 
         imgItem= findViewById(R.id.detailsImage);
 

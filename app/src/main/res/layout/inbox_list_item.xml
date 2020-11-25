@@ -9,6 +9,7 @@
         android:id="@+id/inboxImgUser"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -32,13 +33,13 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/inboxImgUser"
         app:layout_constraintTop_toTopOf="@+id/inboxImgUser"
-        tools:text="@string/label_from" />
+        tools:text="@string/label_from_col" />
 
     <TextView
         android:id="@+id/inboxLabelRegarding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_regarding"
+        android:text="@string/label_regarding_col"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="@+id/inboxLabelUser"
         app:layout_constraintTop_toBottomOf="@+id/inboxLabelUser" />
@@ -56,7 +57,7 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_date"
+        android:text="@string/label_date_col"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/inboxLabelRegarding" />
 
