@@ -21,9 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_outer"
+        android:text="@string/btnBack"
         app:layout_constraintBottom_toBottomOf="@+id/btnTakePhoto"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/btnBack" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnPublish"

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,16 +35,27 @@ public class CreateSaleActivity extends BaseActivity {
     //widgets
     private TextView saleHeader;
     private EditText description;
-    private ImageView imageView;
-
+    private ImageView itemImage;
+    private Button btnCapture;
 
     String currentPhotoPath;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createsale);
+        btnCapture = findViewById(R.id.btnTakePhoto);
+        itemImage = findViewById(R.id.imgTaken);
+
+        btnCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
+            }
+        });
+
         //Calling / creating ViewModel with the factory pattern is inspired from:
         // https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this, new CreateSaleViewModelFactory(this.getApplicationContext()))
@@ -61,6 +73,36 @@ public class CreateSaleActivity extends BaseActivity {
         description = findViewById(R.id.editTxtEnterDescription);
     }
 
+    //Get the thumbnail
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            if(resultCode == RESULT_OK){
+                Bitmap bp = (Bitmap) data.getExtras().get("data");
+                itemImage.setImageBitmap(bp);
+            } else if(resultCode == RESULT_CANCELED){
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    //Create a file name for the full images
+    private File createImageFile() throws IOException{
+        //Create image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName ="JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+        //Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    /*
     //Code for the Camera inspired by https://developer.android.com/training/camera/photobasics
     //and https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
     //Intent to capture photo
@@ -84,31 +126,7 @@ public class CreateSaleActivity extends BaseActivity {
         }
     }
 
-    //Get the thumbnail
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
-        }
-    }
-
-    private File createImageFile() throws IOException{
-        //Create image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName ="JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
-        //Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
+ */
     //Added for menu, if the user is logged in
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
