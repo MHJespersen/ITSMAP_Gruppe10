@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,13 +36,11 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         context = this;
-        loginBtn = findViewById(R.id.SignInBtn);    
-
+        loginBtn = findViewById(R.id.SignInBtn);
         //Calling / creating ViewModel with the factory pattern is inspired from: https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this,
                 new LoginViewModelFactory(this.getApplicationContext())).get(LoginViewModel.class);
         auth = FirebaseAuth.getInstance();
-
     }
 
     public void SignIn(View view) {
@@ -48,10 +48,12 @@ public class LoginActivity extends BaseActivity {
             auth = FirebaseAuth.getInstance();
         }
         if (auth.getCurrentUser() != null) {
+            Toast.makeText(context, "You're already logged in", Toast.LENGTH_SHORT).show();
             //Bruger er logget ind
             //Åben ListActivity eller hvad den første activity er
         }
         else {
+            //Set up suported builders
             List<AuthUI.IdpConfig> providers = Arrays.asList(
                     new AuthUI.IdpConfig.EmailBuilder().build(),
                     new AuthUI.IdpConfig.GoogleBuilder().build(),
@@ -68,28 +70,41 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    //Callback from Login with Firebase
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_LOGIN) {
             if (resultCode == RESULT_OK) {
-
                 Toast.makeText(context,  auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "You have logged in", Toast.LENGTH_SHORT).show();
+                //Invalidate menu bar to load buttons and user Email
+                invalidateOptionsMenu();
             }
         }
     }
 
-//    private void updateUserName()
-//    {
-//        if (auth.getCurrentUser() != null) {
-//            userName.setText(auth.getCurrentUser().getPhotoUrl().toString());
-//            Log.d("this", auth.getCurrentUser().getPhotoUrl().toString());
-//        }
-//        else
-//        {
-//            userName.setText("");
-//        }
-//    }
+    public void LogOut(View view) {
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(this, "You have logged out", Toast.LENGTH_SHORT).show();
+            invalidateOptionsMenu();
+        }
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
+        MenuItem userItem = menu.findItem(R.id.userTxt);
+        if(auth.getCurrentUser() != null)
+        {
+            logoutItem.setVisible(true);
+            userItem.setVisible(true);
+            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 }

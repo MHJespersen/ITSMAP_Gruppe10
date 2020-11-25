@@ -1,13 +1,14 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.SharedPreferences;
-import android.os.Bundle;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModel;
 import mhj.Grp10_AppProject.ViewModels.MarketsViewModelFactory;
+
 
 public class MarketsActivity extends BaseActivity {
 
@@ -55,6 +57,31 @@ public class MarketsActivity extends BaseActivity {
             itemList.setAdapter(adapter);
             adapter.updateSalesItemList(UpdatedItems);
         }
+
+        //viewModel.getSalesitemLiveData().observe(context, salesItemListUpdateObserver);
     };
+
+    Observer<List<SalesItem>> salesItemListUpdateObserver = new
+            Observer<List<SalesItem>>() {
+                @Override
+                public void onChanged(List<SalesItem> items){
+                    //adapter = new MarketAdapter(context);
+                }
+
+            };
+
+    //Added for menu, if the user is logged in
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
+        MenuItem userItem = menu.findItem(R.id.userTxt);
+        if(auth.getCurrentUser() != null)
+        {
+            logoutItem.setVisible(true);
+            userItem.setVisible(true);
+            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
 
 }

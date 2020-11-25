@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -63,5 +62,15 @@ public class MarketsViewModel extends ViewModel {
                     }
                 });
     }
+
+    public LiveData<List<SalesItem>> getSalesitemLiveData(){
+        return salesitemLiveData;
+    }
+
+    public void selectAItem(int index){
+        int item = salesitemLiveData.getValue().get(index).ItemId;
+        //Add call to setter in repository when possible
+    }
+
 }
 

@@ -27,7 +27,9 @@ public class ViewMessageActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.viewMessageBtnBack);
         btnBack.setOnClickListener(view -> finish());
         btnReply = findViewById(R.id.viewMessageBtnReply);
-        btnReply.setOnClickListener(view -> reply());
+        btnReply.setOnClickListener(view -> {
+            reply();
+        });
     }
 
     private void reply() {
