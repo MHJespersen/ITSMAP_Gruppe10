@@ -39,6 +39,7 @@
         android:layout_marginBottom="50dp"
         android:backgroundTint="#31FF9800"
         android:text="Market"
+        android:onClick="OpenMarket"
         app:layout_constraintBottom_toTopOf="@+id/Settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.173"

@@ -1,6 +1,7 @@
 package mhj.Grp10_AppProject.Activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -11,10 +12,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModel;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModelFactory;
@@ -29,63 +41,81 @@ public class DetailsActivity extends BaseActivity {
     private ImageView imgItem;
     private Button btnBack, btnMessage;
     private ImageButton btnMap;
-    
-    private DummyItem dummyItem;
-    public static ArrayList<DummyItem> dummyItems = new ArrayList<>();
+
+    private FirebaseStorage mStorageRef;
+    private LiveData<SalesItem> SelectedItem;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        setupUI();
+        mStorageRef = FirebaseStorage.getInstance();
+
         viewModel = new ViewModelProvider(this, new DetailsViewModelFactory(this.getApplicationContext()))
                 .get(DetailsViewModel.class);
 
-        dummyItems.add(new DummyItem(0, 0, "Chair", "Great chair, please buy", "Aarhus", "sample_chair", 200));
-        dummyItems.add(new DummyItem(1, 0, "Bed", "Great bed, please buy", "Aarhus", "sample_bed", 500));
-        dummyItems.add(new DummyItem(2, 1, "Dress", "Great dress, please buy", "Copenhagen", "sample_dress", 500));
-
-        dummyItem = dummyItems.get(2);
-        setupUI();
-
+        viewModel.returnSelected().observe(this, updateObserver );
 
     }
+
+    Observer<SalesItem> updateObserver = new Observer<SalesItem>() {
+        @Override
+        public void onChanged(SalesItem Item) {
+            if(Item != null)
+            {
+                textTitle.setText(Item.getTitle());
+                textPrice.setText(String.valueOf(Item.getPrice()));
+                textDescription.setText(Item.getDescription());
+                //textLocation.getText(Item.getLocation().toString());
+
+                if(Item.getImage() != "")
+                {
+                    StorageReference strRef = mStorageRef.getReference().child(Item.getImage());
+                    strRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String imageURL = uri.toString();
+                            Glide.with(imgItem).load(imageURL).into(imgItem);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Glide.with(imgItem).load(R.drawable.emptycart).into(imgItem);
+                        }
+                    });
+                }
+                else
+                {
+                    Glide.with(imgItem).load(R.drawable.emptycart).into(imgItem);
+                }
+                }
+        }
+    };
 
     private void setupUI() {
 
         textTitle = findViewById(R.id.detailsTextTitle);
-        textTitle.setText(dummyItem.getTitle());
-
         imgItem = findViewById(R.id.detailsImage);
-        String s = dummyItem.getImg();
-        int id = getApplicationContext().getResources().getIdentifier(s, "drawable", getApplicationContext().getPackageName());
-        imgItem.setImageResource(id);
-        
         textPrice = findViewById(R.id.detailsTextPrice);
-        textPrice.setText(String.valueOf(dummyItem.getPrice()));
-        
         textDescription = findViewById(R.id.detailsTextDesc);
-        textDescription.setMovementMethod(new ScrollingMovementMethod());
-        textDescription.setText(dummyItem.getDescription());
-        
         textLocation = findViewById(R.id.detailsTextLocation);
-        textLocation.setText(dummyItem.getLocation());
-
         imgItem= findViewById(R.id.detailsImage);
-
         btnBack = findViewById(R.id.detailsBtnBack);
-        btnBack.setOnClickListener(view -> finish());
-
         btnMessage = findViewById(R.id.detailsBtnMessage);
-        btnMessage.setOnClickListener(view -> gotoSendMessage());
-
         btnMap = findViewById(R.id.detailsBtnMap);
+
+        textDescription.setMovementMethod(new ScrollingMovementMethod());
+
+        btnBack.setOnClickListener(view -> finish());
+        btnMessage.setOnClickListener(view -> gotoSendMessage());
         btnMap.setOnClickListener(view -> gotoMap());
     }
 
     private void gotoSendMessage() {
         Intent intent = new Intent(this, SendMessageActivity.class);
-        intent.putExtra(EXTRA_ITEM_ID, dummyItem.getItemId());
+        //intent.putExtra(EXTRA_ITEM_ID, dummyItem.getItemId());
         startActivity(intent);
     }
 
@@ -109,40 +139,4 @@ public class DetailsActivity extends BaseActivity {
         }
         return super.onPrepareOptionsMenu(menu);
     }
-}
-
-
-// Dummy Item to test with, delete later
-class DummyItem {
-    private int itemId, userId;
-    private String title, description, location, img;
-    private float price;
-
-    public DummyItem() {
-    }
-
-    public DummyItem(int itemId, int userId, String title, String description, String location, String img, float price) {
-        this.itemId = itemId;
-        this.userId = userId;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.img = img;
-        this.price = price;
-    }
-
-    public int getItemId() { return itemId; }
-    public void setItemId(int itemId) {this.itemId = itemId;}
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) {this.userId = userId;}
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-    public String getImg() { return img; }
-    public void setImg(String img) { this.img = img; }
-    public float getPrice() { return price; }
-    public void setPrice(float price) { this.price = price; }
 }

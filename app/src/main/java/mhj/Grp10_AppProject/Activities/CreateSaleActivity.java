@@ -414,7 +414,7 @@ public class CreateSaleActivity extends BaseActivity {
             salesItem.setTitle(title.getText().toString());
         }
         if(price.getText().toString() != null){
-            salesItem.setPrice(price.getText().toString());
+            salesItem.setPrice(Double.parseDouble(price.getText().toString()));
         }
         if(location.getText().toString() != null){
             if(lastLocation == null){

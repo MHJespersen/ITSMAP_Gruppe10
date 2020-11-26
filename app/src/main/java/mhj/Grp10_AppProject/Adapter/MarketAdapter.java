@@ -1,5 +1,9 @@
 package mhj.Grp10_AppProject.Adapter;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.module.AppGlideModule;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Model.SalesItem;
@@ -24,12 +36,14 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
         void OnItemClicked(int index);
     }
     private IItemClickedListener listener;
+    private FirebaseStorage mStorageRef;
 
     private List<SalesItem> itemList;
 
     public MarketAdapter(IItemClickedListener listener)
     {
         this.listener = listener;
+        mStorageRef = FirebaseStorage.getInstance();
     }
 
     public void updateSalesItemList(List<SalesItem> lists){
@@ -48,13 +62,35 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
 
     //Default image inspired by:
     //https://stackoverflow.com/questions/33194477/display-default-image-in-imageview-if-no-image-returned-from-server
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position)
     {
-        holder.name.setText(itemList.get(position).getItemId());
+        SalesItem d = itemList.get(position);
+        holder.name.setText(itemList.get(position).getTitle());
         holder.description.setText(itemList.get(position).getDescription());
-        //holder.price.setText((int) itemList.get(position).getPrice());
-        Glide.with(holder.img.getContext()).load(itemList.get(position).getImage()).placeholder(R.drawable.emptycart).into(holder.img);
+        holder.price.setText(Double.toString(itemList.get(position).getPrice()));
+
+        if(itemList.get(position).getImage() != "")
+        {
+            StorageReference strRef = mStorageRef.getReference().child(itemList.get(position).getImage());
+            strRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    String imageURL = uri.toString();
+                    Glide.with(holder.img.getContext()).load(imageURL).into(holder.img);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Glide.with(holder.img.getContext()).load(R.drawable.emptycart).into(holder.img);
+                }
+            });
+        }
+        else
+        {
+            Glide.with(holder.img.getContext()).load(R.drawable.emptycart).into(holder.img);
+        }
     }
 
     @Override
@@ -72,7 +108,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
         TextView price;
 
         //custom callback interface for user actions
-        IItemClickedListener listener;
+        //IItemClickedListener listener;
 
         public ItemViewHolder(@NonNull View itemView)
         {
@@ -83,6 +119,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
             name = itemView.findViewById(R.id.txtItem);
             description = itemView.findViewById(R.id.txtDescription);
             price = itemView.findViewById(R.id.txtSalePrice);
+            itemView.setOnClickListener(this);
         }
 
         //react to a click on a listitem

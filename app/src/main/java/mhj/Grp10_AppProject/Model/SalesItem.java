@@ -2,39 +2,49 @@ package mhj.Grp10_AppProject.Model;
 
 import android.location.Location;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.io.Serializable;
 
 public class SalesItem implements Serializable {
 
-    private int itemId;
-    private String title;
     private String description;
-    private String price;
+    private double price;
     private String user;
-    private int imageResourceId;
     private String image;
     private Location location;
+    private String title;
+    private String documentPath;
 
 
     SalesItem()
     {
     }
 
-    public SalesItem(int id, String desc, String price, String user, int imgId, String title){
-        this.itemId = id;
+    public SalesItem(String title, String desc, float price, String user, String image, String documentPath){
+        this.title = title;
         this.description = desc;
         this.price = price;
         this.user = user;
-        this.imageResourceId = imgId;
-        this.title = title;
+        this.image = image;
+        this.documentPath = documentPath;
     }
 
-    public int getItemId() {
-        return itemId;
+    public static SalesItem fromSnapshot(DocumentSnapshot d) {
+        SalesItem s = new SalesItem(d.get("title").toString(), d.get("description").toString(),
+                Float.parseFloat(d.get("price").toString()),
+                d.get("user").toString(), d.get("image").toString(),
+                d.getReference().getPath());
+        return s;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.description = title;
     }
 
     public String getDescription() {
@@ -45,11 +55,11 @@ public class SalesItem implements Serializable {
         this.description = description;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -77,12 +87,11 @@ public class SalesItem implements Serializable {
         this.image = image;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPath() {
+        return this.documentPath;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDocumentPath(String path)
+    {
+        this.documentPath = path;
     }
-
 }
