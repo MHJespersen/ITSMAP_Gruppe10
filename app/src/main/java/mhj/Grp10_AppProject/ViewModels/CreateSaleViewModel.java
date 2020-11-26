@@ -3,6 +3,7 @@ package mhj.Grp10_AppProject.ViewModels;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -45,31 +46,62 @@ public class CreateSaleViewModel extends ViewModel {
     public String getCityName(double lat, double lng) {
         Geocoder gcd = new Geocoder(context, Locale.getDefault());
         List<Address> addresses = null;
+        String stringResult = null;
+
         try {
             addresses = gcd.getFromLocation(lat, lng, 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (addresses.size() > 0) {
-            Address address = addresses.get(0);
-            String postalCode = address.getPostalCode();
-            String subLocality = address.getSubLocality();
-            String locality = address.getLocality();
 
-            String s = "";
+        if (addresses != null) {
+            if (addresses.size() > 0) {
+                Address address = addresses.get(0);
+                String postalCode = address.getPostalCode();
+                String subLocality = address.getSubLocality();
+                String locality = address.getLocality();
 
-            if (subLocality == null) {
-                s = postalCode + " " + locality;
-            } else {
-                s = postalCode + " " + subLocality;
+                if (subLocality == null) {
+                    stringResult = postalCode + " " + locality;
+                } else {
+                    stringResult = postalCode + " " + subLocality;
+                }
+
+                Log.d(TAG, "getCityName: " + stringResult);
+
             }
+        }
 
-            Log.d(TAG, "getCityName: " + s);
-            return s;
+        return stringResult;
+
+    }
+
+    // https://stackoverflow.com/questions/9698328/how-to-get-coordinates-of-an-address-in-android
+    public Location getLocationFromString(String address) {
+        Geocoder gcd = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = null;
+        Location location = new Location("");
+
+        try {
+            addresses = gcd.getFromLocationName(address, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else {
-            return null;
+
+        double latitude = 0;
+        double longitude = 0;
+
+        if(addresses != null) {
+            if(addresses.size() > 0) {
+                latitude = addresses.get(0).getLatitude();
+                longitude = addresses.get(0).getLongitude();
+
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+            }
         }
+
+        return location;
     }
 
 
