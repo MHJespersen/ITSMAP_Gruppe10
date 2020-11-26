@@ -35,7 +35,7 @@ public class SendMessageActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this, new SendMessageViewModelFactory(this.getApplicationContext()))
                 .get(SendMessageViewModel.class);
 
-        int itemId = getIntent().getIntExtra(DetailsActivity.EXTRA_ITEM_ID, 42);
+        int itemId = getIntent().getIntExtra(DetailsActivity.EXTRA_ITEM_ID, 0);
         userId = DetailsActivity.dummyItems.get(itemId).getUserId();
         itemTitle = DetailsActivity.dummyItems.get(itemId).getTitle();
 

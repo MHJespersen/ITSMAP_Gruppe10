@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
@@ -20,14 +23,14 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     }
 
     private IMessageClickedListener listener;
-    private List<PrivateMessage> messageList;
+    private List<PrivateMessage> messageList = new ArrayList<>();
 
     public InboxAdapter(IMessageClickedListener listener) {
         this.listener = listener;
     }
 
-    public void updateMessageList(List<PrivateMessage> lists){
-        messageList = lists;
+    public void updateMessageList(List<PrivateMessage> list){
+        messageList = list;
         notifyDataSetChanged();
     }
 
@@ -46,7 +49,12 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         holder.senderUserName.setText(String.valueOf(messageList.get(position).getSenderId()));
         holder.itemRegarding.setText(String.valueOf(messageList.get(position).getItemId()));
         holder.messageDate.setText(messageList.get(position).getMessageDate());
-//        Glide.with(holder.senderUserImg.getContext()).load(itemList.get(position).getImage()).placeholder(R.drawable.emptycart).into(holder.img);
+
+        // Get user -> get user img -> set img
+        Glide.with(holder.senderUserImg.getContext())
+                .load(R.drawable.emptycart)
+                .placeholder(R.drawable.emptycart)
+                .into(holder.senderUserImg);
     }
 
     @Override
@@ -75,6 +83,8 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
             itemRegarding = itemView.findViewById(R.id.inboxTextRegarding);
             messageDate = itemView.findViewById(R.id.inboxTextDate);
             readStatus = itemView.findViewById(R.id.inboxTextReadStatus);
+
+            listener = messageClickedListener;
 
             itemView.setOnClickListener(this);
 

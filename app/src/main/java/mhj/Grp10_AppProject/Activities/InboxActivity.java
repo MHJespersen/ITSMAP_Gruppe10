@@ -1,14 +1,13 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -21,11 +20,14 @@ import mhj.Grp10_AppProject.ViewModels.InboxViewModelFactory;
 
 public class InboxActivity extends BaseActivity implements InboxAdapter.IMessageClickedListener {
 
+    private static final String TAG = "InboxActivity";
+    private static final String EXTRA_INDEX = "EXTRA_INDEX";
+
     InboxActivity context;
     private InboxViewModel viewModel;
     private RecyclerView recyclerView;
     private InboxAdapter adapter;
-    private ArrayList<PrivateMessage> messageList;
+    private ArrayList<PrivateMessage> messageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
 
-        messageList = new ArrayList<>();
-        messageList.add(new PrivateMessage(0, 0, 0, 0, "Message", "26/04/2020", Boolean.TRUE));
+        messageList.add(new PrivateMessage(0, 0, 0, 0, "Message", "26/04/2020", true));
 
         adapter.updateMessageList(messageList);
 
@@ -51,7 +52,10 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
 
     @Override
     public void onMessageClicked(int index) {
-        Toast.makeText(context, "Message clicked", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ViewMessageActivity.class);
+        intent.putExtra(EXTRA_INDEX, index);
+        startActivity(intent);
+
     }
 
     //Added for menu, if the user is logged in
