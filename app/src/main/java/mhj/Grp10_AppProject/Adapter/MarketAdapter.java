@@ -51,9 +51,9 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position)
     {
-        holder.name.setText(itemList.get(position).ItemId);
-        holder.description.setText(itemList.get(position).Description);
-        holder.price.setText((int) itemList.get(position).Price);
+        holder.name.setText(itemList.get(position).getItemId());
+        holder.description.setText(itemList.get(position).getDescription());
+        holder.price.setText((int) itemList.get(position).getPrice());
         Glide.with(holder.img.getContext()).load(itemList.get(position).getImage()).placeholder(R.drawable.emptycart).into(holder.img);
     }
 

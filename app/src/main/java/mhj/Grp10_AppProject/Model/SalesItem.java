@@ -1,76 +1,77 @@
 package mhj.Grp10_AppProject.Model;
 
+import android.location.Location;
+
 import java.io.Serializable;
 
 public class SalesItem implements Serializable {
 
-    public int ImageResourceId;
-    public int ItemId;
-    public String Description;
-    public float Price;
-    public String User;
-    public String Location;
-    public String Image;
+    private int itemId;
+    private String description;
+    private float price;
+    private String user;
+    private int imageResourceId;
+    private String image;
+    private Location location;
 
 
     SalesItem()
     {
     }
 
-    public SalesItem(int id, String desc, float price, String user, String location, int imgId){
-        this.ItemId = id;
-        this.Description = desc;
-        this.Price = price;
-        this.User = user;
-        this.Location = location;
-        this.ImageResourceId = imgId;
+    public SalesItem(int id, String desc, float price, String user, int imgId){
+        this.itemId = id;
+        this.description = desc;
+        this.price = price;
+        this.user = user;
+        this.imageResourceId = imgId;
     }
 
     public int getItemId() {
-        return ItemId;
+        return itemId;
     }
 
     public void setItemId(int itemId) {
-        ItemId = itemId;
+        this.itemId = itemId;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public float getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(float price) {
-        Price = price;
+        this.price = price;
     }
 
     public String getUser() {
-        return User;
+        return user;
     }
 
     public void setUser(String user) {
-        User = user;
+        this.user = user;
     }
 
-    public String getLocation() {
-        return Location;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocation(String location) {
-        Location = location;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public String getImage() {
-        return Image;
+        return image;
     }
 
     public void setImage(String image) {
-        Image = image;
+        this.image = image;
     }
 }

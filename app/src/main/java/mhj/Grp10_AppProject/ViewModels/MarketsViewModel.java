@@ -68,7 +68,7 @@ public class MarketsViewModel extends ViewModel {
     }
 
     public void selectAItem(int index){
-        int item = salesitemLiveData.getValue().get(index).ItemId;
+        int item = salesitemLiveData.getValue().get(index).getItemId();
         //Add call to setter in repository when possible
     }
 
