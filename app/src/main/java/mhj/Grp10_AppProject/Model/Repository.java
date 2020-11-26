@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
-import com.google.api.core.ApiFuture;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +65,18 @@ public class Repository {
         firestore.collection("PrivateMesssages").add(map);
     }
 
+    /*
+    public void sendMessage(PrivateMessage privateMessage)
+    {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Receiver", privateMessage.getRecipientId());
+        map.put("Sender", privateMessage.getSenderId());
+        map.put("MessageDate", privateMessage.getMessageDate());
+        map.put("MessageBody", privateMessage.getMessageBody());
+        firestore.collection("PrivateMesssages").add(map);
+    }*/
+
+    /*
     public List<DocumentSnapshot> getPrivateMessages()
     {
         /*
@@ -82,9 +92,10 @@ public class Repository {
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         for (QueryDocumentSnapshot document : documents) {
             System.out.println(document.getId() + " => " + document.toObject(City.class));
-        }*/
+        }
 
         // asynchronously retrieve all users
+
         ApiFuture<QuerySnapshot> query = (ApiFuture<QuerySnapshot>)
                 firestore.collection("PrivateMesssages").get();
         // query.get() blocks on response
@@ -108,29 +119,7 @@ public class Repository {
             List<PrivateMessage> list = (List<PrivateMessage>) message;
         }
        return messageDocuments;
-    }
 
-    public void getExchangeRates() {
-        APICallback callback = new APICallback() {
-            @Override
-            public void OnApiCallback(ExchangeRates exchangeRates) {
-                if (executor == null) {
-                    executor = Executors.newSingleThreadExecutor();
-                }
-
-                executor.submit(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-
-                });
-
-                //HVad der skal ske når APIet er færdigt
-            }
-        };
-        api.loadData(callback);
-
-    }
+    }*/
 
 }

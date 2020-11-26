@@ -3,6 +3,7 @@ package mhj.Grp10_AppProject.Activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.PixelCopy;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModelFactory;
@@ -95,17 +97,15 @@ public class SendMessageActivity extends BaseActivity {
         Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
         finish();
 
-        /*
-        Map<String, Object> map = new HashMap<>();
-        map.put("Receiver", receiver);
-        map.put("Sender", sender);
-        map.put("MessageDate", timeStamp);
-        map.put("MessageBody", message);
-        */
+        // With Message Object.
+        PrivateMessage privateMessage = new PrivateMessage();
+        privateMessage.setMessageDate(timeStamp);
+        privateMessage.setSenderId(Integer.parseInt(sender));
+        privateMessage.setRecipientId(Integer.parseInt(receiver));
+        privateMessage.setMessageBody(message);
 
-        //Move this to repo
-        //FirebaseFirestore database = FirebaseFirestore.getInstance();
-        //database.collection("PrivateMessage").add(map);
+        // with message object to viewmodel.
+        //viewModel.sendMessage(privateMessage);
     }
 
     //Added for menu, if the user is logged in
