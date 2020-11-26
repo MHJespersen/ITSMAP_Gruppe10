@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
 import mhj.Grp10_AppProject.Services.ForegroundService;
+import mhj.Grp10_AppProject.WebAPI.APICallback;
 import mhj.Grp10_AppProject.WebAPI.WebAPI;
 
 public class Repository {
@@ -42,6 +43,7 @@ public class Repository {
     private Repository(Context context)
     {
         firestore = FirebaseFirestore.getInstance();
+        api = new WebAPI(context);
     }
 
     public void startMyForegroundService()
@@ -107,4 +109,28 @@ public class Repository {
         }
        return messageDocuments;
     }
+
+    public void getExchangeRates() {
+        APICallback callback = new APICallback() {
+            @Override
+            public void OnApiCallback(ExchangeRates exchangeRates) {
+                if (executor == null) {
+                    executor = Executors.newSingleThreadExecutor();
+                }
+
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+
+                });
+
+                //HVad der skal ske når APIet er færdigt
+            }
+        };
+        api.loadData(callback);
+
+    }
+
 }

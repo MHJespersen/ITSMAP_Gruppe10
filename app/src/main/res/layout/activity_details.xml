@@ -65,7 +65,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="35dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/detailsTextDesc"
         app:layout_constraintEnd_toStartOf="@+id/detailsBtnMap"
         app:layout_constraintTop_toTopOf="@+id/detailsLabelLocation"
         tools:text="Vesuvius" />
@@ -92,7 +94,7 @@
         app:layout_constraintEnd_toEndOf="@+id/dividerTop"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/detailsLabelPrice"
-        app:layout_constraintTop_toBottomOf="@+id/detailsLabelLocation"
+        app:layout_constraintTop_toBottomOf="@+id/detailsTextEur"
         app:layout_constraintVertical_bias="1.0"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus orci, faucibus id pretium et, imperdiet bibendum nisl. Duis ultricies consequat convallis. Cras nec odio sit amet augue placerat maximus quis id diam. In justo ante, ultricies sit amet turpis in, vehicula lacinia libero. Nullam fermentum elit non condimentum ullamcorper. Sed maximus quam ac molestie ornare. Cras ac vehicula nulla. Fusce porttitor lectus cursus lacus tincidunt, et ultricies urna ultrices. Mauris eleifend metus odio, vel maximus libero rhoncus ac. Vestibulum tincidunt odio ligula, quis vulputate risus commodo feugiat." />
 
@@ -125,5 +127,23 @@
         app:layout_constraintEnd_toEndOf="@+id/detailsImage"
         app:layout_constraintTop_toTopOf="@+id/detailsTextLocation"
         app:srcCompat="@drawable/ic_location_32" />
+
+    <TextView
+        android:id="@+id/detailsTextEur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/detailsTextPrice"
+        app:layout_constraintTop_toBottomOf="@+id/detailsTextPrice"
+        tools:text="5" />
+
+    <TextView
+        android:id="@+id/detailsLabelEur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="EUR:"
+        app:layout_constraintEnd_toEndOf="@+id/detailsLabelPrice"
+        app:layout_constraintTop_toBottomOf="@+id/detailsLabelPrice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
