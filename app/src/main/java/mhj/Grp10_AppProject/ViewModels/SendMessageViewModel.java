@@ -16,4 +16,9 @@ public class SendMessageViewModel extends ViewModel {
     public void sendMessage(String receiver, String sender, String timeStamp, String message) {
         repository.sendMessage(receiver, sender, timeStamp, message);
     }
+
+    /*
+    public void sendMessage(Privatemessage privateMessage) {
+        repository.sendMessage(privateMessage);
+    }*/
 }

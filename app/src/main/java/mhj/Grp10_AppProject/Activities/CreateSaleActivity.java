@@ -187,7 +187,6 @@ public class CreateSaleActivity extends BaseActivity {
             }
         }
     }
-
  */
     //Added for menu, if the user is logged in
     @Override
@@ -354,4 +353,3 @@ public class CreateSaleActivity extends BaseActivity {
 
 
 }
-
