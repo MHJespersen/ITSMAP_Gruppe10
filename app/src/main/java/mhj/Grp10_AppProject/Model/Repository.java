@@ -8,6 +8,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import mhj.Grp10_AppProject.Services.ForegroundService;
 import mhj.Grp10_AppProject.WebAPI.WebAPI;
@@ -45,5 +47,15 @@ public class Repository {
     public Task<QuerySnapshot> getItems()
     {
         return firestore.collection("SalesItems").get();
+    }
+
+    public void sendMessage(String receiver, String sender, String timeStamp, String message)
+    {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Receiver", receiver);
+        map.put("Sender", sender);
+        map.put("MessageDate", timeStamp);
+        map.put("MessageBody", message);
+        firestore.collection("PrivateMessage").add(map);
     }
 }
