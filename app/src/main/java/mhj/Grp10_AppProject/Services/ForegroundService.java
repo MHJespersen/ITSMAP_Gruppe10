@@ -73,11 +73,11 @@ public class ForegroundService extends Service {
     private void StartThread(){
         if(!started) {
             started = true;
-            RecrusiveWork();
+            RecursiveWork();
         }
     }
 
-    private void RecrusiveWork(){
+    private void RecursiveWork(){
         if(execService == null){
             execService = Executors.newSingleThreadExecutor();
         }
@@ -93,7 +93,7 @@ public class ForegroundService extends Service {
                     Log.e(TAG, "run: ERROR", e);
                 }
                 if(started) {
-                    RecrusiveWork();
+                    RecursiveWork();
                 }
             }
         });
