@@ -7,8 +7,9 @@ import java.io.Serializable;
 public class SalesItem implements Serializable {
 
     private int itemId;
+    private String title;
     private String description;
-    private float price;
+    private String price;
     private String user;
     private int imageResourceId;
     private String image;
@@ -19,12 +20,13 @@ public class SalesItem implements Serializable {
     {
     }
 
-    public SalesItem(int id, String desc, float price, String user, int imgId){
+    public SalesItem(int id, String desc, String price, String user, int imgId, String title){
         this.itemId = id;
         this.description = desc;
         this.price = price;
         this.user = user;
         this.imageResourceId = imgId;
+        this.title = title;
     }
 
     public int getItemId() {
@@ -43,11 +45,11 @@ public class SalesItem implements Serializable {
         this.description = description;
     }
 
-    public float getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -74,4 +76,13 @@ public class SalesItem implements Serializable {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
 }
