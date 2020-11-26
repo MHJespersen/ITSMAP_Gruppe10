@@ -3,36 +3,41 @@ package mhj.Grp10_AppProject.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModel;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModelFactory;
-
+import mhj.Grp10_AppProject.WebAPI.APICallback;
+import mhj.Grp10_AppProject.WebAPI.WebAPI;
 
 
 public class DetailsActivity extends BaseActivity {
     public static final String EXTRA_ITEM_ID = "extra_itemId";
     private static final String TAG = "DetailsActivity";
     private DetailsViewModel viewModel;
-    private TextView textTitle, textPrice, textDescription, textLocation;
+    private TextView textTitle, textPrice, textPriceEur, textDescription, textLocation;
     private ImageView imgItem;
     private Button btnBack, btnMessage;
     private ImageButton btnMap;
-    
+
     private DummyItem dummyItem;
     public static ArrayList<DummyItem> dummyItems = new ArrayList<>();
 
+    private ExecutorService executor;
+    private WebAPI webAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +46,15 @@ public class DetailsActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this, new DetailsViewModelFactory(this.getApplicationContext()))
                 .get(DetailsViewModel.class);
 
+        webAPI = new WebAPI(this);
+        
         dummyItems.add(new DummyItem(0, 0, "Chair", "Great chair, please buy", "Aarhus", "sample_chair", 200));
         dummyItems.add(new DummyItem(1, 0, "Bed", "Great bed, please buy", "Aarhus", "sample_bed", 500));
         dummyItems.add(new DummyItem(2, 1, "Dress", "Great dress, please buy", "Copenhagen", "sample_dress", 500));
 
         dummyItem = dummyItems.get(2);
         setupUI();
-
-
+        getExchangeRates();
     }
 
     private void setupUI() {
@@ -60,14 +66,16 @@ public class DetailsActivity extends BaseActivity {
         String s = dummyItem.getImg();
         int id = getApplicationContext().getResources().getIdentifier(s, "drawable", getApplicationContext().getPackageName());
         imgItem.setImageResource(id);
-        
+
         textPrice = findViewById(R.id.detailsTextPrice);
-        textPrice.setText(String.valueOf(dummyItem.getPrice()));
-        
+        textPrice.setText(String.valueOf(dummyItem.getPrice()) + " kr");
+
+        textPriceEur = findViewById(R.id.detailsTextEur);
+
         textDescription = findViewById(R.id.detailsTextDesc);
         textDescription.setMovementMethod(new ScrollingMovementMethod());
         textDescription.setText(dummyItem.getDescription());
-        
+
         textLocation = findViewById(R.id.detailsTextLocation);
         textLocation.setText(dummyItem.getLocation());
 
@@ -90,8 +98,6 @@ public class DetailsActivity extends BaseActivity {
     }
 
     private void gotoMap() {
-        Toast.makeText(this, "map", Toast.LENGTH_SHORT).show();
-
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
@@ -109,6 +115,33 @@ public class DetailsActivity extends BaseActivity {
         }
         return super.onPrepareOptionsMenu(menu);
     }
+
+    public void getExchangeRates() {
+
+        if (executor == null) {
+            executor = Executors.newSingleThreadExecutor();
+        }
+
+        executor.submit(() -> {
+            APICallback callback = exchangeRates -> {
+                //What happens on API call completion
+                Log.d(TAG, "OnApiCallback: EUR" + exchangeRates.getRates().getEUR());
+
+                float price = dummyItem.getPrice();
+                double eur = exchangeRates.getRates().getEUR();
+
+                float eurPrice = (float) (price*eur);
+
+                String sPrice = String.format(java.util.Locale.getDefault(),"%.2f \u20ac", eurPrice);
+
+                textPriceEur.setText(sPrice);
+
+
+            };
+            webAPI.loadData(callback);
+        });
+    }
+
 }
 
 
