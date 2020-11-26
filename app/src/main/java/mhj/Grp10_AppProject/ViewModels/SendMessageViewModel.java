@@ -13,7 +13,7 @@ public class SendMessageViewModel extends ViewModel {
         repository = Repository.getInstance(context);
     }
 
-    private void sendMessage(String message) {
-        //repository.sendMessage(message)
+    public void sendMessage(String receiver, String sender, String timeStamp, String message) {
+        repository.sendMessage(receiver, sender, timeStamp, message);
     }
 }

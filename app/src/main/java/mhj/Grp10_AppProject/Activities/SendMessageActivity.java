@@ -10,10 +10,15 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProvider;
 
-//import com.google.firebase.database.DatabaseReference;
-//import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModel;
@@ -44,7 +49,7 @@ public class SendMessageActivity extends BaseActivity {
 
     private void setupUI() {
         textRecipient = findViewById(R.id.sendMessageTextRecipient);
-        textRecipient.setText(String.valueOf(userId));
+        //textRecipient.setText(String.valueOf(userId));
 
         textItem = findViewById(R.id.sendMessageTextItem);
         textItem.setText(itemTitle);
@@ -56,7 +61,7 @@ public class SendMessageActivity extends BaseActivity {
         btnCancel.setOnClickListener(view -> finish());
 
         btnSend = findViewById(R.id.sendMessageBtnSend);
-        btnSend.setOnClickListener(view -> sendMessage());
+        btnSend.setOnClickListener(view -> sendMessage1());
     }
 
     private void sendMessage() {
@@ -77,11 +82,30 @@ public class SendMessageActivity extends BaseActivity {
     }
 
     //repository action saving to db, move to repo.
-    private void saveToDb() {
-        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("message",inputMessage);
-        //reference.child("Messages").setValue(hashMap);
+    private void sendMessage1() {
+        auth = FirebaseAuth.getInstance();
+        //input to message
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String message = inputMessage.getText().toString();
+        String sender = auth.getCurrentUser().getEmail();
+        String receiver = textRecipient.getText().toString();
+        //saving to database ->
+        viewModel.sendMessage(receiver, sender, timeStamp, message);
+
+        Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
+        finish();
+
+        /*
+        Map<String, Object> map = new HashMap<>();
+        map.put("Receiver", receiver);
+        map.put("Sender", sender);
+        map.put("MessageDate", timeStamp);
+        map.put("MessageBody", message);
+        */
+
+        //Move this to repo
+        //FirebaseFirestore database = FirebaseFirestore.getInstance();
+        //database.collection("PrivateMessage").add(map);
     }
 
     //Added for menu, if the user is logged in
