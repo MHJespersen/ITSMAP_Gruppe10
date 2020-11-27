@@ -39,6 +39,7 @@ import java.util.Date;
 
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.LocationUtility;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModel;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
@@ -49,6 +50,7 @@ public class CreateSaleActivity extends BaseActivity {
     private CreateSaleViewModel viewModel;
     private SalesItem salesItem;
     private CreateSaleViewModel createSaleViewModel;
+    private LocationUtility locationUtility;
 
     final String APP_TAG = "SmartSale";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -90,6 +92,8 @@ public class CreateSaleActivity extends BaseActivity {
                 .get(CreateSaleViewModel.class);
 
         setupUI();
+
+        locationUtility = new LocationUtility(this);
 
         startTrackingLocation();
         Log.d(TAG, "onCreate: started tracking");
@@ -278,7 +282,7 @@ public class CreateSaleActivity extends BaseActivity {
                             double lat = lastLocation.getLatitude();
                             double lon = lastLocation.getLongitude();
                             Log.d(TAG, "getDeviceLocation: " + lat + ", " + lon);
-                            String s = viewModel.getCityName(lat, lon);
+                            String s = locationUtility.getCityName(lat, lon);
                             location.setText(s);
                         }
                     } else {
@@ -418,7 +422,7 @@ public class CreateSaleActivity extends BaseActivity {
         }
         if(location.getText().toString() != null){
             if(lastLocation == null){
-                Location loc = viewModel.getLocationFromString(location.getText().toString());
+                Location loc = locationUtility.getLocationFromString(location.getText().toString());
                 salesItem.setLocation(loc);
             }
             else{

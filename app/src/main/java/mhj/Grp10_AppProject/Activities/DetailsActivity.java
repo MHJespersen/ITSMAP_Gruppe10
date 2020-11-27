@@ -1,6 +1,7 @@
 package mhj.Grp10_AppProject.Activities;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -28,6 +29,7 @@ import java.util.concurrent.Executors;
 
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.LocationUtility;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModel;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModelFactory;
 import mhj.Grp10_AppProject.WebAPI.APICallback;
@@ -35,9 +37,12 @@ import mhj.Grp10_AppProject.WebAPI.WebAPI;
 
 
 public class DetailsActivity extends BaseActivity {
-    public static final String EXTRA_ITEM_ID = "extra_itemId";
     private static final String TAG = "DetailsActivity";
+    public static final String EXTRA_ITEM_ID = "extra_itemId";
+    public static final String EXTRA_COORDS = "extra_coords";
     private DetailsViewModel viewModel;
+
+    // widgets
     private TextView textTitle, textPrice, textPriceEur, textDescription, textLocation;
     private ImageView imgItem;
     private Button btnBack, btnMessage;
@@ -45,8 +50,10 @@ public class DetailsActivity extends BaseActivity {
 
     private ExecutorService executor;
     private WebAPI webAPI;
+    private LocationUtility locationUtility;
     private FirebaseStorage mStorageRef;
     private LiveData<SalesItem> SelectedItem;
+    private Location location;
 
 
     @Override
@@ -60,7 +67,10 @@ public class DetailsActivity extends BaseActivity {
                 .get(DetailsViewModel.class);
 
         webAPI = new WebAPI(this);
+        locationUtility = new LocationUtility(this);
+        
         viewModel.returnSelected().observe(this, updateObserver );
+        
 
     }
 
@@ -82,7 +92,10 @@ public class DetailsActivity extends BaseActivity {
                 textPrice.setText(sPrice);
 
                 textDescription.setText(Item.getDescription());
-                //textLocation.getText(Item.getLocation().toString());
+
+                location = Item.getLocation();
+                String sLocation = locationUtility.getCityName(location.getLatitude(), location.getLongitude());
+                textLocation.setText(sLocation);
 
                 if(Item.getImage() != "")
                 {
@@ -140,7 +153,13 @@ public class DetailsActivity extends BaseActivity {
     }
 
     private void gotoMap() {
+        
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra(EXTRA_COORDS, new double[]{lat, lng});
+
         startActivity(intent);
     }
 

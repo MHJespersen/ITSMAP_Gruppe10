@@ -1,10 +1,9 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.fragment.app.FragmentActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 
-import mhj.Grp10_AppProject.R;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,9 +12,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import mhj.Grp10_AppProject.R;
 
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
+    double[] coords = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Intent intent = getIntent();
+        coords = intent.getDoubleArrayExtra(DetailsActivity.EXTRA_COORDS);
     }
 
     /**
@@ -41,9 +46,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Aarhus and move the camera + zoom
-        LatLng latlng = new LatLng(56.1629, 10.2039);
+        LatLng latlng = new LatLng(coords[0], coords[1]);
         float zoomLevel = 10.0f; // max = 21
-        mMap.addMarker(new MarkerOptions().position(latlng).title("Aarhus"));
+        mMap.addMarker(new MarkerOptions().position(latlng).title("Item"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoomLevel));
     }
 }

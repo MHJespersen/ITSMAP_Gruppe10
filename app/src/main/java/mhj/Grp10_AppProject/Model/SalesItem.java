@@ -2,8 +2,6 @@ package mhj.Grp10_AppProject.Model;
 
 import android.location.Location;
 
-import androidx.annotation.NonNull;
-
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.GeoPoint;
 
@@ -47,7 +45,7 @@ public class SalesItem implements Serializable {
     public static Location createLocationPoint(GeoPoint geoPoint)
     {
         Location newLocation = new Location("");
-        double Longtitude =geoPoint.getLatitude();
+        double Longtitude =geoPoint.getLongitude();
         double Latitude = geoPoint.getLatitude();
         newLocation.setLongitude(Longtitude);
         newLocation.setLatitude(Latitude);
