@@ -49,7 +49,6 @@ public class SalesItem implements Serializable {
         double Latitude = geoPoint.getLatitude();
         newLocation.setLongitude(Longtitude);
         newLocation.setLatitude(Latitude);
-
         return newLocation;
     }
 
