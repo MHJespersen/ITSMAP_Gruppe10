@@ -43,4 +43,5 @@
     <string name="btn_logout">Log Ud</string>
     <string name="btn_market">Marked</string>
     <string name="btn_login_register">Login/Opret Bruger</string>
+    <string name="btn_make_a_sale">Opret annonce</string>
 </resources>

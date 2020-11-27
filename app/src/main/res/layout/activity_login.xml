@@ -8,12 +8,13 @@
     android:background="@drawable/loginbackground">
 
     <Button
-        android:id="@+id/Settings"
+        android:id="@+id/CreateASale"
         android:layout_width="203dp"
         android:layout_height="52dp"
         android:layout_marginBottom="60dp"
         android:backgroundTint="#31FF9800"
-        android:text="@string/btn_settings"
+        android:text="@string/btn_make_a_sale"
+        android:onClick="MakeASale"
         app:layout_constraintBottom_toTopOf="@+id/LogoutBtn"
         app:layout_constraintStart_toStartOf="@+id/LogoutBtn" />
 
@@ -37,8 +38,8 @@
         android:backgroundTint="#31FF9800"
         android:onClick="OpenMarket"
         android:text="@string/btn_market"
-        app:layout_constraintBottom_toTopOf="@+id/Settings"
-        app:layout_constraintStart_toStartOf="@+id/Settings" />
+        app:layout_constraintBottom_toTopOf="@+id/CreateASale"
+        app:layout_constraintStart_toStartOf="@+id/CreateASale" />
 
     <Button
         android:id="@+id/SignInBtn"

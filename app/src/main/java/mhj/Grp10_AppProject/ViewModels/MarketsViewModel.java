@@ -1,6 +1,7 @@
 package mhj.Grp10_AppProject.ViewModels;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
