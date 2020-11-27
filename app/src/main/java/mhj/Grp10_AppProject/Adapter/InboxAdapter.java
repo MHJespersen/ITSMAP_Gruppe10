@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
+import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 
 public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHolder> {
@@ -24,13 +26,17 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
 
     private IMessageClickedListener listener;
     private List<PrivateMessage> messageList = new ArrayList<>();
+    private FirebaseStorage mStorageRef;
+    private List<PrivateMessage> messagelist;
 
     public InboxAdapter(IMessageClickedListener listener) {
+        mStorageRef = FirebaseStorage.getInstance();
         this.listener = listener;
     }
 
     public void updateMessageList(List<PrivateMessage> list){
-        messageList = list;
+        //messageList = list;
+        messagelist = list;
         notifyDataSetChanged();
     }
 
