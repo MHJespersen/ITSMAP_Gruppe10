@@ -1,5 +1,7 @@
 package mhj.Grp10_AppProject.Model;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.io.Serializable;
 
 public class PrivateMessage implements Serializable{
@@ -19,6 +21,17 @@ public class PrivateMessage implements Serializable{
         this.messageBody = messageBody;
         this.messageDate = messageDate;
         this.messageRead = messageRead;
+    }
+
+    public static PrivateMessage fromSnapshot(DocumentSnapshot d) {
+        PrivateMessage message = new PrivateMessage(Integer.parseInt(d.get("messageId").toString()),
+                Integer.parseInt(d.get("recipientId").toString()),
+                Integer.parseInt(d.get("senderId").toString()),
+                Integer.parseInt(d.get("itemId").toString()),
+                d.get("messageBody").toString(),
+                d.get("messageDate").toString(),
+                false);
+        return message;
     }
 
     public int getMessageId() {

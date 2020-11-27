@@ -122,9 +122,15 @@ public class Repository {
     }
 
 
-    public Task<QuerySnapshot> getPrivateMessages()
+    public void getPrivateMessages(String messageId)
     {
-        return firestore.collection("PrivateMesssages").get();
+        Task<DocumentSnapshot> task = firestore.collection("PrivateMesssages").document(messageId).get();
+        task.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                SelectedMessageLive.setValue(PrivateMessage.fromSnapshot(task.getResult()));
+            }
+        });
     }
 
     public void createSale(SalesItem item){
