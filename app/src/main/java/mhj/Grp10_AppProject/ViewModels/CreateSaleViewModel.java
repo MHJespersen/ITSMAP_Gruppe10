@@ -41,6 +41,13 @@ public class CreateSaleViewModel extends ViewModel {
         //repository.addItem(id);
     }
 
+    //public LiveData<SalesItem> getSalesItem(){
+        //return repository.getselected(); // skal have lavet en metode i Repo til dette
+    //}
+
+    public void updateSalesItem(SalesItem salesItem) {
+       // repository.updateSalesItem(salesItem);
+    }
 
     // https://stackoverflow.com/a/2296416/1448765
     public String getCityName(double lat, double lng) {

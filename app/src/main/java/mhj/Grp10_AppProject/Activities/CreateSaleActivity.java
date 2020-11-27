@@ -3,16 +3,19 @@ package mhj.Grp10_AppProject.Activities;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -33,6 +37,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModel;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
@@ -42,7 +47,10 @@ public class CreateSaleActivity extends BaseActivity {
 
     public static CreateSaleActivity context;
     private CreateSaleViewModel viewModel;
+    private SalesItem salesItem;
+    private CreateSaleViewModel createSaleViewModel;
 
+    final String APP_TAG = "SmartSale";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final long MIN_TIME_BETWEEN_LOCATION_UPDATES = 5 * 1000;    // milisecs
     private static final float MIN_DISTANCE_MOVED_BETWEEN_LOCATION_UPDATES = 1;  // meters
@@ -54,11 +62,19 @@ public class CreateSaleActivity extends BaseActivity {
 
     //widgets
     private TextView saleHeader;
-    private EditText description, location;
+    private EditText title, price, description, location;
     private ImageView itemImage;
     private Button btnBack, btnCapture, btnGetLocation;
 
-    String currentPhotoPath;
+
+    public String currentPhotoPath;
+    public File photoFile;
+    //public String photoFileName = null;
+    //dummy file name
+    public String photoFileName = "photo.jpg";
+
+
+
     Location currentLocation;
 
     @Override
@@ -116,8 +132,25 @@ public class CreateSaleActivity extends BaseActivity {
 
         btnCapture = findViewById(R.id.btnTakePhoto);
         btnCapture.setOnClickListener(view -> {
+            //Create intent to take picture and return control to the calling application
             Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
+            //Create a File reference for future access
+
+ //Having problems with generating a filename.
+            //photoFile = getPhotoFileUri(createImageFile());
+            photoFile = getPhotoFileUri(photoFileName);
+
+
+
+            //Wrap file object into a content provider, Required for API >= 24
+            //See  https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+            Uri fileProvider = FileProvider.getUriForFile(CreateSaleActivity.this, "mhj.fileprovider", photoFile);
+            cInt.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+            // So as long as the result is not null, it's safe to use the intent.
+            if(cInt.resolveActivity(getPackageManager()) != null){
+                startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
+            }
         });
 
         btnGetLocation = findViewById(R.id.createSaleBtnGetLocation);
@@ -126,12 +159,29 @@ public class CreateSaleActivity extends BaseActivity {
             getDeviceLocation();
         });
 
-
+        price = findViewById(R.id.createSaleTextPrice);
+        title = findViewById(R.id.createSaleTextTitle);
         itemImage = findViewById(R.id.imgTaken);
         saleHeader = findViewById(R.id.txtCreateSaleHeader);
         description = findViewById(R.id.editTxtEnterDescription);
         location = findViewById(R.id.createSaleTextLocation);
 
+
+    }
+
+    //Returns the File for a photo stored on disk given the fileName
+    public File getPhotoFileUri(String fileName){
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+        //Create the storage dir if it doesn't exist
+        if(!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d(APP_TAG, "failed to create directory");
+        }
+        //Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+        return file;
     }
 
     //Get the thumbnail
@@ -140,7 +190,8 @@ public class CreateSaleActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if(resultCode == RESULT_OK){
-                Bitmap bp = (Bitmap) data.getExtras().get("data");
+                //Bitmap bp = (Bitmap) data.getExtras().get("data");
+                Bitmap bp = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 itemImage.setImageBitmap(bp);
             } else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
@@ -149,19 +200,25 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     //Create a file name for the full images
-    private File createImageFile() throws IOException{
+    private File createImageFile(){
         //Create image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName ="JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = null;
+        try {
+            image = File.createTempFile(
+                    imageFileName,
+                    ".jpg",
+                    storageDir
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
+            currentPhotoPath = image.getAbsolutePath();
+            return image;
+
     }
 
     /*
@@ -349,7 +406,29 @@ public class CreateSaleActivity extends BaseActivity {
         }
     };
 
-
-
-
+    public void Save(View view){
+        if(itemImage != null){
+            salesItem.setImage(itemImage.toString());
+        }
+        if(title.getText().toString() != null){
+            salesItem.setTitle(title.getText().toString());
+        }
+        if(price.getText().toString() != null){
+            salesItem.setPrice(Double.parseDouble(price.getText().toString()));
+        }
+        if(location.getText().toString() != null){
+            if(lastLocation == null){
+                Location loc = viewModel.getLocationFromString(location.getText().toString());
+                salesItem.setLocation(loc);
+            }
+            else{
+                salesItem.setLocation(lastLocation);
+            }
+        }
+        if(description.getText().toString() != null){
+            salesItem.setDescription(description.getText().toString());
+        }
+        createSaleViewModel.updateSalesItem(salesItem);
+        finish();
+    }
 }

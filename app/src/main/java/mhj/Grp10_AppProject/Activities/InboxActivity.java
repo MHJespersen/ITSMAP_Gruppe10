@@ -1,5 +1,10 @@
 package mhj.Grp10_AppProject.Activities;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,9 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import mhj.Grp10_AppProject.Adapter.InboxAdapter;
+import mhj.Grp10_AppProject.Adapter.MarketAdapter;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
+import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModelFactory;
@@ -46,9 +54,17 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
 
         messageList.add(new PrivateMessage(0, 0, 0, 0, "Message", "26/04/2020", true));
 
-        adapter.updateMessageList(messageList);
-
+        //adapter.updateMessageList(messageList);
+        viewModel.getMessages().observe(this, updateObserver);
     }
+
+    Observer<List<PrivateMessage>> updateObserver = new Observer<List<PrivateMessage>>() {
+        @Override
+        public void onChanged(List<PrivateMessage> UpdatedItems) {
+
+            adapter.updateMessageList(messageList);
+        }
+    };
 
     @Override
     public void onMessageClicked(int index) {

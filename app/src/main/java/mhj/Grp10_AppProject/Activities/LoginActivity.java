@@ -94,7 +94,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
@@ -106,5 +105,17 @@ public class LoginActivity extends BaseActivity {
             userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
         }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void OpenMarket(View view) {
+        if(auth.getCurrentUser() != null)
+        {
+            Intent Markets = new Intent(this, MarketsActivity.class);
+            startActivity(Markets);
+        }
+        else
+        {
+            Toast.makeText(this, "You need to log in first!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
