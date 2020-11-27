@@ -74,20 +74,10 @@ public class SendMessageActivity extends BaseActivity {
 
     //Real section
     //guide: https://www.youtube.com/watch?v=f1HKTg2hyf0&ab_channel=KODDev
-    private void sendMessages() {
-        String message = inputMessage.getText().toString();
-        if(message != ""){
-            //viewModel.sendMessage(message);
-        }
-        Toast.makeText(this, "You can't send empty messages ", Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
-    //repository action saving to db, move to repo.
     private void sendMessage1() {
         auth = FirebaseAuth.getInstance();
         //input to message
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(new Date());
         String message = inputMessage.getText().toString();
         String sender = auth.getCurrentUser().getEmail();
         String receiver = textRecipient.getText().toString();
@@ -98,11 +88,11 @@ public class SendMessageActivity extends BaseActivity {
         finish();
 
         // With Message Object.
-        PrivateMessage privateMessage = new PrivateMessage();
-        privateMessage.setMessageDate(timeStamp);
-        privateMessage.setSenderId(Integer.parseInt(sender));
-        privateMessage.setRecipientId(Integer.parseInt(receiver));
-        privateMessage.setMessageBody(message);
+        //PrivateMessage privateMessage = new PrivateMessage();
+        //privateMessage.setMessageDate(timeStamp);
+        //privateMessage.setSenderId(Integer.parseInt(sender));
+        //privateMessage.setRecipientId(Integer.parseInt(receiver));
+        //privateMessage.setMessageBody(message);
 
         // with message object to viewmodel.
         //viewModel.sendMessage(privateMessage);

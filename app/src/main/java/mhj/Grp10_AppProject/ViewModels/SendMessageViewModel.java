@@ -18,7 +18,7 @@ public class SendMessageViewModel extends ViewModel {
     }
 
     /*
-    public void sendMessage(Privatemessage privateMessage) {
+    public void sendMessage(PrivateMessage privateMessage) {
         repository.sendMessage(privateMessage);
     }*/
 }
