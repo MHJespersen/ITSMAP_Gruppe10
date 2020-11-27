@@ -151,6 +151,7 @@ public class CreateSaleActivity extends BaseActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     //Get a URL to the uploaded content
                     //Uri downloadUrl = taskSnapshot.getDownload();
+                    Save();
                     Log.d("Successfull upload!", APP_TAG);
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -196,8 +197,6 @@ public class CreateSaleActivity extends BaseActivity {
         saleHeader = findViewById(R.id.txtCreateSaleHeader);
         description = findViewById(R.id.editTxtEnterDescription);
         location = findViewById(R.id.createSaleTextLocation);
-
-
     }
 
     //Returns the File for a photo stored on disk given the fileName
@@ -396,7 +395,7 @@ public class CreateSaleActivity extends BaseActivity {
         }
     };
 
-    public void Save(View view){
+    public void Save(){
         if(photoFileName != null){
             salesItem.setImage(itemImage.toString());
         }
