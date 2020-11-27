@@ -116,8 +116,34 @@ public class Repository {
         });
     }
 
+
     public Task<QuerySnapshot> getPrivateMessages()
     {
         return firestore.collection("PrivateMesssages").get();
     }
+
+    public void createSale(SalesItem item){
+        Map<String, Object> map  = new HashMap<>();
+        DocumentReference newDocumentPath = firestore.collection("SalesItems").document();
+        map.put("description", item.getDescription());
+        //map.put("documentPath", item.getDocumentPath());
+        map.put("image", item.getImage());
+        map.put("location", item.getLocation());
+        map.put("price", item.getPrice());
+        map.put("title", item.getTitle());
+        map.put("user", item.getUser());
+        map.put("documentPath", newDocumentPath);
+        firestore.collection("SalesItems").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                Log.d("CreateSale", "Created Sale!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("CreateSale", "Sale was not Created! Exception: " + e);
+            }
+        });
+    }
+
 }
