@@ -118,4 +118,16 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, "You need to log in first!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void MakeASale(View view) {
+        if(auth.getCurrentUser() != null)
+        {
+            Intent Markets = new Intent(this, CreateSaleActivity.class);
+            startActivity(Markets);
+        }
+        else
+        {
+            Toast.makeText(this, "You need to log in first!", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
