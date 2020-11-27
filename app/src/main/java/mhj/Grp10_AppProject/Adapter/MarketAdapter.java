@@ -1,9 +1,7 @@
 package mhj.Grp10_AppProject.Adapter;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.module.AppGlideModule;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Model.SalesItem;
@@ -69,7 +63,7 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
         SalesItem d = itemList.get(position);
         holder.name.setText(itemList.get(position).getTitle());
         holder.description.setText(itemList.get(position).getDescription());
-        holder.price.setText(Double.toString(itemList.get(position).getPrice()));
+        holder.price.setText(Double.toString(itemList.get(position).getPrice()) + " kr");
 
         if(itemList.get(position).getImage() != "")
         {
