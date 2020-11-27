@@ -58,7 +58,7 @@ public class SalesItem implements Serializable {
     }
 
     public void setTitle(String title) {
-        this.description = title;
+        this.title = title;
     }
 
     public String getDescription() {
