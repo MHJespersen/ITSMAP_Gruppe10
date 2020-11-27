@@ -130,7 +130,7 @@ public class Repository {
 
     public void createSale(SalesItem item){
         Map<String, Object> map  = new HashMap<>();
-        DocumentReference newDocumentPath = firestore.collection("SalesItems").document();
+        String newDocumentPath = firestore.collection("SalesItems").document().getId();
         map.put("description", item.getDescription());
         //map.put("documentPath", item.getDocumentPath());
         map.put("image", item.getImage());
