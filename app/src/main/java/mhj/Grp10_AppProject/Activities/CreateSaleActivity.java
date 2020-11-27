@@ -98,7 +98,7 @@ public class CreateSaleActivity extends BaseActivity {
         // https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this, new CreateSaleViewModelFactory(this.getApplicationContext()))
                 .get(CreateSaleViewModel.class);
-
+        photoFileName =createFileName();
         setupUI();
 
         locationUtility = new LocationUtility(this);
@@ -230,10 +230,10 @@ public class CreateSaleActivity extends BaseActivity {
         }
     }
 
-    private void createFileName(){
+    private String createFileName(){
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_"+ timeStamp + ".jpg";
-        photoFileName = imageFileName;
+        return imageFileName;
     }
 
     //Added for menu, if the user is logged in
@@ -396,8 +396,9 @@ public class CreateSaleActivity extends BaseActivity {
     };
 
     public void Save(){
+        salesItem = new SalesItem();
         if(photoFileName != null){
-            salesItem.setImage(itemImage.toString());
+            salesItem.setImage(photoFileName);
         }
         if(title.getText().toString() != null){
             salesItem.setTitle(title.getText().toString());
@@ -417,7 +418,8 @@ public class CreateSaleActivity extends BaseActivity {
         if(description.getText().toString() != null){
             salesItem.setDescription(description.getText().toString());
         }
-        createSaleViewModel.updateSalesItem(salesItem, auth.getCurrentUser().getEmail());
+        salesItem.setUser(auth.getCurrentUser().getEmail());
+        viewModel.updateSalesItem(salesItem);
         finish();
     }
 }

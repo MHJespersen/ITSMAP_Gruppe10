@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +105,7 @@ public class Repository {
         map.put("price", item.getPrice());
         map.put("title", item.getTitle());
         map.put("user", item.getUser());
-        map.put("documentPath", newDocumentPath);
+        map.put("documentPath", newDocumentPath.toString());
         firestore.collection("SalesItems").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {

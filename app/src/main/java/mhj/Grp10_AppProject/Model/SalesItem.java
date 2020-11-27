@@ -18,7 +18,7 @@ public class SalesItem implements Serializable {
     public String path;
 
 
-    SalesItem()
+    public SalesItem()
     {
     }
 
