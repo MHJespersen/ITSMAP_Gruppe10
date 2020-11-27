@@ -44,4 +44,7 @@
     <string name="btn_market">Market</string>
     <string name="btn_login_register">Login/Register</string>
     <string name="btn_make_a_sale">Create new sale</string>
+    <string name="menu_Logout">Log Out</string>
+    <string name="menu_user">User</string>
+    <string name="menu_messages" >Messages</string>
 </resources>

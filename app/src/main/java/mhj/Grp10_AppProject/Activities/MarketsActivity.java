@@ -3,8 +3,6 @@ package mhj.Grp10_AppProject.Activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -59,21 +57,6 @@ public class MarketsActivity extends BaseActivity implements MarketAdapter.IItem
             adapter.updateSalesItemList(UpdatedItems);
         }
     };
-
-
-    //Added for menu, if the user is logged in
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
-        MenuItem userItem = menu.findItem(R.id.userTxt);
-        if(auth.getCurrentUser() != null)
-        {
-            logoutItem.setVisible(true);
-            userItem.setVisible(true);
-            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public void OnItemClicked(int index) {

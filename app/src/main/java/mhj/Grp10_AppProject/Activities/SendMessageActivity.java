@@ -1,9 +1,6 @@
 package mhj.Grp10_AppProject.Activities;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.PixelCopy;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,14 +9,9 @@ import android.widget.Toast;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
@@ -108,17 +100,4 @@ public class SendMessageActivity extends BaseActivity {
         //viewModel.sendMessage(privateMessage);
     }
 
-    //Added for menu, if the user is logged in
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
-        MenuItem userItem = menu.findItem(R.id.userTxt);
-        if(auth.getCurrentUser() != null)
-        {
-            logoutItem.setVisible(true);
-            userItem.setVisible(true);
-            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
 }

@@ -1,12 +1,13 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,6 +33,9 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.messagesTxt:
+                OpenMessages();
+                return true;
             case R.id.logoutTxt:
                 LogOut();
                 return true;
@@ -40,12 +44,36 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
+        MenuItem messagesItem = menu.findItem(R.id.messagesTxt);
+        MenuItem userItem = menu.findItem(R.id.userTxt);
+
+        if(auth.getCurrentUser() != null)
+        {
+            logoutItem.setVisible(true);
+            messagesItem.setVisible(true);
+            userItem.setVisible(true);
+            userItem.setTitle( getString(R.string.menu_user) + ": " + auth.getCurrentUser().getEmail());
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void OpenMessages() {
+        Intent intent = new Intent(this, InboxActivity.class);
+        startActivity(intent);
+    }
+
     public void LogOut() {
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(this, "You have logged out", Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 }
