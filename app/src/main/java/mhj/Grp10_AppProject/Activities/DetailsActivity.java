@@ -20,11 +20,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -71,8 +69,10 @@ public class DetailsActivity extends BaseActivity {
         public void onChanged(SalesItem Item) {
             if(Item != null)
             {
+                double price = Item.getPrice();
+
                 textTitle.setText(Item.getTitle());
-                textPrice.setText(String.valueOf(Item.getPrice()));
+                textPrice.setText(String.valueOf(price) + " kr");
                 textDescription.setText(Item.getDescription());
                 //textLocation.getText(Item.getLocation().toString());
 
@@ -96,7 +96,12 @@ public class DetailsActivity extends BaseActivity {
                 {
                     Glide.with(imgItem).load(R.drawable.emptycart).into(imgItem);
                 }
-                }
+
+                getExchangeRates(price);
+            }
+
+
+
         }
     };
 
@@ -145,7 +150,7 @@ public class DetailsActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void getExchangeRates() {
+    public void getExchangeRates(double price) {
 
         if (executor == null) {
             executor = Executors.newSingleThreadExecutor();
@@ -156,10 +161,8 @@ public class DetailsActivity extends BaseActivity {
                 //What happens on API call completion
                 Log.d(TAG, "OnApiCallback: EUR" + exchangeRates.getRates().getEUR());
 
-                float price = dummyItem.getPrice();
                 double eur = exchangeRates.getRates().getEUR();
-
-                float eurPrice = (float) (price*eur);
+                double eurPrice = price*eur;
 
                 String sPrice = String.format(java.util.Locale.getDefault(),"%.2f \u20ac", eurPrice);
 
