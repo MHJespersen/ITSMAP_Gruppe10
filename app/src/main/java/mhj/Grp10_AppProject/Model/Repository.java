@@ -36,6 +36,7 @@ public class Repository {
     private WebAPI api;
     private String SelectedItem;
     private MutableLiveData<SalesItem> SelectedItemLive;
+    private MutableLiveData<PrivateMessage> SelectedMessageLive;
 
     private ExecutorService executor;
     private static Context con;
@@ -55,6 +56,7 @@ public class Repository {
         SelectedItemLive = new MutableLiveData<SalesItem>();
         firestore = FirebaseFirestore.getInstance();
         executor = Executors.newSingleThreadExecutor();
+        SelectedMessageLive = new MutableLiveData<PrivateMessage>();
     }
 
     public void startMyForegroundService()
@@ -62,7 +64,7 @@ public class Repository {
         Intent foregroundService = new Intent(con, ForegroundService.class);
         con.startService(foregroundService);
         SelectedItemLive = new MutableLiveData<SalesItem>();
-
+        SelectedMessageLive = new MutableLiveData<PrivateMessage>();
     }
 
     public void setSelectedItem(String ItemID)
@@ -80,6 +82,9 @@ public class Repository {
         return SelectedItemLive;
     }
 
+    public LiveData<PrivateMessage> getSelectedMessage() {
+        return SelectedMessageLive;
+    }
 
     public Task<QuerySnapshot> getItems()
     {
