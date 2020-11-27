@@ -9,12 +9,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 //import com.google.api.core.ApiFuture;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+
+import org.w3c.dom.Document;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +37,7 @@ public class Repository {
     private WebAPI api;
     private String SelectedItem;
     private MutableLiveData<SalesItem> SelectedItemLive;
+    private MutableLiveData<PrivateMessage> SelectedMessageLive;
 
     private ExecutorService executor;
     private static Context con;
@@ -51,6 +57,7 @@ public class Repository {
         SelectedItemLive = new MutableLiveData<SalesItem>();
         firestore = FirebaseFirestore.getInstance();
         executor = Executors.newSingleThreadExecutor();
+        SelectedMessageLive = new MutableLiveData<PrivateMessage>();
     }
 
     public void startMyForegroundService()
@@ -58,7 +65,7 @@ public class Repository {
         Intent foregroundService = new Intent(con, ForegroundService.class);
         con.startService(foregroundService);
         SelectedItemLive = new MutableLiveData<SalesItem>();
-
+        SelectedMessageLive = new MutableLiveData<PrivateMessage>();
     }
 
     public void setSelectedItem(String ItemID)
@@ -76,6 +83,9 @@ public class Repository {
         return SelectedItemLive;
     }
 
+    public LiveData<PrivateMessage> getSelectedMessage() {
+        return SelectedMessageLive;
+    }
 
     public Task<QuerySnapshot> getItems()
     {
@@ -89,49 +99,57 @@ public class Repository {
         map.put("Sender", sender);
         map.put("MessageDate", timeStamp);
         map.put("MessageBody", message);
-        firestore.collection("PrivateMesssages").add(map);
+        Task<DocumentReference> task = firestore.collection("PrivateMesssages").add(map);
+        task.addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+            String result = String.valueOf(task.getResult());
+            Log.d("SendMessage", "added message: " + result);
+            }
+        });
+        task.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("SendMessageSuccess", "onSucces: "+ documentReference.toString());
+            }
+        });
+
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("SendMessageException", "onFailure: "+ e);
+            }
+        });
     }
 
-//    public List<DocumentSnapshot> getPrivateMessages()
-//    {
-//        /*
-//       List<PrivateMessage> list = firestore.collection("PrivateMesssages").document().get();
-//        //asynchronously retrieve all documents
-//        //ApiFuture<QuerySnapshot> future = db.collection("PrivateMesssages").get();
-//        // future.get() blocks on response
-//        DocumentSnapshot document = future.get();
-//        if (document.exists()) {
-//            // convert document to POJO
-//            PrivateMessage message = document.toObject(PrivateMessage.class);
-//        }
-//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-//        for (QueryDocumentSnapshot document : documents) {
-//            System.out.println(document.getId() + " => " + document.toObject(City.class));
-//        }*/
-//
-//        // asynchronously retrieve all users
-//        ApiFuture<QuerySnapshot> query = (ApiFuture<QuerySnapshot>)
-//                firestore.collection("PrivateMesssages").get();
-//        // query.get() blocks on response
-//        QuerySnapshot querySnapshot = null;
-//        try {
-//            querySnapshot = query.get();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        List<DocumentSnapshot> messageDocuments = querySnapshot.getDocuments();
-//        for (DocumentSnapshot messageDocument : messageDocuments) {
-//
-//            PrivateMessage message = new PrivateMessage();
-//            if(messageDocument.exists()) {
-//                message.setItemId(Integer.parseInt(messageDocument.getId()));
-//                message.setMessageBody(messageDocument.getString("MessageBody"));
-//                message.setMessageDate(messageDocument.getString("MessageDate"));
-//            }
-//            List<PrivateMessage> list = (List<PrivateMessage>) message;
-//        }
-//       return messageDocuments;
-//    }
+
+    public Task<QuerySnapshot> getPrivateMessages()
+    {
+        return firestore.collection("PrivateMesssages").get();
+    }
+
+    public void createSale(SalesItem item){
+        Map<String, Object> map  = new HashMap<>();
+        String newDocumentPath = firestore.collection("SalesItems").document().getId();
+        map.put("description", item.getDescription());
+        //map.put("documentPath", item.getDocumentPath());
+        map.put("image", item.getImage());
+        map.put("location", item.getLocation());
+        map.put("price", item.getPrice());
+        map.put("title", item.getTitle());
+        map.put("user", item.getUser());
+        map.put("documentPath", newDocumentPath.toString());
+        firestore.collection("SalesItems").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                Log.d("CreateSale", "Created Sale!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("CreateSale", "Sale was not Created! Exception: " + e);
+            }
+        });
+    }
+
 }
