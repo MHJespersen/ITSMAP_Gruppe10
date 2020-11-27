@@ -23,12 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:maxLines="2"
         android:text="@string/txtItem"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/txtDescription"
         app:layout_constraintStart_toEndOf="@+id/imgItem"
-        app:layout_constraintTop_toTopOf="@+id/imgItem" />
+        app:layout_constraintTop_toTopOf="@+id/imgItem"
+        tools:text="This is a very long title, even longer than fits maybe I'm not sure" />
 
     <TextView
         android:id="@+id/txtDescription"
@@ -36,13 +38,15 @@
         android:layout_height="0dp"
         android:layout_marginStart="250dp"
         android:layout_marginEnd="@dimen/margin_outer"
+        android:maxLines="5"
         android:text="@string/txtDescription"
         android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="@+id/imgItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgItem"
-        app:layout_constraintTop_toTopOf="@+id/imgItem" />
+        app:layout_constraintTop_toTopOf="@+id/imgItem"
+        tools:text="This is a really really long description, so long that i don't even know what to write. I suppose it's so long that it might not even fit in the box in the end. Who knows, really? I guess i know, since the whole point of this text is to make it too long for the box. Oh, well." />
 
     <TextView
         android:id="@+id/txtSalePrice"

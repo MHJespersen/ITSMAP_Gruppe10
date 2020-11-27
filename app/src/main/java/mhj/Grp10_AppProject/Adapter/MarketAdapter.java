@@ -25,7 +25,7 @@ import mhj.Grp10_AppProject.R;
 
 // Inspired by demovideo from lesson 3
 public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHolder> {
-
+    private static final String TAG = "MarketAdapter";
     public interface IItemClickedListener{
         void OnItemClicked(int index);
     }
@@ -63,9 +63,18 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
         SalesItem d = itemList.get(position);
         holder.name.setText(itemList.get(position).getTitle());
         holder.description.setText(itemList.get(position).getDescription());
-        holder.price.setText(Double.toString(itemList.get(position).getPrice()) + " kr");
 
-        if(itemList.get(position).getImage() != "")
+        double price = itemList.get(position).getPrice();
+        String sPrice = null;
+        // Check price for decimals, if zero, don't show
+        if(price % 1 == 0) {
+            sPrice = String.format(java.util.Locale.getDefault(),"%.0f kr", price);
+        } else {
+            sPrice = String.format(java.util.Locale.getDefault(),"%.2f kr", price);
+        }
+        holder.price.setText(sPrice);
+
+        if(!itemList.get(position).getImage().equals(""))
         {
             StorageReference strRef = mStorageRef.getReference().child(itemList.get(position).getImage());
             strRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

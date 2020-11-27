@@ -11,54 +11,44 @@
         android:id="@+id/Settings"
         android:layout_width="203dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="250dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="#31FF9800"
-        android:text="Settings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/btn_settings"
+        app:layout_constraintBottom_toTopOf="@+id/LogoutBtn"
+        app:layout_constraintStart_toStartOf="@+id/LogoutBtn" />
 
     <Button
         android:id="@+id/LogoutBtn"
         android:layout_width="203dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="136dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="120dp"
         android:backgroundTint="#31FF9800"
-        android:text="Logout"
+        android:onClick="LogOut"
+        android:text="@string/btn_logout"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="LogOut"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/MarketsButton"
         android:layout_width="203dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="#31FF9800"
-        android:text="Market"
         android:onClick="OpenMarket"
+        android:text="@string/btn_market"
         app:layout_constraintBottom_toTopOf="@+id/Settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/Settings" />
 
     <Button
         android:id="@+id/SignInBtn"
         android:layout_width="203dp"
         android:layout_height="52dp"
-        android:layout_marginTop="500dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="#31FF9800"
         android:onClick="SignIn"
-        android:text="Login/Register"
+        android:text="@string/btn_login_register"
         app:layout_constraintBottom_toTopOf="@+id/MarketsButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.173"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/MarketsButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

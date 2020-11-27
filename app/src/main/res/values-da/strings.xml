@@ -39,4 +39,8 @@
     <string name="AppBarMenuLogOut">Log ud</string>
     <string name="txtSaleHeader">Indtast Titel</string>
     <string name="txtSalePrice">Indtast pris</string>
+    <string name="btn_settings">Indstillinger</string>
+    <string name="btn_logout">Log Ud</string>
+    <string name="btn_market">Marked</string>
+    <string name="btn_login_register">Login/Opret Bruger</string>
 </resources>

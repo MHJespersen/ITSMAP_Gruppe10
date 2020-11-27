@@ -69,10 +69,18 @@ public class DetailsActivity extends BaseActivity {
         public void onChanged(SalesItem Item) {
             if(Item != null)
             {
-                double price = Item.getPrice();
-
                 textTitle.setText(Item.getTitle());
-                textPrice.setText(String.valueOf(price) + " kr");
+
+                double price = Item.getPrice();
+                // Check price for decimals, if zero, don't show
+                String sPrice = null;
+                if(price % 1 == 0) {
+                    sPrice = String.format(java.util.Locale.getDefault(),"%.0f kr", price);
+                } else {
+                    sPrice = String.format(java.util.Locale.getDefault(),"%.2f kr", price);
+                }
+                textPrice.setText(sPrice);
+
                 textDescription.setText(Item.getDescription());
                 //textLocation.getText(Item.getLocation().toString());
 
