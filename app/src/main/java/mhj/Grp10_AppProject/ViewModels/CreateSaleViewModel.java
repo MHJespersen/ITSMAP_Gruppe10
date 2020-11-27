@@ -28,7 +28,7 @@ public class CreateSaleViewModel extends ViewModel {
     }
 
 
-    public void updateSalesItem(SalesItem salesItem, String eMail) {
+    public void updateSalesItem(SalesItem salesItem) {
        repository.createSale(salesItem);
     }
 }

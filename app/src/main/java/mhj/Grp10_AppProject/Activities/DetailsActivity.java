@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -161,20 +159,6 @@ public class DetailsActivity extends BaseActivity {
         intent.putExtra(EXTRA_COORDS, new double[]{lat, lng});
 
         startActivity(intent);
-    }
-
-    //Added for menu, if the user is logged in
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
-        MenuItem userItem = menu.findItem(R.id.userTxt);
-        if(auth.getCurrentUser() != null)
-        {
-            logoutItem.setVisible(true);
-            userItem.setVisible(true);
-            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
-        }
-        return super.onPrepareOptionsMenu(menu);
     }
 
     public void getExchangeRates(double price) {

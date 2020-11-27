@@ -18,7 +18,7 @@ public class SalesItem implements Serializable {
     public String path;
 
 
-    SalesItem()
+    public SalesItem()
     {
     }
 
@@ -49,7 +49,6 @@ public class SalesItem implements Serializable {
         double Latitude = geoPoint.getLatitude();
         newLocation.setLongitude(Longtitude);
         newLocation.setLatitude(Latitude);
-
         return newLocation;
     }
 
@@ -58,7 +57,7 @@ public class SalesItem implements Serializable {
     }
 
     public void setTitle(String title) {
-        this.description = title;
+        this.title = title;
     }
 
     public String getDescription() {

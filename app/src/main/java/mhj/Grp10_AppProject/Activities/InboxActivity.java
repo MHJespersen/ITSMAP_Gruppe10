@@ -1,15 +1,9 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Adapter.InboxAdapter;
-import mhj.Grp10_AppProject.Adapter.MarketAdapter;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
-import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModelFactory;
@@ -74,17 +66,4 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
 
     }
 
-    //Added for menu, if the user is logged in
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
-        MenuItem userItem = menu.findItem(R.id.userTxt);
-        if(auth.getCurrentUser() != null)
-        {
-            logoutItem.setVisible(true);
-            userItem.setVisible(true);
-            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
 }

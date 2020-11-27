@@ -4,10 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/userTxt"
-        android:title="User"
+        android:title="@string/menu_user"
         android:visible="false" />
+
+    <item
+        android:id="@+id/messagesTxt"
+        android:title="@string/menu_messages"
+        android:visible="false" />
+
+
     <item
         android:id="@+id/logoutTxt"
-        android:title="Logout"
-        android:visible="false"/>
+        android:title="@string/menu_Logout"
+        android:visible="false" />
 </menu>

@@ -2,6 +2,7 @@ package mhj.Grp10_AppProject.Model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import org.w3c.dom.Document;
 
@@ -65,6 +68,11 @@ public class Repository {
         con.startService(foregroundService);
         SelectedItemLive = new MutableLiveData<SalesItem>();
         SelectedMessageLive = new MutableLiveData<PrivateMessage>();
+    }
+
+    public GeoPoint GeoCreater(Location l){
+        GeoPoint geo = new GeoPoint(l.getLatitude(), l.getLongitude());
+        return geo;
     }
 
     public void setSelectedItem(String ItemID)
@@ -134,16 +142,17 @@ public class Repository {
     }
 
     public void createSale(SalesItem item){
+        GeoPoint geo = GeoCreater(item.getLocation());
         Map<String, Object> map  = new HashMap<>();
-        DocumentReference newDocumentPath = firestore.collection("SalesItems").document();
+        String newDocumentPath = firestore.collection("SalesItems").document().getId();
         map.put("description", item.getDescription());
         //map.put("documentPath", item.getDocumentPath());
         map.put("image", item.getImage());
-        map.put("location", item.getLocation());
+        map.put("location", geo);
         map.put("price", item.getPrice());
         map.put("title", item.getTitle());
         map.put("user", item.getUser());
-        map.put("documentPath", newDocumentPath);
+        map.put("documentPath", newDocumentPath.toString());
         firestore.collection("SalesItems").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {

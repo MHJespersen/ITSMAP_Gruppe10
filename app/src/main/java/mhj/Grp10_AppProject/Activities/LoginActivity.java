@@ -1,28 +1,25 @@
 package mhj.Grp10_AppProject.Activities;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import mhj.Grp10_AppProject.R;
-import mhj.Grp10_AppProject.ViewModels.LoginViewModel;
-import mhj.Grp10_AppProject.ViewModels.LoginViewModelFactory;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 import java.util.List;
+
+import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.ViewModels.LoginViewModel;
+import mhj.Grp10_AppProject.ViewModels.LoginViewModelFactory;
 
 public class LoginActivity extends BaseActivity {
 
@@ -86,6 +83,14 @@ public class LoginActivity extends BaseActivity {
             }
         }
     }
+    
+    // Back press closes app instead of going back to previous activity
+    // https://stackoverflow.com/questions/21253303/exit-android-app-on-back-pressed
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
+
 
     public void LogOut(View view) {
         auth = FirebaseAuth.getInstance();
@@ -94,19 +99,6 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(this, "You have logged out", Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();
         }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
-        MenuItem userItem = menu.findItem(R.id.userTxt);
-        if(auth.getCurrentUser() != null)
-        {
-            logoutItem.setVisible(true);
-            userItem.setVisible(true);
-            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
-        }
-        return super.onPrepareOptionsMenu(menu);
     }
 
     public void OpenMarket(View view) {

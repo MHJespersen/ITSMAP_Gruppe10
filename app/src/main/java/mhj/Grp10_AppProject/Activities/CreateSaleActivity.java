@@ -13,8 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +32,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -98,7 +97,7 @@ public class CreateSaleActivity extends BaseActivity {
         // https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this, new CreateSaleViewModelFactory(this.getApplicationContext()))
                 .get(CreateSaleViewModel.class);
-
+        photoFileName =createFileName();
         setupUI();
 
         locationUtility = new LocationUtility(this);
@@ -230,25 +229,37 @@ public class CreateSaleActivity extends BaseActivity {
         }
     }
 
-    private void createFileName(){
+    private String createFileName(){
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_"+ timeStamp + ".jpg";
-        photoFileName = imageFileName;
+        return imageFileName;
     }
 
-    //Added for menu, if the user is logged in
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem logoutItem = menu.findItem(R.id.logoutTxt);
-        MenuItem userItem = menu.findItem(R.id.userTxt);
-        if(auth.getCurrentUser() != null)
-        {
-            logoutItem.setVisible(true);
-            userItem.setVisible(true);
-            userItem.setTitle("User: " + auth.getCurrentUser().getEmail());
+    /*
+    //Code for the Camera inspired by https://developer.android.com/training/camera/photobasics
+    //and https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
+    //Intent to capture photo
+    private void dispatchTakePictureIntent(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //Ensure that there is a camera activity to handle the intent
+        if(takePictureIntent.resolveActivity(getPackageManager()) != null){
+            //Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex){
+                //Handle the Error occured while creating File
+            }
+            //Continue only if the File was created
+            if(photoFile != null){
+                Uri photoUri = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+            }
         }
-        return super.onPrepareOptionsMenu(menu);
     }
+ */
+
 
     // Location permissions - should apparently not be in view model?
     // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
@@ -396,8 +407,9 @@ public class CreateSaleActivity extends BaseActivity {
     };
 
     public void Save(){
+        salesItem = new SalesItem();
         if(photoFileName != null){
-            salesItem.setImage(itemImage.toString());
+            salesItem.setImage(photoFileName);
         }
         if(title.getText().toString() != null){
             salesItem.setTitle(title.getText().toString());
@@ -417,7 +429,8 @@ public class CreateSaleActivity extends BaseActivity {
         if(description.getText().toString() != null){
             salesItem.setDescription(description.getText().toString());
         }
-        createSaleViewModel.updateSalesItem(salesItem, auth.getCurrentUser().getEmail());
+        salesItem.setUser(auth.getCurrentUser().getEmail());
+        viewModel.updateSalesItem(salesItem);
         finish();
     }
 }

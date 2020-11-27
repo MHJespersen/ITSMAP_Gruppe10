@@ -8,12 +8,13 @@
     tools:context="mhj.Grp10_AppProject.Activities.LoginActivity">
 
     <Button
-        android:id="@+id/settings"
+        android:id="@+id/CreateASale"
         android:layout_width="203dp"
         android:layout_height="52dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#31FF9800"
-        android:text="@string/btn_settings"
+        android:onClick="MakeASale"
+        android:text="@string/btn_make_a_sale"
         app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
         app:layout_constraintEnd_toEndOf="@+id/logoutBtn" />
 
@@ -37,8 +38,8 @@
         android:backgroundTint="#31FF9800"
         android:onClick="OpenMarket"
         android:text="@string/btn_market"
-        app:layout_constraintBottom_toTopOf="@+id/settings"
-        app:layout_constraintEnd_toEndOf="@+id/settings" />
+        app:layout_constraintBottom_toTopOf="@+id/CreateASale"
+        app:layout_constraintEnd_toEndOf="@+id/CreateASale" />
 
     <Button
         android:id="@+id/signInBtn"
