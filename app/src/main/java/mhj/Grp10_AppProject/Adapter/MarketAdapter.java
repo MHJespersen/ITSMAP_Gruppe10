@@ -131,7 +131,6 @@ public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHo
         {
             listener.OnItemClicked(getAdapterPosition());
         }
-
     }
 }
 
