@@ -168,11 +168,9 @@ public class CreateSaleActivity extends BaseActivity {
             //Create intent to take picture and return control to the calling application
             Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             //Create a File reference for future access
- //Having problems with generating a filename.
-            //photoFile = getPhotoFileUri(createImageFile());
             createFileName();
             photoFile = getPhotoFileUri(photoFileName);
-
+            
             //Wrap file object into a content provider, Required for API >= 24
             //See  https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
             Uri fileProvider = FileProvider.getUriForFile(CreateSaleActivity.this, "mhj.fileprovider", photoFile);
@@ -234,32 +232,6 @@ public class CreateSaleActivity extends BaseActivity {
         String imageFileName = "JPEG_"+ timeStamp + ".jpg";
         return imageFileName;
     }
-
-    /*
-    //Code for the Camera inspired by https://developer.android.com/training/camera/photobasics
-    //and https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
-    //Intent to capture photo
-    private void dispatchTakePictureIntent(){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //Ensure that there is a camera activity to handle the intent
-        if(takePictureIntent.resolveActivity(getPackageManager()) != null){
-            //Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex){
-                //Handle the Error occured while creating File
-            }
-            //Continue only if the File was created
-            if(photoFile != null){
-                Uri photoUri = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-            }
-        }
-    }
- */
-
 
     // Location permissions - should apparently not be in view model?
     // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
