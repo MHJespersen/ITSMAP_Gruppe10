@@ -9,9 +9,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 //import com.google.api.core.ApiFuture;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -90,6 +92,30 @@ public class Repository {
         map.put("MessageDate", timeStamp);
         map.put("MessageBody", message);
         firestore.collection("PrivateMesssages").add(map);
+    }
+
+    public void createSale(SalesItem item){
+        Map<String, Object> map  = new HashMap<>();
+        DocumentReference newDocumentPath = firestore.collection("SalesItems").document();
+        map.put("description", item.getDescription());
+        //map.put("documentPath", item.getDocumentPath());
+        map.put("image", item.getImage());
+        map.put("location", item.getLocation());
+        map.put("price", item.getPrice());
+        map.put("title", item.getTitle());
+        map.put("user", item.getUser());
+        map.put("documentPath", newDocumentPath);
+        firestore.collection("SalesItems").add(map).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                Log.d("CreateSale", "Created Sale!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("CreateSale", "Sale was not Created!");
+            }
+        });
     }
 
 //    public List<DocumentSnapshot> getPrivateMessages()

@@ -30,7 +30,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +51,9 @@ import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
 public class CreateSaleActivity extends BaseActivity {
     private static final String TAG = "CreateSaleActivity";
+
+    //upload
+    private FirebaseStorage firebaseStorage;
 
     public static CreateSaleActivity context;
     private CreateSaleViewModel viewModel;
@@ -66,14 +75,12 @@ public class CreateSaleActivity extends BaseActivity {
     private TextView saleHeader;
     private EditText title, price, description, location;
     private ImageView itemImage;
-    private Button btnBack, btnCapture, btnGetLocation;
+    private Button btnBack, btnCapture, btnGetLocation, btnCreate;
 
 
     public String currentPhotoPath;
     public File photoFile;
-    //public String photoFileName = null;
-    //dummy file name
-    public String photoFileName = "photo.jpg";
+    public String photoFileName;
 
 
 
@@ -83,6 +90,7 @@ public class CreateSaleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createsale);
+        firebaseStorage = FirebaseStorage.getInstance();
 
         context = this;
 
@@ -125,26 +133,45 @@ public class CreateSaleActivity extends BaseActivity {
             stopTrackingLocation();
             Log.d(TAG, "onDestroy: stopped tracking");
         }
-
         super.onDestroy();
-
     }
 
     private void setupUI() {
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(view -> finish());
 
+
+        btnCreate = findViewById(R.id.btnPublish);
+        btnCreate.setOnClickListener(view -> {
+            //Save file:
+            Uri file = Uri.fromFile(photoFile);
+            StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
+            imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //Get a URL to the uploaded content
+                    //Uri downloadUrl = taskSnapshot.getDownload();
+                    Log.d("Successfull upload!", APP_TAG);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Unsuccesfull upload!", APP_TAG);
+                }
+            });
+
+
+        });
+
         btnCapture = findViewById(R.id.btnTakePhoto);
         btnCapture.setOnClickListener(view -> {
             //Create intent to take picture and return control to the calling application
             Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             //Create a File reference for future access
-
  //Having problems with generating a filename.
             //photoFile = getPhotoFileUri(createImageFile());
+            createFileName();
             photoFile = getPhotoFileUri(photoFileName);
-
-
 
             //Wrap file object into a content provider, Required for API >= 24
             //See  https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
@@ -197,58 +224,19 @@ public class CreateSaleActivity extends BaseActivity {
                 //Bitmap bp = (Bitmap) data.getExtras().get("data");
                 Bitmap bp = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 itemImage.setImageBitmap(bp);
+
             } else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    //Create a file name for the full images
-    private File createImageFile(){
-        //Create image file name
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String imageFileName = "JPEG_" + timeStamp + "_";
-            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = null;
-        try {
-            image = File.createTempFile(
-                    imageFileName,
-                    ".jpg",
-                    storageDir
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = image.getAbsolutePath();
-            return image;
-
+    private void createFileName(){
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_"+ timeStamp + ".jpg";
+        photoFileName = imageFileName;
     }
 
-    /*
-    //Code for the Camera inspired by https://developer.android.com/training/camera/photobasics
-    //and https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
-    //Intent to capture photo
-    private void dispatchTakePictureIntent(){
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //Ensure that there is a camera activity to handle the intent
-        if(takePictureIntent.resolveActivity(getPackageManager()) != null){
-            //Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex){
-                //Handle the Error occured while creating File
-            }
-            //Continue only if the File was created
-            if(photoFile != null){
-                Uri photoUri = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-            }
-        }
-    }
- */
     //Added for menu, if the user is logged in
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -262,8 +250,6 @@ public class CreateSaleActivity extends BaseActivity {
         }
         return super.onPrepareOptionsMenu(menu);
     }
-
-
 
     // Location permissions - should apparently not be in view model?
     // https://developers.google.com/maps/documentation/android-sdk/current-place-tutorial
@@ -411,7 +397,7 @@ public class CreateSaleActivity extends BaseActivity {
     };
 
     public void Save(View view){
-        if(itemImage != null){
+        if(photoFileName != null){
             salesItem.setImage(itemImage.toString());
         }
         if(title.getText().toString() != null){
@@ -432,7 +418,7 @@ public class CreateSaleActivity extends BaseActivity {
         if(description.getText().toString() != null){
             salesItem.setDescription(description.getText().toString());
         }
-        createSaleViewModel.updateSalesItem(salesItem);
+        createSaleViewModel.updateSalesItem(salesItem, auth.getCurrentUser().getEmail());
         finish();
     }
 }
