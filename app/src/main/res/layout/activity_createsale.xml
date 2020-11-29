@@ -15,23 +15,9 @@
         android:backgroundTint="#31FF9800"
         android:text="@string/btnTakePhoto"
         app:layout_constraintBottom_toBottomOf="@+id/btnPublish"
-<<<<<<< Updated upstream
-        app:layout_constraintStart_toStartOf="@+id/editTxtEnterDescription" />
-=======
+        app:layout_constraintStart_toStartOf="@+id/editTxtEnterDescription"
         app:layout_constraintEnd_toStartOf="@+id/btnPublish"
         app:layout_constraintStart_toEndOf="@+id/btnBack" />
-
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#31FF9800"
-        android:layout_marginStart="@dimen/margin_outer"
-        android:textSize="@dimen/button_text_size"
-        android:text="@string/btnBack"
-        app:layout_constraintBottom_toBottomOf="@+id/btnTakePhoto"
-        app:layout_constraintStart_toStartOf="parent" />
->>>>>>> Stashed changes
 
     <Button
         android:id="@+id/btnPublish"

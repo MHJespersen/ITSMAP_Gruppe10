@@ -119,17 +119,6 @@
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus orci, faucibus id pretium et, imperdiet bibendum nisl. Duis ultricies consequat convallis. Cras nec odio sit amet augue placerat maximus quis id diam. In justo ante, ultricies sit amet turpis in, vehicula lacinia libero. Nullam fermentum elit non condimentum ullamcorper. Sed maximus quam ac molestie ornare. Cras ac vehicula nulla. Fusce porttitor lectus cursus lacus tincidunt, et ultricies urna ultrices. Mauris eleifend metus odio, vel maximus libero rhoncus ac. Vestibulum tincidunt odio ligula, quis vulputate risus commodo feugiat." />
 
     <Button
-        android:id="@+id/detailsBtnBack"
-        android:layout_width="@dimen/button_layout_width"
-        android:layout_height="@dimen/button_layout_heigth"
-        android:backgroundTint="#31FF9800"
-        android:textSize="@dimen/button_text_size"
-        android:layout_marginBottom="@dimen/margin_outer"
-        android:text="@string/btn_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/detailsTextDesc" />
-
-    <Button
         android:id="@+id/detailsBtnMessage"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
@@ -140,7 +129,6 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/btn_message"
-        android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
