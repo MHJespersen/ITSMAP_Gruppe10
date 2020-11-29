@@ -35,7 +35,7 @@ public class PrivateMessage implements Serializable{
 
     public String getSender(){return sender;}
 
-    public void setSender(){this.sender = sender;}
+    public void setSender(String sender){this.sender = sender;}
 
     public String getMessageBody() {
         return messageBody;

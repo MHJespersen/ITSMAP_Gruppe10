@@ -103,13 +103,13 @@ public class Repository {
         return firestore.collection("SalesItems").get();
     }
 
-    public void sendMessage(String receiver, String sender, String timeStamp, String message)
+    public void sendMessage(PrivateMessage privateMessage)
     {
         Map<String, Object> map = new HashMap<>();
-        map.put("Receiver", receiver);
-        map.put("Sender", sender);
-        map.put("MessageDate", timeStamp);
-        map.put("MessageBody", message);
+        map.put("Receiver", privateMessage.getReceiver());
+        map.put("Sender", privateMessage.getSender());
+        map.put("MessageDate", privateMessage.getMessageDate());
+        map.put("MessageBody", privateMessage.getMessageBody());
         Task<DocumentReference> task = firestore.collection("PrivateMesssages").add(map);
         task.addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override

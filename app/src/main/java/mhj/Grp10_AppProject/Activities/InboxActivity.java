@@ -28,6 +28,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     private RecyclerView recyclerView;
     private InboxAdapter adapter;
     private ArrayList<PrivateMessage> messageList = new ArrayList<>();
+    private List<PrivateMessage> messagelist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,8 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     Observer<List<PrivateMessage>> updateObserver = new Observer<List<PrivateMessage>>() {
         @Override
         public void onChanged(List<PrivateMessage> UpdatedItems) {
-
-            adapter.updateMessageList(messageList);
+            adapter.updateMessageList(messagelist);
+            //adapter.updateMessageList(messageList);
         }
     };
 

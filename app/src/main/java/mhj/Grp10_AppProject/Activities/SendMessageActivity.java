@@ -1,5 +1,6 @@
 package mhj.Grp10_AppProject.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,7 +44,9 @@ public class SendMessageActivity extends BaseActivity {
 
     private void setupUI() {
         textRecipient = findViewById(R.id.sendMessageTextRecipient);
-        //textRecipient.setText(String.valueOf(userId));
+        Intent intent = getIntent();
+        String user = intent.getStringExtra("User");
+        textRecipient.setText(String.valueOf(user));
 
         textItem = findViewById(R.id.sendMessageTextItem);
         textItem.setText(itemTitle);
@@ -72,22 +75,23 @@ public class SendMessageActivity extends BaseActivity {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(new Date());
         String message = inputMessage.getText().toString();
         String sender = auth.getCurrentUser().getEmail();
-        String receiver = textRecipient.getText().toString();
         //saving to database ->
-        viewModel.sendMessage(receiver, sender, timeStamp, message);
+        //viewModel.sendMessage(receiver, sender, timeStamp, message);
 
-        Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
-        finish();
+        //Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
+        //finish();
 
-        // With Message Object.
-        //PrivateMessage privateMessage = new PrivateMessage();
-        //privateMessage.setMessageDate(timeStamp);
-        //privateMessage.setSenderId(Integer.parseInt(sender));
-        //privateMessage.setRecipientId(Integer.parseInt(receiver));
-        //privateMessage.setMessageBody(message);
+        //With Message Object.
+        Intent intent = getIntent();
+        String user = intent.getStringExtra("User");
+        PrivateMessage privateMessage = new PrivateMessage();
+        privateMessage.setMessageDate(timeStamp);
+        privateMessage.setSender(sender);
+        privateMessage.setReceiver(user);
+        privateMessage.setMessageBody(message);
 
         // with message object to viewmodel.
-        //viewModel.sendMessage(privateMessage);
+        viewModel.sendMessage(privateMessage);
     }
 
 }

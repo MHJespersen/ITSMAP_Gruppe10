@@ -147,6 +147,7 @@ public class DetailsActivity extends BaseActivity {
     private void gotoSendMessage() {
         Intent intent = new Intent(this, SendMessageActivity.class);
         //intent.putExtra(EXTRA_ITEM_ID, dummyItem.getItemId());
+        intent.putExtra("User", SelectedItem.getValue().getUser());
         startActivity(intent);
     }
 
