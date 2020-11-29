@@ -27,6 +27,7 @@ import java.util.concurrent.Executors;
 
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.Utilities.LocationUtility;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModel;
 import mhj.Grp10_AppProject.ViewModels.DetailsViewModelFactory;
@@ -35,9 +36,7 @@ import mhj.Grp10_AppProject.WebAPI.WebAPI;
 
 
 public class DetailsActivity extends BaseActivity {
-    private static final String TAG = "DetailsActivity";
-    public static final String EXTRA_ITEM_ID = "extra_itemId";
-    public static final String EXTRA_COORDS = "extra_coords";
+
     private DetailsViewModel viewModel;
 
     // widgets
@@ -148,8 +147,8 @@ public class DetailsActivity extends BaseActivity {
         Intent intent = new Intent(this, SendMessageActivity.class);
 
         //Title of salesItem is used to set regarding field of message example:(Regarding: Chair)
-        intent.putExtra("Title", SelectedItem.getValue().getTitle());
-        intent.putExtra("User", SelectedItem.getValue().getUser());
+        intent.putExtra(Constants.DETAILS_TITLE, SelectedItem.getValue().getTitle());
+        intent.putExtra(Constants.DETAILS_USER, SelectedItem.getValue().getUser());
         startActivity(intent);
     }
 
@@ -159,7 +158,7 @@ public class DetailsActivity extends BaseActivity {
         double lng = location.getLongitude();
 
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra(EXTRA_COORDS, new double[]{lat, lng});
+        intent.putExtra(Constants.EXTRA_COORDS, new double[]{lat, lng});
 
         startActivity(intent);
     }
@@ -173,7 +172,7 @@ public class DetailsActivity extends BaseActivity {
         executor.submit(() -> {
             APICallback callback = exchangeRates -> {
                 //What happens on API call completion
-                Log.d(TAG, "OnApiCallback: EUR" + exchangeRates.getRates().getEUR());
+                Log.d(Constants.DETAILS_ACTIVITY, "OnApiCallback: EUR" + exchangeRates.getRates().getEUR());
 
                 double eur = exchangeRates.getRates().getEUR();
                 double eurPrice = price*eur;

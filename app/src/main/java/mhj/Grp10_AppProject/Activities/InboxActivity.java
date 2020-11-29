@@ -16,14 +16,12 @@ import mhj.Grp10_AppProject.Adapter.InboxAdapter;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModelFactory;
 
 
 public class InboxActivity extends BaseActivity implements InboxAdapter.IMessageClickedListener {
-
-    private static final String TAG = "InboxActivity";
-    private static final String EXTRA_INDEX = "EXTRA_INDEX";
 
     InboxActivity context;
     private InboxViewModel viewModel;
@@ -63,7 +61,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     @Override
     public void onMessageClicked(int index) {
         Intent intent = new Intent(this, ViewMessageActivity.class);
-        intent.putExtra(EXTRA_INDEX, index);
+        intent.putExtra(Constants.EXTRA_INDEX, index);
         startActivity(intent);
     }
 }

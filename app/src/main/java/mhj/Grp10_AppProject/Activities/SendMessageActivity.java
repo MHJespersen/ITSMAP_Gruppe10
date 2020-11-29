@@ -12,10 +12,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModelFactory;
 
@@ -35,7 +37,7 @@ public class SendMessageActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this, new SendMessageViewModelFactory(this.getApplicationContext()))
                 .get(SendMessageViewModel.class);
 
-        int itemId = getIntent().getIntExtra(DetailsActivity.EXTRA_ITEM_ID, 42);
+        int itemId = getIntent().getIntExtra(Constants.EXTRA_ITEM_ID, 42);
         //userId = DetailsActivity.dummyItems.get(itemId).getUserId();
         //itemTitle = DetailsActivity.dummyItems.get(itemId).getTitle();
 
@@ -45,11 +47,11 @@ public class SendMessageActivity extends BaseActivity {
     private void setupUI() {
         textRecipient = findViewById(R.id.sendMessageTextRecipient);
         Intent intent = getIntent();
-        String user = intent.getStringExtra("User");
+        String user = intent.getStringExtra(Constants.DETAILS_USER);
         textRecipient.setText(String.valueOf(user));
 
         textItem = findViewById(R.id.sendMessageTextItem);
-        String title = intent.getStringExtra("Title");
+        String title = intent.getStringExtra(Constants.DETAILS_TITLE);
         textItem.setText(title);
 
         inputMessage = findViewById(R.id.sendMessageInputMessage);
@@ -84,8 +86,8 @@ public class SendMessageActivity extends BaseActivity {
 
         //With Message Object.
         Intent intent = getIntent();
-        String user = intent.getStringExtra("User");
-        String title = intent.getStringExtra("Title");
+        String user = intent.getStringExtra(Constants.DETAILS_USER);
+        String title = intent.getStringExtra(Constants.DETAILS_TITLE);
         PrivateMessage privateMessage = new PrivateMessage();
         privateMessage.setMessageDate(timeStamp);
         privateMessage.setSender(sender);

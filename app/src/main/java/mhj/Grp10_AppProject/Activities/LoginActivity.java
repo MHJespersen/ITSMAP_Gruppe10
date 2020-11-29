@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.LoginViewModel;
 import mhj.Grp10_AppProject.ViewModels.LoginViewModelFactory;
 
@@ -27,7 +28,6 @@ public class LoginActivity extends BaseActivity {
     FirebaseAuth auth;
     LoginActivity context;
     private Button loginBtn;
-    public static final int REQUEST_LOGIN = 1337;
     private TextView userName;
 
     @Override
@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity {
                             .createSignInIntentBuilder()
                             .setAvailableProviders(providers)
                             .setIsSmartLockEnabled(false)
-                            .build(), REQUEST_LOGIN
+                            .build(), Constants.REQUEST_LOGIN
             );
         }
     }
@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_LOGIN) {
+        if(requestCode == Constants.REQUEST_LOGIN) {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(context,  auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "You have logged in", Toast.LENGTH_SHORT).show();

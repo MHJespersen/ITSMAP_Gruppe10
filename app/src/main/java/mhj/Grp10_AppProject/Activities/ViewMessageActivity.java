@@ -1,27 +1,19 @@
 package mhj.Grp10_AppProject.Activities;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.StorageReference;
-
 import mhj.Grp10_AppProject.Model.PrivateMessage;
-import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
-import mhj.Grp10_AppProject.ViewModels.DetailsViewModel;
-import mhj.Grp10_AppProject.ViewModels.DetailsViewModelFactory;
+import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.ViewMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.ViewMessageViewModelFactory;
 
@@ -38,6 +30,9 @@ public class ViewMessageActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this, new ViewMessageViewModelFactory(this.getApplicationContext()))
                 .get(ViewMessageViewModel.class);
         viewModel.returnSelected().observe(this, updateObserver );
+
+        Intent intent = getIntent();
+        String index = intent.getStringExtra(Constants.EXTRA_INDEX);
 
         setupUI();
     }
