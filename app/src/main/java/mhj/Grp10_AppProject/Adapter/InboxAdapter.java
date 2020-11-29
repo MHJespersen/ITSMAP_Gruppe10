@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
@@ -36,6 +37,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     }
 
     public void updateMessageList(List<PrivateMessage> list){
+        Collections.reverse(list);
         messagelist = list;
         notifyDataSetChanged();
     }
