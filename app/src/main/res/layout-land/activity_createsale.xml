@@ -75,22 +75,11 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#31FF9800"
-        android:layout_marginTop="80dp"
         android:layout_marginEnd="@dimen/margin_outer"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btnTakePhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTxtEnterDescription" />
-
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="105dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="80dp"
-        android:backgroundTint="#31FF9800"
-        android:text="@string/btnBack"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnPublish" />
 
     <Button
         android:id="@+id/btnPublish"
