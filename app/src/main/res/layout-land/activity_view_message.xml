@@ -89,4 +89,18 @@
         android:text="@string/btn_reply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/viewMessageReply"
+        android:layout_width="277dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="219dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="reply"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/viewMessageBtnBack"
+        app:layout_constraintTop_toBottomOf="@+id/viewMessageTextMessage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

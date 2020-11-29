@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
-import java.util.ConcurrentModificationException;
 import java.util.Date;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
@@ -26,6 +25,7 @@ public class SendMessageActivity extends BaseActivity {
     private TextView textRecipient, textItem;
     private EditText inputMessage;
     private Button btnCancel, btnSend;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

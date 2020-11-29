@@ -63,14 +63,16 @@
 
     <TextView
         android:id="@+id/viewMessageTextMessage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="921dp"
+        android:layout_height="944dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/viewMessageBtnReply"
         app:layout_constraintEnd_toEndOf="@+id/viewMessageTextRegarding"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="@+id/viewMessageLabelMessage"
         app:layout_constraintTop_toBottomOf="@+id/viewMessageLabelMessage"
+        app:layout_constraintVertical_bias="0.062"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget mauris leo. Pellentesque pulvinar sagittis pulvinar. Donec sagittis quam quis dolor fringilla luctus. Nullam libero urna, malesuada suscipit tempor et, viverra nec nisl. Maecenas at nibh consequat, interdum dolor eget, pellentesque tellus." />
 
     <Button
@@ -84,4 +86,20 @@
         android:text="@string/btn_reply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/viewMessageReply"
+        android:layout_width="894dp"
+        android:layout_height="210dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="226dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Reply"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/viewMessageBtnReply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewMessageTextMessage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

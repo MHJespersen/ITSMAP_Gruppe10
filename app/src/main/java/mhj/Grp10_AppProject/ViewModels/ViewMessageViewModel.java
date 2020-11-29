@@ -21,4 +21,8 @@ public class ViewMessageViewModel extends ViewModel {
     {
         return repo.getSelectedMessage();
     }
+
+    public void reply(PrivateMessage privateMessage) {
+        repo.sendMessage(privateMessage);
+    }
 }
