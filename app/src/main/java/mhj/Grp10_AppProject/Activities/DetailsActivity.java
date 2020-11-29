@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -42,7 +41,7 @@ public class DetailsActivity extends BaseActivity {
     // widgets
     private TextView textTitle, textPrice, textPriceEur, textDescription, textLocation;
     private ImageView imgItem;
-    private Button btnBack, btnMessage;
+    private Button btnMessage;
     private ImageButton btnMap;
 
     private ExecutorService executor;
@@ -131,13 +130,11 @@ public class DetailsActivity extends BaseActivity {
         textDescription = findViewById(R.id.detailsTextDesc);
         textLocation = findViewById(R.id.detailsTextLocation);
         imgItem= findViewById(R.id.detailsImage);
-        btnBack = findViewById(R.id.detailsBtnBack);
         btnMessage = findViewById(R.id.detailsBtnMessage);
         btnMap = findViewById(R.id.detailsBtnMap);
 
         textDescription.setMovementMethod(new ScrollingMovementMethod());
 
-        btnBack.setOnClickListener(view -> finish());
         btnMessage.setOnClickListener(view -> gotoSendMessage());
         btnMap.setOnClickListener(view -> gotoMap());
     }

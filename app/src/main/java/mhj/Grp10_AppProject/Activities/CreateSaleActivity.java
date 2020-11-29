@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,14 +30,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -74,7 +70,7 @@ public class CreateSaleActivity extends BaseActivity {
     private TextView saleHeader;
     private EditText title, price, description, location;
     private ImageView itemImage;
-    private Button btnBack, btnCapture, btnGetLocation, btnCreate;
+    private Button btnCapture, btnGetLocation, btnCreate;
 
     public File photoFile;
     public String photoFileName;
@@ -130,9 +126,6 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     private void setupUI() {
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(view -> finish());
-
         btnCreate = findViewById(R.id.btnPublish);
         btnCreate.setOnClickListener(view -> {
             //Save file:

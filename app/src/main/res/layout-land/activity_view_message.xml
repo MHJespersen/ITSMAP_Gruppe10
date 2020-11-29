@@ -61,8 +61,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/viewMessageBtnBack"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewMessageBtnReply"
         app:layout_constraintEnd_toEndOf="@+id/viewMessageTextRegarding"
         app:layout_constraintStart_toStartOf="@+id/viewMessageLabelMessage"
         app:layout_constraintTop_toBottomOf="@+id/viewMessageLabelMessage"
@@ -85,7 +85,8 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#31FF9800"
         android:layout_marginEnd="@dimen/margin_outer"
+        android:layout_marginBottom="16dp"
         android:text="@string/btn_reply"
-        app:layout_constraintBottom_toBottomOf="@+id/viewMessageBtnBack"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

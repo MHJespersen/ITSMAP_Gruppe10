@@ -19,7 +19,7 @@ import mhj.Grp10_AppProject.ViewModels.ViewMessageViewModelFactory;
 
 public class ViewMessageActivity extends AppCompatActivity {
     private TextView textSender, textRegarding, textMessage;
-    private Button btnBack, btnReply;
+    private Button btnReply;
     private ViewMessageViewModel viewModel;
 
     @Override
@@ -41,8 +41,6 @@ public class ViewMessageActivity extends AppCompatActivity {
         textSender = findViewById(R.id.viewMessageTextFrom);
         textRegarding = findViewById(R.id.viewMessageTextRegarding);
         textMessage = findViewById(R.id.viewMessageTextMessage);
-        btnBack = findViewById(R.id.viewMessageBtnBack);
-        btnBack.setOnClickListener(view -> finish());
         btnReply = findViewById(R.id.viewMessageBtnReply);
         btnReply.setOnClickListener(view -> reply());
     }
