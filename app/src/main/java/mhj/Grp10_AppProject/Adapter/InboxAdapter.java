@@ -24,7 +24,6 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     }
 
     private IMessageClickedListener listener;
-    private List<PrivateMessage> messageList = new ArrayList<>();
     private FirebaseStorage mStorageRef;
     private List<PrivateMessage> messagelist;
 
@@ -34,7 +33,6 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     }
 
     public void updateMessageList(List<PrivateMessage> list){
-        //messageList = list;
         messagelist = list;
         notifyDataSetChanged();
     }
@@ -44,7 +42,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     public InboxViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int ViewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inbox_list_item, parent, false);
-        InboxViewHolder vh = new InboxViewHolder(v, listener);
+        InboxViewHolder vh = new InboxViewHolder(v);
         return vh;
     }
 
@@ -74,7 +72,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     public int getItemCount()
     {
         //Return size of list
-        return messageList.size();
+        return messagelist.size();
     }
 
     public class InboxViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -84,9 +82,9 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         TextView senderUserName, itemRegarding, messageDate, readStatus;
 
         //custom callback interface for user actions
-        IMessageClickedListener listener;
+        //IMessageClickedListener listener;
 
-        public InboxViewHolder(@NonNull View itemView, IMessageClickedListener messageClickedListener)
+        public InboxViewHolder(@NonNull View itemView)
         {
             super(itemView);
 
@@ -97,10 +95,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
             messageDate = itemView.findViewById(R.id.inboxTextDate);
             readStatus = itemView.findViewById(R.id.inboxTextReadStatus);
 
-            listener = messageClickedListener;
-
             itemView.setOnClickListener(this);
-
         }
 
         //react to a click on a listitem
@@ -109,6 +104,5 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         {
             listener.onMessageClicked(getAdapterPosition());
         }
-
     }
 }

@@ -26,6 +26,7 @@ import mhj.Grp10_AppProject.R;
 // Inspired by demovideo from lesson 3
 public class MarketAdapter extends RecyclerView.Adapter<MarketAdapter.ItemViewHolder> {
     private static final String TAG = "MarketAdapter";
+
     public interface IItemClickedListener{
         void OnItemClicked(int index);
     }
