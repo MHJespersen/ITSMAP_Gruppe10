@@ -45,7 +45,8 @@ public class Repository {
     FirebaseAuth auth;
     private String SelectedItem;
     private MutableLiveData<SalesItem> SelectedItemLive;
-    private MutableLiveData<List<PrivateMessage>> SelectedMessageLive;
+    private MutableLiveData<PrivateMessage> SelectedMessageLive;
+    private MutableLiveData<List<PrivateMessage>> PrivateMessagesList;
 
 
     private ExecutorService executor;
@@ -64,6 +65,7 @@ public class Repository {
     private Repository(Context context)
     {
         SelectedMessageLive = new MutableLiveData<>();
+        PrivateMessagesList = new MutableLiveData<>();
         SelectedItemLive = new MutableLiveData<>();
         firestore = FirebaseFirestore.getInstance();
         executor = Executors.newSingleThreadExecutor();
@@ -97,7 +99,7 @@ public class Repository {
         return SelectedItemLive;
     }
 
-    public MutableLiveData<List<PrivateMessage>> getSelectedMessage() {
+    public MutableLiveData<PrivateMessage> getSelectedMessage() {
         return SelectedMessageLive;
     }
 
@@ -131,7 +133,7 @@ public class Repository {
     }
 
     public MutableLiveData<List<PrivateMessage>> getPrivateMessages(){
-        return this.SelectedMessageLive;
+        return this.PrivateMessagesList;
     }
 
     private void initializePrivateMessages()
@@ -147,7 +149,7 @@ public class Repository {
                 }
                 if(!privateMessages.isEmpty())
                 {
-                    SelectedMessageLive.setValue(privateMessages);
+                    PrivateMessagesList.setValue(privateMessages);
                 }
             }
         });
