@@ -49,6 +49,8 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     Observer<List<PrivateMessage>> updateObserver = new Observer<List<PrivateMessage>>() {
         @Override
         public void onChanged(List<PrivateMessage> UpdatedItems) {
+
+            // TODO: Should these 3 be updated every time new PrivateMessage is observed?
             adapter = new InboxAdapter(context);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(adapter);

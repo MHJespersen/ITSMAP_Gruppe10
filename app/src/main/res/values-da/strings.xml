@@ -47,4 +47,5 @@
     <string name="menu_Logout">Log Ud</string>
     <string name="menu_user">Bruger</string>
     <string name="menu_messages">Beskeder</string>
+    <string name="label_eur_col">EUR:</string>
 </resources>

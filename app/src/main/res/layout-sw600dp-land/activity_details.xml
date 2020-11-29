@@ -11,16 +11,18 @@
         android:id="@+id/detailsLabelEur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="EUR:"
-        app:layout_constraintEnd_toEndOf="@+id/detailsLabelPrice"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_eur_col"
+        android:textSize="@dimen/text_size_larger"
+        app:layout_constraintStart_toStartOf="@+id/detailsLabelPrice"
         app:layout_constraintTop_toBottomOf="@+id/detailsLabelPrice" />
 
     <TextView
         android:id="@+id/detailsTextEur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintStart_toStartOf="@+id/detailsTextPrice"
         app:layout_constraintTop_toBottomOf="@+id/detailsTextPrice"
         tools:text="5" />
@@ -34,14 +36,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/detailsTextLocation"
         app:layout_constraintEnd_toEndOf="@+id/detailsTextDesc"
         app:layout_constraintTop_toTopOf="@+id/detailsTextLocation"
-        app:srcCompat="@drawable/ic_location_32" />
+        app:srcCompat="@drawable/ic_location_48" />
 
     <TextView
         android:id="@+id/detailsTextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_outer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="@dimen/header_text_size"
         app:layout_constraintStart_toStartOf="@+id/dividerTop"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Magic Chair" />
@@ -63,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintEnd_toStartOf="@+id/detailsBtnMap"
         app:layout_constraintTop_toTopOf="@+id/detailsLabelPrice"
         tools:text="Vesuvius" />
@@ -87,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/label_price_col"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintStart_toEndOf="@+id/detailsImage"
         app:layout_constraintTop_toTopOf="@+id/detailsImage" />
 
@@ -97,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintStart_toEndOf="@+id/detailsLabelPrice"
         app:layout_constraintTop_toTopOf="@+id/detailsLabelPrice"
         tools:text="42 kr" />
@@ -109,7 +111,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="@dimen/margin_outer"
         android:scrollbars="vertical"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="@dimen/text_size"
         app:layout_constraintBottom_toTopOf="@+id/detailsBtnBack"
         app:layout_constraintEnd_toEndOf="@+id/dividerTop"
         app:layout_constraintStart_toStartOf="@+id/detailsLabelPrice"
@@ -119,8 +121,9 @@
 
     <Button
         android:id="@+id/detailsBtnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:textSize="@dimen/button_text_size"
         android:layout_marginBottom="@dimen/margin_outer"
         android:text="@string/btn_back"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,8 +131,9 @@
 
     <Button
         android:id="@+id/detailsBtnMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:textSize="@dimen/button_text_size"
         android:layout_marginEnd="16dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
