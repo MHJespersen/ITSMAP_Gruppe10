@@ -110,6 +110,7 @@ public class Repository {
         map.put("Sender", privateMessage.getSender());
         map.put("MessageDate", privateMessage.getMessageDate());
         map.put("MessageBody", privateMessage.getMessageBody());
+        map.put("Regarding", privateMessage.getRegarding());
         Task<DocumentReference> task = firestore.collection("PrivateMesssages").add(map);
         task.addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override

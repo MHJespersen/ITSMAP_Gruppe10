@@ -49,7 +49,8 @@ public class SendMessageActivity extends BaseActivity {
         textRecipient.setText(String.valueOf(user));
 
         textItem = findViewById(R.id.sendMessageTextItem);
-        textItem.setText(itemTitle);
+        String title = intent.getStringExtra("Title");
+        textItem.setText(title);
 
         inputMessage = findViewById(R.id.sendMessageInputMessage);
         inputMessage.requestFocus();
@@ -84,11 +85,13 @@ public class SendMessageActivity extends BaseActivity {
         //With Message Object.
         Intent intent = getIntent();
         String user = intent.getStringExtra("User");
+        String title = intent.getStringExtra("Title");
         PrivateMessage privateMessage = new PrivateMessage();
         privateMessage.setMessageDate(timeStamp);
         privateMessage.setSender(sender);
         privateMessage.setReceiver(user);
         privateMessage.setMessageBody(message);
+        privateMessage.setRegarding(title);
 
         // with message object to viewmodel.
         viewModel.sendMessage(privateMessage);
