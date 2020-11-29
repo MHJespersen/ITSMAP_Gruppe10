@@ -13,18 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/btnTakePhoto"
         app:layout_constraintBottom_toBottomOf="@+id/btnPublish"
-        app:layout_constraintEnd_toStartOf="@+id/btnPublish"
-        app:layout_constraintStart_toEndOf="@+id/btnBack" />
-
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_outer"
-        android:textSize="@dimen/button_text_size"
-        android:text="@string/btnBack"
-        app:layout_constraintBottom_toBottomOf="@+id/btnTakePhoto"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/editTxtEnterDescription" />
 
     <Button
         android:id="@+id/btnPublish"
@@ -51,8 +40,8 @@
 
     <EditText
         android:id="@+id/editTxtEnterDescription"
-        android:layout_width="377dp"
-        android:layout_height="219dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
