@@ -27,7 +27,8 @@ public class PrivateMessage implements Serializable{
                 d.get("Sender").toString(),
                 d.get("MessageBody").toString(),
                 d.get("MessageDate").toString(),
-                Boolean.parseBoolean(d.get("Read").toString()), d.get("Regarding").toString());
+                Boolean.parseBoolean(d.get("Read").toString()),
+                d.get("Regarding").toString());
         return message;
     }
 
