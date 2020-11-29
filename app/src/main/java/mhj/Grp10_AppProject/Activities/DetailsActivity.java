@@ -49,7 +49,7 @@ public class DetailsActivity extends BaseActivity {
     private WebAPI webAPI;
     private LocationUtility locationUtility;
     private FirebaseStorage mStorageRef;
-    private LiveData<SalesItem> SelectedItem;
+    private SalesItem SelectedItem;
     private Location location;
 
 
@@ -74,8 +74,10 @@ public class DetailsActivity extends BaseActivity {
     Observer<SalesItem> updateObserver = new Observer<SalesItem>() {
         @Override
         public void onChanged(SalesItem Item) {
+
             if(Item != null)
             {
+                SelectedItem = Item;
                 textTitle.setText(Item.getTitle());
 
                 double price = Item.getPrice();

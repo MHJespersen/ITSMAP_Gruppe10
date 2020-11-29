@@ -1,6 +1,7 @@
 package mhj.Grp10_AppProject.ViewModels;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -19,16 +20,16 @@ import java.util.List;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.Model.Repository;
 import mhj.Grp10_AppProject.Model.SalesItem;
+import mhj.Grp10_AppProject.WebAPI.FirebaseCallback;
 
 public class InboxViewModel extends ViewModel {
 
-    private MutableLiveData<List<PrivateMessage>> privateMessagelist;
+    private LiveData<List<PrivateMessage>> privateMessagelist;
     private final Repository repository;
 
     public InboxViewModel(Context context) {
-        privateMessagelist = new MutableLiveData<>();
         repository = Repository.getInstance(context);
-        //privateMessagelist = repository.getPrivateMessages();
+        privateMessagelist = new MutableLiveData<>();
     }
 
     public LiveData<List<PrivateMessage>> getMessages()
@@ -39,31 +40,7 @@ public class InboxViewModel extends ViewModel {
 
     private void UpdateList()
     {
-        //Lytter på om der tilføjes noget til listen
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection("PrivateMesssages")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot snapshopValue,
-                                        @Nullable FirebaseFirestoreException error) {
-                        ArrayList<PrivateMessage> updatedListOfMessages = new ArrayList<>();
-                        if(snapshopValue != null && !snapshopValue.isEmpty())
-                        {
-                            for (DocumentSnapshot item: snapshopValue.getDocuments()) {
-                                PrivateMessage privateMessage = new PrivateMessage(
-                                        item.get("Receiver").toString(),
-                                        item.get("Sender").toString(),
-                                        item.get("MessageBody").toString(),
-                                        item.get("MessageDate").toString(),
-                                        false, item.get("Regarding").toString()
-                                        );
-
-                                updatedListOfMessages.add(privateMessage);
-                            }
-                        }
-                        privateMessagelist.setValue(updatedListOfMessages);
-                    }
-                });
+        privateMessagelist = repository.getPrivateMessages();
     }
 
 //    public void SetSelectedMessage(int index) {
