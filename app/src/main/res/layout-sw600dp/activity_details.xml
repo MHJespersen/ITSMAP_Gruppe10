@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_outer"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="@dimen/header_text_size"
         app:layout_constraintStart_toStartOf="@+id/dividerTop"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Magic Chair" />
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/label_price_col"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintStart_toStartOf="@+id/detailsLabelLocation"
         app:layout_constraintTop_toBottomOf="@+id/detailsLabelLocation" />
 
@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintBottom_toBottomOf="@+id/detailsLabelLocation"
         app:layout_constraintEnd_toStartOf="@+id/detailsBtnMap"
         tools:text="Vesuvius" />
@@ -75,7 +75,7 @@
         android:id="@+id/detailsTextPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintBottom_toBottomOf="@+id/detailsLabelPrice"
         app:layout_constraintEnd_toEndOf="@+id/detailsBtnMap"
         tools:text="42 kr" />
@@ -90,7 +90,7 @@
         android:layout_marginBottom="16dp"
         android:lineSpacingExtra="5sp"
         android:scrollbars="vertical"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="@dimen/text_size"
         app:layout_constraintBottom_toTopOf="@+id/detailsBtnBack"
         app:layout_constraintEnd_toStartOf="@+id/dividerMiddle"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,8 +100,9 @@
 
     <Button
         android:id="@+id/detailsBtnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:textSize="@dimen/button_text_size"
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginBottom="@dimen/margin_outer"
         android:text="@string/btn_back"
@@ -110,8 +111,9 @@
 
     <Button
         android:id="@+id/detailsBtnMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:textSize="@dimen/button_text_size"
         android:layout_marginEnd="@dimen/margin_outer"
         android:layout_marginBottom="@dimen/margin_outer"
         android:paddingLeft="20dp"
@@ -129,22 +131,25 @@
         app:layout_constraintBottom_toBottomOf="@+id/detailsTextLocation"
         app:layout_constraintEnd_toEndOf="@+id/detailsImage"
         app:layout_constraintTop_toTopOf="@+id/detailsTextLocation"
-        app:srcCompat="@drawable/ic_location_32" />
+        app:srcCompat="@drawable/ic_location_48" />
 
     <TextView
         android:id="@+id/detailsTextEur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintBottom_toBottomOf="@+id/detailsLabelEur"
         app:layout_constraintEnd_toEndOf="@+id/detailsTextPrice"
-        tools:text="5 €" />
+        tools:text="5 €"
+        />
 
     <TextView
         android:id="@+id/detailsLabelEur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="EUR:"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_eur_col"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintStart_toStartOf="@+id/detailsLabelPrice"
         app:layout_constraintTop_toBottomOf="@+id/detailsLabelPrice" />
 
@@ -161,7 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/label_location_col"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="@dimen/text_size_larger"
         app:layout_constraintStart_toEndOf="@+id/dividerMiddle"
         app:layout_constraintTop_toTopOf="@+id/detailsTextDesc" />
 

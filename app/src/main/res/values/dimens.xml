@@ -9,5 +9,6 @@
 
     <!--General Texts -->
     <dimen name="text_size">12sp</dimen>
+    <dimen name="text_size_larger">16sp</dimen>
     <dimen name="header_text_size">32sp</dimen>
 </resources>
