@@ -83,6 +83,7 @@ public class SendMessageActivity extends BaseActivity {
         privateMessage.setReceiver(user);
         privateMessage.setMessageBody(message);
         privateMessage.setRegarding(title);
+        privateMessage.setMessageRead(false);
 
         // with message object to viewmodel.
         viewModel.sendMessage(privateMessage);
