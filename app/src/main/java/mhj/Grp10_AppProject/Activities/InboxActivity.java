@@ -3,6 +3,7 @@ package mhj.Grp10_AppProject.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Adapter.InboxAdapter;
-import mhj.Grp10_AppProject.Adapter.MarketAdapter;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
+import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModelFactory;
@@ -30,6 +31,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     private InboxAdapter adapter;
     private ArrayList<PrivateMessage> messageList = new ArrayList<>();
     private List<PrivateMessage> messagelist;
+    private LiveData<PrivateMessage> SelectedPrivateMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
