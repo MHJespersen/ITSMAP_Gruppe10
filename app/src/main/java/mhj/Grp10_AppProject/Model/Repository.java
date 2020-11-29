@@ -90,7 +90,7 @@ public class Repository {
         d.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                SelectedItemLive.setValue(SalesItem.fromSnapshot(task.getResult()));
+                SelectedItemLive.postValue(SalesItem.fromSnapshot(task.getResult()));
             }
         });
     }
@@ -138,18 +138,18 @@ public class Repository {
 
     private void initializePrivateMessages()
     {
-        ArrayList privateMessages = new ArrayList();
         firestore.collection(
                 "PrivateMessages").document(auth.getCurrentUser().getEmail()).
                 collection("Messages").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                ArrayList privateMessages = new ArrayList();
                 for (QueryDocumentSnapshot snap : value) {
                     privateMessages.add(PrivateMessage.fromSnapshot(snap));
                 }
                 if(!privateMessages.isEmpty())
                 {
-                    PrivateMessagesList.setValue(privateMessages);
+                    PrivateMessagesList.postValue(privateMessages);
                 }
             }
         });
