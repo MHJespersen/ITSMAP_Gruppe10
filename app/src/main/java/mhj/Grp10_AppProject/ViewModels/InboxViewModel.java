@@ -55,7 +55,7 @@ public class InboxViewModel extends ViewModel {
                                         item.get("Sender").toString(),
                                         item.get("MessageBody").toString(),
                                         item.get("MessageDate").toString(),
-                                        false
+                                        false, item.get("Regarding").toString()
                                         );
 
                                 updatedListOfMessages.add(privateMessage);
