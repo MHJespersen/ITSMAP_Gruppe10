@@ -1,37 +1,40 @@
 package mhj.Grp10_AppProject.Model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 //import com.google.api.core.ApiFuture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 
-import org.w3c.dom.Document;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import mhj.Grp10_AppProject.Services.ForegroundService;
-import mhj.Grp10_AppProject.WebAPI.APICallback;
 import mhj.Grp10_AppProject.WebAPI.WebAPI;
 
 public class Repository {
@@ -43,6 +46,8 @@ public class Repository {
     private String SelectedItem;
     private MutableLiveData<SalesItem> SelectedItemLive;
     private MutableLiveData<PrivateMessage> SelectedMessageLive;
+    private MutableLiveData<List<PrivateMessage>> PrivateMessagesList;
+
 
     private ExecutorService executor;
     private static Context con;
@@ -59,19 +64,19 @@ public class Repository {
 
     private Repository(Context context)
     {
-        SelectedItemLive = new MutableLiveData<SalesItem>();
+        SelectedMessageLive = new MutableLiveData<>();
+        PrivateMessagesList = new MutableLiveData<>();
+        SelectedItemLive = new MutableLiveData<>();
         firestore = FirebaseFirestore.getInstance();
         executor = Executors.newSingleThreadExecutor();
-        SelectedMessageLive = new MutableLiveData<PrivateMessage>();
         auth = FirebaseAuth.getInstance();
+        initializePrivateMessages();
     }
 
     public void startMyForegroundService()
     {
         Intent foregroundService = new Intent(con, ForegroundService.class);
         con.startService(foregroundService);
-        SelectedItemLive = new MutableLiveData<SalesItem>();
-        SelectedMessageLive = new MutableLiveData<PrivateMessage>();
     }
 
     public GeoPoint GeoCreater(Location l){
@@ -94,7 +99,7 @@ public class Repository {
         return SelectedItemLive;
     }
 
-    public LiveData<PrivateMessage> getSelectedMessage() {
+    public MutableLiveData<PrivateMessage> getSelectedMessage() {
         return SelectedMessageLive;
     }
 
@@ -111,46 +116,41 @@ public class Repository {
         map.put("MessageDate", privateMessage.getMessageDate());
         map.put("MessageBody", privateMessage.getMessageBody());
         map.put("Regarding", privateMessage.getRegarding());
-        Task<DocumentReference> task = firestore.collection("PrivateMesssages").add(map);
-        task.addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                String result = String.valueOf(task.getResult());
-                Log.d("SendMessage", "added message: " + result);
-            }
-        });
-        task.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Log.d("SendMessageSuccess", "onSucces: "+ documentReference.toString());
-            }
-        });
-
-        task.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("SendMessageException", "onFailure: "+ e);
-            }
-        });
+        firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
+                .collection("Messages").add(map)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Log.d("PrivateMessages", "Completed");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("PrivateMessages", "Failed");
+                    }
+                });
     }
 
+    public MutableLiveData<List<PrivateMessage>> getPrivateMessages(){
+        return this.PrivateMessagesList;
+    }
 
-    public void getPrivateMessages(String messageId)
+    private void initializePrivateMessages()
     {
-        Task<DocumentSnapshot> task = firestore.collection("PrivateMesssages").document(messageId).get();
-        task.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        ArrayList privateMessages = new ArrayList();
+        firestore.collection(
+                "PrivateMessages").document(auth.getCurrentUser().getEmail()).
+                collection("Messages").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.getResult().get("receiver") == auth.getCurrentUser().getEmail()) {
-                    SelectedMessageLive.setValue(PrivateMessage.fromSnapshot(task.getResult()));
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot snap : value) {
+                    privateMessages.add(PrivateMessage.fromSnapshot(snap));
                 }
-            }
-
-        });
-        task.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("GetPrivateMessages", "onFailure: " + e);
+                if(!privateMessages.isEmpty())
+                {
+                    PrivateMessagesList.setValue(privateMessages);
+                }
             }
         });
     }
@@ -171,6 +171,13 @@ public class Repository {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Log.d("Testing", "Completed");
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @SuppressLint("ShowToast")
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(con,"Creating sale Failed", Toast.LENGTH_SHORT);
             }
         });
 

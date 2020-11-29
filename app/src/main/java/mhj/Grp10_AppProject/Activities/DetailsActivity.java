@@ -49,7 +49,7 @@ public class DetailsActivity extends BaseActivity {
     private WebAPI webAPI;
     private LocationUtility locationUtility;
     private FirebaseStorage mStorageRef;
-    private LiveData<SalesItem> SelectedItem;
+    private SalesItem SelectedItem;
     private Location location;
 
 
@@ -74,8 +74,10 @@ public class DetailsActivity extends BaseActivity {
     Observer<SalesItem> updateObserver = new Observer<SalesItem>() {
         @Override
         public void onChanged(SalesItem Item) {
+
             if(Item != null)
             {
+                SelectedItem = Item;
                 textTitle.setText(Item.getTitle());
 
                 double price = Item.getPrice();
@@ -117,9 +119,6 @@ public class DetailsActivity extends BaseActivity {
 
                 getExchangeRates(price);
             }
-
-
-
         }
     };
 
@@ -147,8 +146,8 @@ public class DetailsActivity extends BaseActivity {
         Intent intent = new Intent(this, SendMessageActivity.class);
 
         //Title of salesItem is used to set regarding field of message example:(Regarding: Chair)
-        intent.putExtra(Constants.DETAILS_TITLE, SelectedItem.getValue().getTitle());
-        intent.putExtra(Constants.DETAILS_USER, SelectedItem.getValue().getUser());
+        intent.putExtra(Constants.DETAILS_TITLE, SelectedItem.getTitle());
+        intent.putExtra(Constants.DETAILS_USER, SelectedItem.getUser());
         startActivity(intent);
     }
 
