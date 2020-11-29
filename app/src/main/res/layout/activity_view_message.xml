@@ -61,29 +61,20 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/viewMessageBtnBack"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewMessageBtnReply"
         app:layout_constraintEnd_toEndOf="@+id/viewMessageTextRegarding"
         app:layout_constraintStart_toStartOf="@+id/viewMessageLabelMessage"
         app:layout_constraintTop_toBottomOf="@+id/viewMessageLabelMessage"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget mauris leo. Pellentesque pulvinar sagittis pulvinar. Donec sagittis quam quis dolor fringilla luctus. Nullam libero urna, malesuada suscipit tempor et, viverra nec nisl. Maecenas at nibh consequat, interdum dolor eget, pellentesque tellus." />
 
     <Button
-        android:id="@+id/viewMessageBtnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_outer"
-        android:layout_marginBottom="@dimen/margin_outer"
-        android:text="@string/btn_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/viewMessageBtnReply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_outer"
+        android:layout_marginBottom="16dp"
         android:text="@string/btn_reply"
-        app:layout_constraintBottom_toBottomOf="@+id/viewMessageBtnBack"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

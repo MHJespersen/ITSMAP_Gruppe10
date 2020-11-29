@@ -43,9 +43,11 @@
 
     <EditText
         android:id="@+id/editTxtEnterDescription"
-        android:layout_width="1671dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="@string/editTxtEnterDescription"
@@ -103,7 +105,7 @@
         android:id="@+id/createSaleTextLocation"
         android:layout_width="0dp"
         android:layout_height="94dp"
-        android:layout_marginEnd="85dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/label_location"
         android:inputType="textPersonName"

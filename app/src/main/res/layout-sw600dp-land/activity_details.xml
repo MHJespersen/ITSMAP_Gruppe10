@@ -109,36 +109,26 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="@dimen/margin_outer"
+        android:layout_marginBottom="16dp"
         android:scrollbars="vertical"
         android:textSize="@dimen/text_size"
-        app:layout_constraintBottom_toTopOf="@+id/detailsBtnBack"
+        app:layout_constraintBottom_toTopOf="@+id/detailsBtnMessage"
         app:layout_constraintEnd_toEndOf="@+id/dividerTop"
         app:layout_constraintStart_toStartOf="@+id/detailsLabelPrice"
         app:layout_constraintTop_toBottomOf="@+id/detailsLabelEur"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus orci, faucibus id pretium et, imperdiet bibendum nisl. Duis ultricies consequat convallis. Cras nec odio sit amet augue placerat maximus quis id diam. In justo ante, ultricies sit amet turpis in, vehicula lacinia libero. Nullam fermentum elit non condimentum ullamcorper. Sed maximus quam ac molestie ornare. Cras ac vehicula nulla. Fusce porttitor lectus cursus lacus tincidunt, et ultricies urna ultrices. Mauris eleifend metus odio, vel maximus libero rhoncus ac. Vestibulum tincidunt odio ligula, quis vulputate risus commodo feugiat." />
-
-    <Button
-        android:id="@+id/detailsBtnBack"
-        android:layout_width="@dimen/button_layout_width"
-        android:layout_height="@dimen/button_layout_heigth"
-        android:textSize="@dimen/button_text_size"
-        android:layout_marginBottom="@dimen/margin_outer"
-        android:text="@string/btn_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/detailsTextDesc" />
 
     <Button
         android:id="@+id/detailsBtnMessage"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
-        android:textSize="@dimen/button_text_size"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/btn_message"
-        app:layout_constraintBottom_toBottomOf="@+id/detailsBtnBack"
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
