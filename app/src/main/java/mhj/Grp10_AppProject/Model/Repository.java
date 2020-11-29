@@ -115,8 +115,8 @@ public class Repository {
         task.addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
-            String result = String.valueOf(task.getResult());
-            Log.d("SendMessage", "added message: " + result);
+                String result = String.valueOf(task.getResult());
+                Log.d("SendMessage", "added message: " + result);
             }
         });
         task.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

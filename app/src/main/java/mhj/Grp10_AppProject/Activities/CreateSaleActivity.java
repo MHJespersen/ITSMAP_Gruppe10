@@ -44,12 +44,12 @@ import java.util.Date;
 
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.Utilities.LocationUtility;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModel;
 import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
 public class CreateSaleActivity extends BaseActivity {
-    private static final String TAG = "CreateSaleActivity";
 
     //upload
     private FirebaseStorage firebaseStorage;
@@ -97,7 +97,7 @@ public class CreateSaleActivity extends BaseActivity {
         locationUtility = new LocationUtility(this);
 
         startTrackingLocation();
-        Log.d(TAG, "onCreate: started tracking");
+        Log.d(Constants.CREATE_SALE_ACTIVITY, "onCreate: started tracking");
 
     }
 
@@ -107,7 +107,7 @@ public class CreateSaleActivity extends BaseActivity {
 
         if(!isTrackingLocation){
             startTrackingLocation();
-            Log.d(TAG, "onResume: started tracking");
+            Log.d(Constants.CREATE_SALE_ACTIVITY, "onResume: started tracking");
         }
 
     }
@@ -115,7 +115,7 @@ public class CreateSaleActivity extends BaseActivity {
     @Override
     protected void onPause() {
         stopTrackingLocation();
-        Log.d(TAG, "onPause: stopped tracking");
+        Log.d(Constants.CREATE_SALE_ACTIVITY, "onPause: stopped tracking");
         super.onPause();
     }
 
@@ -124,7 +124,7 @@ public class CreateSaleActivity extends BaseActivity {
 
         if (isTrackingLocation) {
             stopTrackingLocation();
-            Log.d(TAG, "onDestroy: stopped tracking");
+            Log.d(Constants.CREATE_SALE_ACTIVITY, "onDestroy: stopped tracking");
         }
         super.onDestroy();
     }
@@ -244,13 +244,13 @@ public class CreateSaleActivity extends BaseActivity {
                         if (lastLocation != null) {
                             double lat = lastLocation.getLatitude();
                             double lon = lastLocation.getLongitude();
-                            Log.d(TAG, "getDeviceLocation: " + lat + ", " + lon);
+                            Log.d(Constants.CREATE_SALE_ACTIVITY, "getDeviceLocation: " + lat + ", " + lon);
                             String s = locationUtility.getCityName(lat, lon);
                             location.setText(s);
                         }
                     } else {
-                        Log.d(TAG, "Current location is null. Using defaults.");
-                        Log.e(TAG, "Exception: %s", task.getException());
+                        Log.d(Constants.CREATE_SALE_ACTIVITY, "Current location is null. Using defaults.");
+                        Log.e(Constants.CREATE_SALE_ACTIVITY, "Exception: %s", task.getException());
                     }
                 });
             }
@@ -351,7 +351,7 @@ public class CreateSaleActivity extends BaseActivity {
         @Override
         public void onLocationChanged(Location location) {
 
-            Log.d(TAG, "onLocationChanged: " + location.getLatitude());
+            Log.d(Constants.CREATE_SALE_ACTIVITY, "onLocationChanged: " + location.getLatitude());
 //            userLocation = location;
 //            updateStatus();
 //            broadcastLocationUpdate(location);
