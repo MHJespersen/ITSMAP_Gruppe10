@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Adapter.InboxAdapter;
+import mhj.Grp10_AppProject.Adapter.MarketAdapter;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
@@ -34,28 +35,26 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
-
         context = this;
+
+        recyclerView = findViewById(R.id.inboxMessages);
 
         viewModel = new ViewModelProvider(context, new InboxViewModelFactory(this.getApplicationContext()))
                 .get(InboxViewModel.class);
-
-        adapter = new InboxAdapter((InboxAdapter.IMessageClickedListener) context);
-        recyclerView = findViewById(R.id.inboxMessages);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(adapter);
-
-        messageList.add(new PrivateMessage("MathiasHolsko@hotmail.com", "Marcus", "Message", "26/04/2020", true));
-
-        //adapter.updateMessageList(messageList);
         viewModel.getMessages().observe(this, updateObserver);
     }
 
     Observer<List<PrivateMessage>> updateObserver = new Observer<List<PrivateMessage>>() {
         @Override
         public void onChanged(List<PrivateMessage> UpdatedItems) {
-            adapter.updateMessageList(messagelist);
-            //adapter.updateMessageList(messageList);
+            adapter = new InboxAdapter(context);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(adapter);
+
+            messageList.add(new PrivateMessage("MathiasHolsko@hotmail.com", "Marcus", "Message", "26/04/2020", true, "Kondom"));
+            messageList.add(new PrivateMessage("MathiasHolsko@hotmail.com", "Marcus", "Message", "26/04/2020", false, "Minecraft"));
+
+            adapter.updateMessageList(messageList);
         }
     };
 
@@ -64,7 +63,5 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
         Intent intent = new Intent(this, ViewMessageActivity.class);
         intent.putExtra(EXTRA_INDEX, index);
         startActivity(intent);
-
     }
-
 }

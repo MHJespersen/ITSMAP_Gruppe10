@@ -76,14 +76,8 @@ public class CreateSaleActivity extends BaseActivity {
     private ImageView itemImage;
     private Button btnBack, btnCapture, btnGetLocation, btnCreate;
 
-
-    public String currentPhotoPath;
     public File photoFile;
     public String photoFileName;
-
-
-
-    Location currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +133,6 @@ public class CreateSaleActivity extends BaseActivity {
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(view -> finish());
 
-
         btnCreate = findViewById(R.id.btnPublish);
         btnCreate.setOnClickListener(view -> {
             //Save file:
@@ -159,10 +152,12 @@ public class CreateSaleActivity extends BaseActivity {
                     Log.d("Unsuccesfull upload!", APP_TAG);
                 }
             });
-
-
         });
 
+        //Camera Code inspired by:
+        //https://developer.android.com/training/camera/photobasics
+        //https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
+        //https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media#using-capture-intent
         btnCapture = findViewById(R.id.btnTakePhoto);
         btnCapture.setOnClickListener(view -> {
             //Create intent to take picture and return control to the calling application

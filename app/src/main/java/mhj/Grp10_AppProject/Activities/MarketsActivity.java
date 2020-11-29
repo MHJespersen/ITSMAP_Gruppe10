@@ -51,7 +51,6 @@ public class MarketsActivity extends BaseActivity implements MarketAdapter.IItem
         @Override
         public void onChanged(List<SalesItem> UpdatedItems) {
             adapter = new MarketAdapter(context);
-            itemList = findViewById(R.id.rcvItems);
             itemList.setLayoutManager(new LinearLayoutManager(context));
             itemList.setAdapter(adapter);
             adapter.updateSalesItemList(UpdatedItems);

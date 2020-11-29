@@ -24,7 +24,6 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     }
 
     private IMessageClickedListener listener;
-    private List<PrivateMessage> messageList = new ArrayList<>();
     private FirebaseStorage mStorageRef;
     private List<PrivateMessage> messagelist;
 
@@ -34,7 +33,6 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     }
 
     public void updateMessageList(List<PrivateMessage> list){
-        //messageList = list;
         messagelist = list;
         notifyDataSetChanged();
     }
@@ -44,26 +42,17 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     public InboxViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int ViewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inbox_list_item, parent, false);
-        InboxViewHolder vh = new InboxViewHolder(v, listener);
+        InboxViewHolder vh = new InboxViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull InboxViewHolder holder, int position)
     {
-        PrivateMessage message = messagelist.get(position);
-
         holder.senderUserName.setText(String.valueOf(messagelist.get(position).getSender()));
-        //holder.itemRegarding.setText(String.valueOf(messagelist.get(position).getItemId()));
         holder.messageDate.setText(messagelist.get(position).getMessageDate());
-
-        /* old section
-        holder.senderUserName.setText(String.valueOf(messageList.get(position).getSenderId()));
-        holder.itemRegarding.setText(String.valueOf(messageList.get(position).getItemId()));
-        holder.senderUserName.setText(String.valueOf(messageList.get(position).getSender()));
-        holder.messageDate.setText(messageList.get(position).getMessageDate());
-        */
-        // Get user -> get user img -> set img
+        holder.itemRegarding.setText(messagelist.get(position).getRegarding());
+        
         Glide.with(holder.senderUserImg.getContext())
                 .load(R.drawable.emptycart)
                 .placeholder(R.drawable.emptycart)
@@ -74,7 +63,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     public int getItemCount()
     {
         //Return size of list
-        return messageList.size();
+        return messagelist.size();
     }
 
     public class InboxViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -84,9 +73,9 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         TextView senderUserName, itemRegarding, messageDate, readStatus;
 
         //custom callback interface for user actions
-        IMessageClickedListener listener;
+        //IMessageClickedListener listener;
 
-        public InboxViewHolder(@NonNull View itemView, IMessageClickedListener messageClickedListener)
+        public InboxViewHolder(@NonNull View itemView)
         {
             super(itemView);
 
@@ -97,10 +86,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
             messageDate = itemView.findViewById(R.id.inboxTextDate);
             readStatus = itemView.findViewById(R.id.inboxTextReadStatus);
 
-            listener = messageClickedListener;
-
             itemView.setOnClickListener(this);
-
         }
 
         //react to a click on a listitem
@@ -109,6 +95,5 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         {
             listener.onMessageClicked(getAdapterPosition());
         }
-
     }
 }
