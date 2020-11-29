@@ -146,8 +146,8 @@ public class DetailsActivity extends BaseActivity {
         Intent intent = new Intent(this, SendMessageActivity.class);
 
         //Title of salesItem is used to set regarding field of message example:(Regarding: Chair)
-        intent.putExtra(Constants.DETAILS_TITLE, SelectedItem.getValue().getTitle());
-        intent.putExtra(Constants.DETAILS_USER, SelectedItem.getValue().getUser());
+        intent.putExtra(Constants.DETAILS_TITLE, SelectedItem.getTitle());
+        intent.putExtra(Constants.DETAILS_USER, SelectedItem.getUser());
         startActivity(intent);
     }
 
