@@ -140,7 +140,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/btn_message"
-        android:textSize="@dimen/button_text_size"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
