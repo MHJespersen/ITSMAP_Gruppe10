@@ -117,9 +117,6 @@ public class DetailsActivity extends BaseActivity {
 
                 getExchangeRates(price);
             }
-
-
-
         }
     };
 
