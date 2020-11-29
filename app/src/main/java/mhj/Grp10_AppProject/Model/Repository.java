@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 //import com.google.api.core.ApiFuture;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -38,6 +39,7 @@ public class Repository {
     private static Repository INSTANCE = null;
     private final FirebaseFirestore firestore;
     private WebAPI api;
+    FirebaseAuth auth;
     private String SelectedItem;
     private MutableLiveData<SalesItem> SelectedItemLive;
     private MutableLiveData<PrivateMessage> SelectedMessageLive;
@@ -61,6 +63,7 @@ public class Repository {
         firestore = FirebaseFirestore.getInstance();
         executor = Executors.newSingleThreadExecutor();
         SelectedMessageLive = new MutableLiveData<PrivateMessage>();
+        auth = FirebaseAuth.getInstance();
     }
 
     public void startMyForegroundService()
@@ -137,7 +140,16 @@ public class Repository {
         task.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                SelectedMessageLive.setValue(PrivateMessage.fromSnapshot(task.getResult()));
+                if(task.getResult().get("receiver") == auth.getCurrentUser().getEmail()) {
+                    SelectedMessageLive.setValue(PrivateMessage.fromSnapshot(task.getResult()));
+                }
+            }
+
+        });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("GetPrivateMessages", "onFailure: " + e);
             }
         });
     }
