@@ -37,6 +37,7 @@
         android:id="@+id/createSaleBtnGetLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btn_get_location"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/createSaleTextLocation"
@@ -74,15 +75,28 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#31FF9800"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="@dimen/margin_outer"
         android:text="@string/btnTakePhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTxtEnterDescription" />
 
     <Button
+        android:id="@+id/btnBack"
+        android:layout_width="105dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#31FF9800"
+        android:text="@string/btnBack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnPublish" />
+
+    <Button
         android:id="@+id/btnPublish"
         android:layout_width="105dp"
         android:layout_height="46dp"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btnPublish"
         app:layout_constraintBottom_toBottomOf="@+id/editTxtEnterDescription"
         app:layout_constraintEnd_toEndOf="@+id/btnTakePhoto" />

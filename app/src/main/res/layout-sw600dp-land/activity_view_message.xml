@@ -13,6 +13,7 @@
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginTop="@dimen/margin_outer"
         android:text="@string/label_from_col"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/label_regarding_col"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/viewMessageLabelFrom"
         app:layout_constraintTop_toBottomOf="@+id/viewMessageLabelFrom" />
@@ -32,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_outer"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/viewMessageLabelFrom"
@@ -41,6 +44,7 @@
         android:id="@+id/viewMessageTextRegarding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/viewMessageLabelRegarding"
         app:layout_constraintEnd_toEndOf="@+id/viewMessageTextFrom"
@@ -52,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/label_message"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/viewMessageLabelRegarding"
         app:layout_constraintTop_toBottomOf="@+id/viewMessageLabelRegarding" />
@@ -62,6 +67,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:textSize="@dimen/text_size"
         app:layout_constraintBottom_toTopOf="@+id/viewMessageBtnBack"
         app:layout_constraintEnd_toEndOf="@+id/viewMessageTextRegarding"
         app:layout_constraintStart_toStartOf="@+id/viewMessageLabelMessage"
@@ -70,18 +76,22 @@
 
     <Button
         android:id="@+id/viewMessageBtnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:textSize="@dimen/button_text_size"
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginBottom="@dimen/margin_outer"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btn_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/viewMessageBtnReply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:backgroundTint="#31FF9800"
+        android:textSize="@dimen/button_text_size"
         android:layout_marginEnd="@dimen/margin_outer"
         android:text="@string/btn_reply"
         app:layout_constraintBottom_toBottomOf="@+id/viewMessageBtnBack"

@@ -5,4 +5,5 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="backgroundColor">#ffff </color>
     <color name="loginTextColor">#170BBF</color>
+    <color name="backgroundForActivities">#EEF1BD</color>
 </resources>

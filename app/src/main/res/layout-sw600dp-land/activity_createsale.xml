@@ -11,19 +11,30 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
-        android:layout_marginStart="@dimen/margin_outer"
-        android:layout_marginBottom="@dimen/margin_outer"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btnTakePhoto"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:backgroundTint="#31FF9800"
+        android:layout_marginStart="16dp"
+        android:text="@string/btnBack"
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtEnterDescription"
+        app:layout_constraintVertical_bias="0.557" />
+
+    <Button
         android:id="@+id/btnPublish"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
-        android:layout_marginEnd="@dimen/margin_outer"
-        android:layout_marginBottom="@dimen/margin_outer"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btnPublish"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -118,7 +129,7 @@
         android:id="@+id/createSaleBtnGetLocation"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
-        android:layout_marginTop="16dp"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btn_get_location"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintEnd_toEndOf="@+id/createSaleTextTitle"

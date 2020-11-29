@@ -14,6 +14,7 @@
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginTop="@dimen/margin_outer"
         android:text="@string/label_recipient_col"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sendMessageLabelSendMessage" />
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/label_regarding_col"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/sendMessageLabelRecipient"
         app:layout_constraintTop_toBottomOf="@+id/sendMessageLabelRecipient" />
@@ -40,6 +42,7 @@
         android:gravity="start|top"
         android:hint="Type message here"
         android:inputType="textMultiLine"
+        android:textSize="@dimen/text_size"
         app:layout_constraintBottom_toTopOf="@+id/sendMessageBtnSend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_outer"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/sendMessageLabelRecipient"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +63,7 @@
         android:id="@+id/sendMessageTextItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/sendMessageLabelRegarding"
         app:layout_constraintEnd_toEndOf="@+id/sendMessageTextRecipient"
@@ -66,21 +71,25 @@
 
     <Button
         android:id="@+id/sendMessageBtnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:backgroundTint="#31FF9800"
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginBottom="@dimen/margin_outer"
+        android:textSize="@dimen/button_text_size"
         android:text="@string/btn_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/sendMessageBtnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:backgroundTint="#31FF9800"
         android:layout_marginEnd="@dimen/margin_outer"
         android:layout_marginBottom="@dimen/margin_outer"
         android:text="@string/btn_send"
+        android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -91,6 +100,7 @@
         android:layout_marginStart="@dimen/margin_outer"
         android:layout_marginTop="@dimen/margin_outer"
         android:text="@string/label_send_message"
+        android:textSize="@dimen/header_text_size"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

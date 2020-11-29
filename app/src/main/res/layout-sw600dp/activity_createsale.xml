@@ -11,17 +11,41 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
+<<<<<<< Updated upstream
         android:layout_marginStart="@dimen/margin_outer"
+=======
+        android:backgroundTint="#31FF9800"
+>>>>>>> Stashed changes
         android:layout_marginBottom="16dp"
         android:text="@string/btnTakePhoto"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
+<<<<<<< Updated upstream
         app:layout_constraintStart_toStartOf="parent" />
+=======
+        app:layout_constraintEnd_toStartOf="@+id/btnPublish"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toEndOf="@+id/btnBack" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:backgroundTint="#31FF9800"
+        android:layout_marginStart="12dp"
+        android:text="@string/btnBack"
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtEnterDescription"
+        app:layout_constraintVertical_bias="0.542" />
+>>>>>>> Stashed changes
 
     <Button
         android:id="@+id/btnPublish"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
+        android:backgroundTint="#31FF9800"
         android:layout_marginEnd="16dp"
         android:text="@string/btnPublish"
         android:textSize="@dimen/button_text_size"
@@ -125,6 +149,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/btn_get_location"
         android:textSize="@dimen/button_text_size"
+<<<<<<< Updated upstream
         app:layout_constraintEnd_toEndOf="@+id/createSaleTextPrice"
         app:layout_constraintTop_toBottomOf="@+id/createSaleTextPrice" />
 
@@ -134,6 +159,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
+=======
+        android:backgroundTint="#31FF9800"
+        app:layout_constraintBottom_toTopOf="@+id/editTxtEnterDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createSaleTextTitle"
+        app:layout_constraintVertical_bias="0.277" />
+>>>>>>> Stashed changes
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,6 +91,7 @@
         android:id="@+id/detailsBtnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#31FF9800"
         android:text="@string/btn_back"
         app:layout_constraintBottom_toBottomOf="@+id/detailsBtnMessage"
         app:layout_constraintStart_toStartOf="@+id/detailsTextDesc" />
@@ -99,6 +100,7 @@
         android:id="@+id/detailsBtnMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#31FF9800"
         android:layout_marginBottom="@dimen/margin_outer"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
