@@ -52,8 +52,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     @Override
     public void onBindViewHolder(@NonNull InboxViewHolder holder, int position)
     {
-        holder.senderUserName.setText(String.valueOf(messageList.get(position).getSenderId()));
-        holder.itemRegarding.setText(String.valueOf(messageList.get(position).getItemId()));
+        holder.senderUserName.setText(String.valueOf(messageList.get(position).getSender()));
         holder.messageDate.setText(messageList.get(position).getMessageDate());
 
         // Get user -> get user img -> set img
