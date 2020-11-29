@@ -115,6 +115,7 @@ public class Repository {
         map.put("Sender", privateMessage.getSender());
         map.put("MessageDate", privateMessage.getMessageDate());
         map.put("MessageBody", privateMessage.getMessageBody());
+        map.put("Read", privateMessage.getMessageRead());
         map.put("Regarding", privateMessage.getRegarding());
         firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
                 .collection("Messages").add(map)

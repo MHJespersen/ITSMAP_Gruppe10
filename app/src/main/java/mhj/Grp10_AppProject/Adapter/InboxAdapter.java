@@ -1,5 +1,7 @@
 package mhj.Grp10_AppProject.Adapter;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -53,10 +56,10 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         holder.messageDate.setText(messagelist.get(position).getMessageDate());
         holder.itemRegarding.setText(messagelist.get(position).getRegarding());
         holder.readStatus.setText(messagelist.get(position).getMessageRead()? "Read": "Unread");
+        holder.readStatus.setTextColor(messagelist.get(position).getMessageRead()? Color.GREEN: Color.RED);
 
         Glide.with(holder.senderUserImg.getContext())
-                .load(R.drawable.emptycart)
-                .placeholder(R.drawable.emptycart)
+                .load(R.drawable.fui_ic_mail_white_24dp)
                 .into(holder.senderUserImg);
     }
 
