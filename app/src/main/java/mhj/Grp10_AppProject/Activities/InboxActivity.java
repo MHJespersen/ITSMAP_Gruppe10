@@ -44,7 +44,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
 
-        messageList.add(new PrivateMessage(0, 0, 0, 0, "Message", "26/04/2020", true));
+        messageList.add(new PrivateMessage("MathiasHolsko@hotmail.com", "Marcus", "Message", "26/04/2020", true));
 
         //adapter.updateMessageList(messageList);
         viewModel.getMessages().observe(this, updateObserver);

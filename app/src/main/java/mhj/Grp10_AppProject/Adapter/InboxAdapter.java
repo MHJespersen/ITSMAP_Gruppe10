@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
-import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 
 public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHolder> {
@@ -54,13 +53,14 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     {
         PrivateMessage message = messagelist.get(position);
 
-        holder.senderUserName.setText(String.valueOf(messagelist.get(position).getSenderId()));
-        holder.itemRegarding.setText(String.valueOf(messagelist.get(position).getItemId()));
+        holder.senderUserName.setText(String.valueOf(messagelist.get(position).getSender()));
+        //holder.itemRegarding.setText(String.valueOf(messagelist.get(position).getItemId()));
         holder.messageDate.setText(messagelist.get(position).getMessageDate());
 
         /* old section
         holder.senderUserName.setText(String.valueOf(messageList.get(position).getSenderId()));
         holder.itemRegarding.setText(String.valueOf(messageList.get(position).getItemId()));
+        holder.senderUserName.setText(String.valueOf(messageList.get(position).getSender()));
         holder.messageDate.setText(messageList.get(position).getMessageDate());
         */
         // Get user -> get user img -> set img
