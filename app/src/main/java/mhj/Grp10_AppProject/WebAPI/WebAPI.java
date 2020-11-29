@@ -37,7 +37,6 @@ public class WebAPI {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
-                    Log.d(TAG, "onResponse: " + response);
                     parseJson(response);
                 }, error -> Log.e(TAG, "Volley request did not work!", error));
 
@@ -48,7 +47,6 @@ public class WebAPI {
         Gson gson = new GsonBuilder().create();
         ExchangeRates exchangeRates =  gson.fromJson(json, ExchangeRates.class);
         if(exchangeRates!=null){
-            Log.d(TAG, "parseJson: " + exchangeRates.getRates().getAUD());
             callback.OnApiCallback(exchangeRates);
         }
     }

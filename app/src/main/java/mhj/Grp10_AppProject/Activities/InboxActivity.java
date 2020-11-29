@@ -27,9 +27,6 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     private InboxViewModel viewModel;
     private RecyclerView recyclerView;
     private InboxAdapter adapter;
-    private ArrayList<PrivateMessage> messageList = new ArrayList<>();
-    private List<PrivateMessage> messagelist;
-    private LiveData<PrivateMessage> SelectedPrivateMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +49,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
             adapter = new InboxAdapter(context);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(adapter);
-
-            messageList.add(new PrivateMessage("MathiasHolsko@hotmail.com", "marcus.bech95@gmail.com", "Message", "26/04/2020", true, "Kondom"));
-            messageList.add(new PrivateMessage("MathiasHolsko@hotmail.com", "marcus.bech95@gmail.com", "Message", "26/04/2020", false, "Minecraft"));
-
-            adapter.updateMessageList(messageList);
+            adapter.updateMessageList(UpdatedItems);
         }
     };
 

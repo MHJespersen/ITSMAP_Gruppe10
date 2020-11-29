@@ -66,6 +66,5 @@ public class PrivateMessage implements Serializable{
     public void setMessageRead(Boolean messageRead) {
         this.messageRead = messageRead;
     }
-
 }
 
