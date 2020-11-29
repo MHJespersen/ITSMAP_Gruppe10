@@ -9,119 +9,133 @@
 
     <Button
         android:id="@+id/btnTakePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:layout_marginBottom="16dp"
         android:text="@string/btnTakePhoto"
-        app:layout_constraintBottom_toBottomOf="@+id/btnPublish"
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnPublish"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toEndOf="@+id/btnBack" />
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_outer"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:layout_marginStart="12dp"
         android:text="@string/btnBack"
-        app:layout_constraintBottom_toBottomOf="@+id/btnTakePhoto"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtEnterDescription"
+        app:layout_constraintVertical_bias="0.542" />
 
     <Button
         android:id="@+id/btnPublish"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_outer"
-        android:layout_marginBottom="@dimen/margin_outer"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
+        android:layout_marginEnd="16dp"
         android:text="@string/btnPublish"
+        android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtEnterDescription"
+        app:layout_constraintVertical_bias="0.542" />
 
     <TextView
         android:id="@+id/txtCreateSaleHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_width="244dp"
+        android:layout_height="51dp"
         android:gravity="center"
         android:text="@string/txtCreateSaleHeader"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="36sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imgTaken"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTxtEnterDescription"
-        android:layout_width="937dp"
-        android:layout_height="569dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="933dp"
+        android:layout_height="489dp"
         android:ems="10"
         android:hint="@string/editTxtEnterDescription"
         android:inputType="textPersonName"
+        android:textSize="@dimen/text_size"
         app:layout_constraintBottom_toTopOf="@+id/btnTakePhoto"
-        app:layout_constraintEnd_toEndOf="@+id/createSaleTextPrice"
-        app:layout_constraintStart_toStartOf="@+id/createSaleTextPrice"
-        app:layout_constraintTop_toBottomOf="@+id/createSaleTextLocation" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.983" />
 
     <ImageView
         android:id="@+id/imgTaken"
         android:layout_width="834dp"
         android:layout_height="731dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="70dp"
+        app:layout_constraintBottom_toTopOf="@+id/createSaleTextTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCreateSaleHeader"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
         android:id="@+id/createSaleTextTitle"
-        android:layout_width="0dp"
+        android:layout_width="928dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_outer"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/margin_outer"
         android:ems="10"
         android:hint="@string/label_title"
         android:inputType="textPersonName"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintBottom_toTopOf="@+id/createSaleTextPrice"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgTaken" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
 
     <EditText
         android:id="@+id/createSaleTextPrice"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="719dp"
+        android:layout_height="41dp"
         android:ems="10"
         android:hint="@string/label_price"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="@+id/createSaleTextTitle"
-        app:layout_constraintStart_toStartOf="@+id/createSaleTextTitle"
-        app:layout_constraintTop_toBottomOf="@+id/createSaleTextTitle" />
+        android:textSize="@dimen/text_size"
+        app:layout_constraintBottom_toTopOf="@+id/createSaleTextLocation"
+        app:layout_constraintEnd_toStartOf="@+id/createSaleBtnGetLocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.986" />
 
     <EditText
         android:id="@+id/createSaleTextLocation"
-        android:layout_width="0dp"
+        android:layout_width="720dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/label_location"
         android:inputType="textPersonName"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintBottom_toTopOf="@+id/editTxtEnterDescription"
         app:layout_constraintEnd_toStartOf="@+id/createSaleBtnGetLocation"
-        app:layout_constraintStart_toStartOf="@+id/createSaleTextPrice"
-        app:layout_constraintTop_toBottomOf="@+id/createSaleTextPrice" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.948" />
 
     <Button
         android:id="@+id/createSaleBtnGetLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/button_layout_width"
+        android:layout_height="@dimen/button_layout_heigth"
         android:text="@string/btn_get_location"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/createSaleTextLocation"
-        app:layout_constraintEnd_toEndOf="@+id/createSaleTextPrice" />
+        android:textSize="@dimen/button_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/editTxtEnterDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createSaleTextTitle"
+        app:layout_constraintVertical_bias="0.277" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

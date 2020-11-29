@@ -48,6 +48,7 @@
         android:gravity="center"
         android:text="@string/txtCreateSaleHeader"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/createSaleTextTitle"
         app:layout_constraintEnd_toEndOf="parent"
