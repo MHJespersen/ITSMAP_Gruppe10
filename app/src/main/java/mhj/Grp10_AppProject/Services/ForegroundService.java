@@ -17,13 +17,10 @@ import java.util.concurrent.Executors;
 
 import mhj.Grp10_AppProject.Model.Repository;
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Utilities.Constants;
 
 //Foreground service. Inspired by the demo from lesson 5.
 public class ForegroundService extends Service {
-
-    private static final String TAG = "ForegroundService";
-    public static final String SERVICE_CHANNEL = "serviceChannel";
-    public static final int NOTIFICATION_ID = 42;
 
     ExecutorService execService;
     boolean started = false;
@@ -33,36 +30,36 @@ public class ForegroundService extends Service {
     }
     @Override
     public void onCreate() {
-        Log.d("Service", "In service onCreate");
+        Log.d(Constants.SERVICE_CREATE, "In service onCreate");
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.d(TAG, "In service onStartCommand");
+        Log.d(Constants.SERVICE_START, "In service onStartCommand");
 
         if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(SERVICE_CHANNEL, "Foreground Service", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel channel = new NotificationChannel(Constants.SERVICE_CHANNEL, "Foreground Service", NotificationManager.IMPORTANCE_LOW);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
         }
 
-        Notification notification = new NotificationCompat.Builder(this, SERVICE_CHANNEL)
+        Notification notification = new NotificationCompat.Builder(this, Constants.SERVICE_CHANNEL)
                 .setContentTitle("Foreground service started")
                 .setSmallIcon(R.drawable.ic_service_draw)
                 .build();
 
-        startForeground(NOTIFICATION_ID, notification);
+        startForeground(Constants.NOTIFICATION_ID, notification);
 
         StartThread();
-        Log.d(TAG, "Starting background stuff");
+        Log.d(Constants.SERVICE_START_BACKGROUND, "Starting background stuff");
         return START_STICKY;
     }
 
     private Notification getMyActivityNotification(String text){
 
-        Notification notification = new NotificationCompat.Builder(this, SERVICE_CHANNEL)
+        Notification notification = new NotificationCompat.Builder(this, Constants.SERVICE_CHANNEL)
                 .setContentTitle(text)
                 .setSmallIcon(R.drawable.ic_service_draw)
                 .build();
@@ -88,9 +85,9 @@ public class ForegroundService extends Service {
                 //And call UpdateNotification with an update
                 try{
                     Thread.sleep(60000);
-                    Log.d(TAG, "Fetching notification");
+                    Log.d(Constants.FOREGROUND_SERVICE, "Fetching notification");
                 } catch (InterruptedException e) {
-                    Log.e(TAG, "run: ERROR", e);
+                    Log.e(Constants.FOREGROUND_SERVICE, "run: ERROR", e);
                 }
                 if(started) {
                     RecursiveWork();

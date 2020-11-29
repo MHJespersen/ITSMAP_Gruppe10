@@ -28,4 +28,12 @@ public class Constants {
 
     //ViewMessageActivity
 
+    //Service
+    public static final String SERVICE_CREATE = "In service onCreate";
+    public static final String SERVICE_START = "In service onStart";
+    public static final String SERVICE_START_BACKGROUND = "In service Background";
+    public static final String FOREGROUND_SERVICE = "ForegroundService";
+    public static final String SERVICE_CHANNEL = "serviceChannel";
+    public static final int NOTIFICATION_ID = 42;
+
 }

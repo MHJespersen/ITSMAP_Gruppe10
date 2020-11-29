@@ -22,13 +22,10 @@ import mhj.Grp10_AppProject.ViewModels.SendMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.SendMessageViewModelFactory;
 
 public class SendMessageActivity extends BaseActivity {
-    private static final String TAG = "SendMessageActivity";
     private SendMessageViewModel viewModel;
     private TextView textRecipient, textItem;
     private EditText inputMessage;
     private Button btnCancel, btnSend;
-    private int userId;
-    private String itemTitle, itemImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +35,6 @@ public class SendMessageActivity extends BaseActivity {
                 .get(SendMessageViewModel.class);
 
         int itemId = getIntent().getIntExtra(Constants.EXTRA_ITEM_ID, 42);
-        //userId = DetailsActivity.dummyItems.get(itemId).getUserId();
-        //itemTitle = DetailsActivity.dummyItems.get(itemId).getTitle();
 
         setupUI();
     }
@@ -61,18 +56,12 @@ public class SendMessageActivity extends BaseActivity {
         btnCancel.setOnClickListener(view -> finish());
 
         btnSend = findViewById(R.id.sendMessageBtnSend);
-        btnSend.setOnClickListener(view -> sendMessage1());
-    }
-
-    private void sendMessage() {
-        String message = inputMessage.getText().toString();
-        Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
-        finish();
+        btnSend.setOnClickListener(view -> sendMessage());
     }
 
     //Real section
     //guide: https://www.youtube.com/watch?v=f1HKTg2hyf0&ab_channel=KODDev
-    private void sendMessage1() {
+    private void sendMessage() {
         auth = FirebaseAuth.getInstance();
         //input to message
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(new Date());
@@ -97,6 +86,8 @@ public class SendMessageActivity extends BaseActivity {
 
         // with message object to viewmodel.
         viewModel.sendMessage(privateMessage);
+        Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
 }
