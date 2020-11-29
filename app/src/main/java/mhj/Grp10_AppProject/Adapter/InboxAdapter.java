@@ -49,10 +49,11 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     @Override
     public void onBindViewHolder(@NonNull InboxViewHolder holder, int position)
     {
-        holder.senderUserName.setText(String.valueOf(messagelist.get(position).getSender()));
+        holder.senderUserName.setText(messagelist.get(position).getSender().split("@")[0]);
         holder.messageDate.setText(messagelist.get(position).getMessageDate());
         holder.itemRegarding.setText(messagelist.get(position).getRegarding());
-        
+        holder.readStatus.setText(messagelist.get(position).getMessageRead()? "Read": "Unread");
+
         Glide.with(holder.senderUserImg.getContext())
                 .load(R.drawable.emptycart)
                 .placeholder(R.drawable.emptycart)
