@@ -51,16 +51,13 @@ public class InboxViewModel extends ViewModel {
                         {
                             for (DocumentSnapshot item: snapshopValue.getDocuments()) {
                                 PrivateMessage privateMessage = new PrivateMessage(
-                                        Integer.parseInt(item.get("messageId").toString()),
-                                        Integer.parseInt(item.get("recipientId").toString()),
-                                        Integer.parseInt(item.get("senderId").toString()),
-                                        Integer.parseInt(item.get("itemId").toString()),
-                                        item.get("messageBody").toString(),
-                                        item.get("messageDate").toString(),
+                                        item.get("Receiver").toString(),
+                                        item.get("Sender").toString(),
+                                        item.get("MessageBody").toString(),
+                                        item.get("MessageDate").toString(),
                                         false
                                         );
 
-                               // PrivateMessage privateMessage = item.toObject(PrivateMessage.class);
                                 updatedListOfMessages.add(privateMessage);
                             }
                         }
@@ -69,9 +66,9 @@ public class InboxViewModel extends ViewModel {
                 });
     }
 
-    public void SetSelectedMessage(int index) {
-        String d = privateMessagelist.getValue().get(index).getMessageDate();
-        String k = String.valueOf(privateMessagelist.getValue().get(index).getSenderId());
-        repository.setSelectedItem(String.valueOf(privateMessagelist.getValue().get(index).getSenderId()));
-    }
+//    public void SetSelectedMessage(int index) {
+//        String d = privateMessagelist.getValue().get(index).getMessageDate();
+//        String k = String.valueOf(privateMessagelist.getValue().get(index).getSender());
+//        repository.setSelectedItem(String.valueOf(privateMessagelist.getValue().get(index).getSenderId()));
+//    }
 }
