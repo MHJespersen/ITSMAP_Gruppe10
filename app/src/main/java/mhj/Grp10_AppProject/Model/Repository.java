@@ -123,31 +123,36 @@ public class Repository {
 
     private void setMarketsList()
     {
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection("SalesItems")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot snapshopValue,
-                                        @Nullable FirebaseFirestoreException error) {
-                        ArrayList<SalesItem> updatedListOfItems = new ArrayList<>();
-                        if(snapshopValue != null && !snapshopValue.isEmpty())
-                        {
-                            for (DocumentSnapshot item: snapshopValue.getDocuments()) {
-                                SalesItem newItem = new SalesItem(
-                                        item.get("title").toString(),
-                                        item.get("description").toString(),
-                                        Float.parseFloat(item.get("price").toString()),
-                                        item.get("user").toString(),
-                                        item.get("image").toString(),
-                                        SalesItem.createLocationPoint(item.get("location", GeoPoint.class)),
-                                        item.get("documentPath").toString()
-                                );
-                                updatedListOfItems.add(newItem);
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                database.collection("SalesItems")
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot snapshopValue,
+                                                @Nullable FirebaseFirestoreException error) {
+                                ArrayList<SalesItem> updatedListOfItems = new ArrayList<>();
+                                if(snapshopValue != null && !snapshopValue.isEmpty())
+                                {
+                                    for (DocumentSnapshot item: snapshopValue.getDocuments()) {
+                                        SalesItem newItem = new SalesItem(
+                                                item.get("title").toString(),
+                                                item.get("description").toString(),
+                                                Float.parseFloat(item.get("price").toString()),
+                                                item.get("user").toString(),
+                                                item.get("image").toString(),
+                                                SalesItem.createLocationPoint(item.get("location", GeoPoint.class)),
+                                                item.get("documentPath").toString()
+                                        );
+                                        updatedListOfItems.add(newItem);
+                                    }
+                                }
+                                MarketsList.setValue(updatedListOfItems);
                             }
-                        }
-                        MarketsList.setValue(updatedListOfItems);
-                    }
-                });
+                        });
+            }
+        });
     }
 
     public void sendMessage(PrivateMessage privateMessage)
@@ -227,19 +232,24 @@ public class Repository {
 
     private void updateNotification(Object message)
     {
-        PrivateMessage privMessage = (PrivateMessage) message;
-        Log.d("Message", "Message is ready " + privMessage.getMessageRead() + "Date: " +
-                privMessage.getMessageDate());
-        if(notiManager != null && !privMessage.getMessageRead())
-        {
-            Log.d("Message", "Done");
-            String notificationUpdate = "New message from: " + privMessage.getSender();
-            Notification notification = new NotificationCompat.Builder(con, Constants.SERVICE_CHANNEL)
-                    .setContentTitle(notificationUpdate)
-                    .setSmallIcon(R.drawable.ic_service_draw)
-                    .build();
-            notiManager.notify(Constants.NOTIFICATION_ID, notification);
-        }
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                PrivateMessage privMessage = (PrivateMessage) message;
+                Log.d("Message", "Message is ready " + privMessage.getMessageRead() + "Date: " +
+                        privMessage.getMessageDate());
+                if(notiManager != null && !privMessage.getMessageRead())
+                {
+                    Log.d("Message", "Done");
+                    String notificationUpdate = "New message from: " + privMessage.getSender();
+                    Notification notification = new NotificationCompat.Builder(con, Constants.SERVICE_CHANNEL)
+                            .setContentTitle(notificationUpdate)
+                            .setSmallIcon(R.drawable.ic_service_draw)
+                            .build();
+                    notiManager.notify(Constants.NOTIFICATION_ID, notification);
+                }
+            }
+        });
     }
 
     public void setMessageRead(PrivateMessage message)
@@ -259,30 +269,34 @@ public class Repository {
     }
 
     public void createSale(SalesItem item){
-        GeoPoint geo = GeoCreater(item.getLocation());
-        Map<String, Object> map  = new HashMap<>();
-        CollectionReference CollRef = firestore.collection("SalesItems");
-        String UniqueID = CollRef.document().getId();
-        map.put("description", item.getDescription());
-        map.put("image", item.getImage());
-        map.put("location", geo);
-        map.put("price", item.getPrice());
-        map.put("title", item.getTitle());
-        map.put("user", item.getUser());
-        map.put("documentPath", UniqueID);
-        CollRef.document(UniqueID).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        executor.execute(new Runnable() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.d("Testing", "Completed");
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @SuppressLint("ShowToast")
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(con,"Creating sale Failed", Toast.LENGTH_SHORT);
+            public void run() {
+                GeoPoint geo = GeoCreater(item.getLocation());
+                Map<String, Object> map  = new HashMap<>();
+                CollectionReference CollRef = firestore.collection("SalesItems");
+                String UniqueID = CollRef.document().getId();
+                map.put("description", item.getDescription());
+                map.put("image", item.getImage());
+                map.put("location", geo);
+                map.put("price", item.getPrice());
+                map.put("title", item.getTitle());
+                map.put("user", item.getUser());
+                map.put("documentPath", UniqueID);
+                CollRef.document(UniqueID).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d("Testing", "Completed");
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @SuppressLint("ShowToast")
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(con,"Creating sale Failed", Toast.LENGTH_SHORT);
+                            }
+                        });
             }
         });
-
     }
 }
