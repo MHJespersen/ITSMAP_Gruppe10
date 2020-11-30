@@ -21,6 +21,8 @@
         android:required="false" />
 
     <queries>
+        <!-- Allow map to open in Google Maps app-->
+        <package android:name="com.google.android.apps.maps" />
 
         <!-- Camera -->
         <intent>

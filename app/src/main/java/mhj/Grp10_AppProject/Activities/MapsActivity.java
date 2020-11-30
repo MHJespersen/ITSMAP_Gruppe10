@@ -51,5 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         float zoomLevel = 10.0f; // max = 21
         mMap.addMarker(new MarkerOptions().position(latlng).title(getString(R.string.map_marker_text)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoomLevel));
+
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 }
