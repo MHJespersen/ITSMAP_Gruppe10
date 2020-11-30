@@ -37,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
@@ -47,26 +48,25 @@ import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
 public class CreateSaleActivity extends BaseActivity {
 
-    private static final String KEY_PHOTO = "photo";
-    //upload
-    private FirebaseStorage firebaseStorage;
-
-    public static CreateSaleActivity context;
-    private CreateSaleViewModel viewModel;
-    private SalesItem salesItem;
-    private CreateSaleViewModel createSaleViewModel;
-    private LocationUtility locationUtility;
-
-    final String APP_TAG = "SmartSale";
     private static final String TAG = "CreateSaleActivity";
+    final String APP_TAG = "SmartSale";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final long MIN_TIME_BETWEEN_LOCATION_UPDATES = 5 * 1000;    // milisecs
+    private static final long MIN_TIME_BETWEEN_LOCATION_UPDATES = 5 * 1000;    // milliseconds
     private static final float MIN_DISTANCE_MOVED_BETWEEN_LOCATION_UPDATES = 1;  // meters
     private static final int PERMISSIONS_REQUEST_LOCATION = 789;
-    public static boolean locationPermissionGranted = false;
+    private static final String KEY_PHOTO = "photo";
+    private static boolean locationPermissionGranted = false;
+
+    private FirebaseStorage firebaseStorage;
+    private LocationUtility locationUtility;
+    private CreateSaleViewModel viewModel;
+    private SalesItem salesItem;
+
     private LocationManager locationManager;
     private Location lastLocation = null;
     private Boolean isTrackingLocation;
+    public File photoFile;
+    public String photoFileName;
 
     //widgets
     private TextView saleHeader;
@@ -74,31 +74,28 @@ public class CreateSaleActivity extends BaseActivity {
     private ImageView itemImage;
     private Button btnCapture, btnGetLocation, btnCreate;
 
-    public File photoFile;
-    public String photoFileName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createsale);
         firebaseStorage = FirebaseStorage.getInstance();
-
-        context = this;
+        locationUtility = new LocationUtility(this);
+        photoFileName = createFileName();
 
         // Calling / creating ViewModel with the factory pattern is inspired from:
         // https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this, new CreateSaleViewModelFactory(this.getApplicationContext()))
                 .get(CreateSaleViewModel.class);
-        photoFileName =createFileName();
-        setupUI();
 
-        locationUtility = new LocationUtility(this);
+        setupUI();
 
         startTrackingLocation();
 
         if (savedInstanceState != null) {
-            Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString(KEY_PHOTO));
-            itemImage.setImageBitmap(bp);
+            if (photoFile != null) {
+                Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString(KEY_PHOTO));
+                itemImage.setImageBitmap(bp);
+            }
         }
     }
 
@@ -109,7 +106,6 @@ public class CreateSaleActivity extends BaseActivity {
         if(!isTrackingLocation){
             startTrackingLocation();
         }
-
     }
 
     @Override
@@ -120,7 +116,6 @@ public class CreateSaleActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-
         if (isTrackingLocation) {
             stopTrackingLocation();
         }
@@ -129,48 +124,10 @@ public class CreateSaleActivity extends BaseActivity {
 
     private void setupUI() {
         btnCreate = findViewById(R.id.btnPublish);
-        btnCreate.setOnClickListener(view -> {
-            //Save file:
-            Uri file = Uri.fromFile(photoFile);
-            StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
-            imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //Get a URL to the uploaded content
-                    //Uri downloadUrl = taskSnapshot.getDownload();
-                    Save();
-                    Log.d("Successfull upload!", APP_TAG);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("Unsuccesfull upload!", APP_TAG);
-                }
-            });
-        });
+        btnCreate.setOnClickListener(view -> buttonCreate());
 
-        //Camera Code inspired by:
-        //https://developer.android.com/training/camera/photobasics
-        //https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
-        //https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media#using-capture-intent
         btnCapture = findViewById(R.id.btnTakePhoto);
-        btnCapture.setOnClickListener(view -> {
-            //Create intent to take picture and return control to the calling application
-            Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            //Create a File reference for future access
-            createFileName();
-            photoFile = getPhotoFileUri(photoFileName);
-            
-            //Wrap file object into a content provider, Required for API >= 24
-            //See  https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-            Uri fileProvider = FileProvider.getUriForFile(CreateSaleActivity.this, "mhj.fileprovider", photoFile);
-            cInt.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-            // So as long as the result is not null, it's safe to use the intent.
-            if(cInt.resolveActivity(getPackageManager()) != null){
-                startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
-            }
-        });
+        btnCapture.setOnClickListener(view -> buttonCapture());
 
         btnGetLocation = findViewById(R.id.createSaleBtnGetLocation);
         btnGetLocation.setOnClickListener(view -> {
@@ -184,6 +141,49 @@ public class CreateSaleActivity extends BaseActivity {
         saleHeader = findViewById(R.id.txtCreateSaleHeader);
         description = findViewById(R.id.editTxtEnterDescription);
         location = findViewById(R.id.createSaleTextLocation);
+    }
+
+    //Camera Code inspired by:
+    //https://developer.android.com/training/camera/photobasics
+    //https://www.tutlane.com/tutorial/android/android-camera-app-with-examples
+    //https://guides.codepath.com/android/Accessing-the-Camera-and-Stored-Media#using-capture-intent
+    private void buttonCapture() {
+
+        //Create intent to take picture and return control to the calling application
+        Intent cInt = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //Create a File reference for future access
+        createFileName();
+        photoFile = getPhotoFileUri(photoFileName);
+
+        //Wrap file object into a content provider, Required for API >= 24
+        //See  https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        Uri fileProvider = FileProvider.getUriForFile(CreateSaleActivity.this, "mhj.fileprovider", photoFile);
+        cInt.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if(cInt.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    private void buttonCreate() {
+        //Save file:
+        Uri file = Uri.fromFile(photoFile);
+        StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
+        imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //Get a URL to the uploaded content
+                //Uri downloadUrl = taskSnapshot.getDownload();
+                Save();
+                Log.d("Successful upload!", APP_TAG);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Unsuccessful upload!", APP_TAG);
+            }
+        });
     }
 
     //Returns the File for a photo stored on disk given the fileName
@@ -218,7 +218,7 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState){
+    protected void onSaveInstanceState(@NonNull Bundle outState){
         if (photoFile != null) {
             outState.putString(KEY_PHOTO, photoFile.getAbsolutePath());
         }
@@ -226,9 +226,8 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     private String createFileName(){
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_"+ timeStamp + ".jpg";
-        return imageFileName;
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        return "JPEG_" + timeStamp + ".jpg";
     }
 
     public void Save(){
@@ -264,7 +263,7 @@ public class CreateSaleActivity extends BaseActivity {
     // Also from L8 demo 2/3
 
     private void getDeviceLocation() {
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         try {
             if (locationPermissionGranted) {
@@ -280,7 +279,7 @@ public class CreateSaleActivity extends BaseActivity {
                             Log.d(Constants.CREATE_SALE_ACTIVITY, "getDeviceLocation: " + s);
                             location.setText(s);
                         } else {
-                            Toast.makeText(context, "Could not get location at this time. Try again or input manually.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Could not get location at this time. Try again or input manually.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Log.d(Constants.CREATE_SALE_ACTIVITY, "Current location is null. Using defaults.");
@@ -311,12 +310,12 @@ public class CreateSaleActivity extends BaseActivity {
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(context,
+        if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
         } else {
-            ActivityCompat.requestPermissions(CreateSaleActivity.context,
+            ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_LOCATION);
         }
@@ -361,9 +360,7 @@ public class CreateSaleActivity extends BaseActivity {
             isTrackingLocation = true;
             Log.d(TAG, "startTrackingLocation");
 
-
         } catch (Exception ex) {
-            //things can go wrong
             Log.e("TRACKER", "Error starting location tracking", ex);
         }
     }
@@ -381,12 +378,12 @@ public class CreateSaleActivity extends BaseActivity {
             }
 
         } catch (Exception ex) {
-            //things can go wrong here as well (listener is null)
+            // if listener is null
             Log.e("TRACKER", "Error stopping location tracking", ex);
         }
     }
 
-    private LocationListener locationListener = new LocationListener() {
+    private final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             Log.d(Constants.CREATE_SALE_ACTIVITY, "onLocationChanged: " + location.getLatitude() + ", " + location.getLongitude());

@@ -3,18 +3,15 @@ package mhj.Grp10_AppProject.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mhj.Grp10_AppProject.Adapter.InboxAdapter;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
-import mhj.Grp10_AppProject.Model.SalesItem;
 import mhj.Grp10_AppProject.R;
 import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
@@ -36,7 +33,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
 
         recyclerView = findViewById(R.id.inboxMessages);
 
-        viewModel = new ViewModelProvider(context, new InboxViewModelFactory(this.getApplicationContext()))
+        viewModel = new ViewModelProvider(this, new InboxViewModelFactory(this.getApplicationContext()))
                 .get(InboxViewModel.class);
         viewModel.getMessages().observe(this, updateObserver);
     }

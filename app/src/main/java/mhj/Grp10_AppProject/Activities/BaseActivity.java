@@ -16,7 +16,6 @@ import mhj.Grp10_AppProject.R;
 //Inspired from: https://stackoverflow.com/questions/17889240/reuse-the-action-bar-in-all-the-activities-of-app
 public class BaseActivity extends AppCompatActivity {
     FirebaseAuth auth;
-    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

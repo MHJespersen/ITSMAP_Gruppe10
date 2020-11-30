@@ -1,7 +1,6 @@
 package mhj.Grp10_AppProject.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.lifecycle.Observer;
@@ -22,14 +21,9 @@ public class MarketsActivity extends BaseActivity implements MarketAdapter.IItem
 
     MarketsActivity context;
     MarketsViewModel viewModel;
-
-    //widgets
     private RecyclerView itemList;
-
     private MarketAdapter adapter;
 
-    //state
-    private SharedPreferences.Editor editor;
 
 
     @Override

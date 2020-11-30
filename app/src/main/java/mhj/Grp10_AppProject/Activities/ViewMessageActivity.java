@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
@@ -58,7 +59,7 @@ public class ViewMessageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String replyMessage = textReply.getText().toString();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.getDefault()).format(new Date());
         String user = intent.getStringExtra(Constants.DETAILS_USER);
         String title = intent.getStringExtra(Constants.DETAILS_TITLE);
 

@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
@@ -22,10 +23,12 @@ import mhj.Grp10_AppProject.ViewModels.SendMessageViewModelFactory;
 
 public class SendMessageActivity extends BaseActivity {
     private SendMessageViewModel viewModel;
+    FirebaseAuth auth;
+
+    // widgets
     private TextView textRecipient, textItem;
     private EditText inputMessage;
     private Button btnCancel, btnSend;
-    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class SendMessageActivity extends BaseActivity {
     private void sendMessage() {
         auth = FirebaseAuth.getInstance();
         //input to message
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.getDefault()).format(new Date());
         String message = inputMessage.getText().toString();
         String sender = auth.getCurrentUser().getEmail();
         //saving to database ->

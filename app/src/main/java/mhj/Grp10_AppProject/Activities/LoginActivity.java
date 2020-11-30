@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,16 +25,13 @@ public class LoginActivity extends BaseActivity {
     private LoginViewModel viewModel;
     FirebaseAuth auth;
     LoginActivity context;
-    private Button loginBtn;
-    private TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         context = this;
-        loginBtn = findViewById(R.id.SignInBtn);
-        //Calling / creating ViewModel with the factory pattern is inspired from: https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
+        // Calling / creating ViewModel with the factory pattern is inspired from: https://stackoverflow.com/questions/46283981/android-viewmodel-additional-arguments
         viewModel = new ViewModelProvider(this,
                 new LoginViewModelFactory(this.getApplicationContext())).get(LoginViewModel.class);
         auth = FirebaseAuth.getInstance();
@@ -48,8 +43,8 @@ public class LoginActivity extends BaseActivity {
         }
         if (auth.getCurrentUser() != null) {
             Toast.makeText(context, "You're already logged in", Toast.LENGTH_SHORT).show();
-            //Bruger er logget ind
-            //Åben ListActivity eller hvad den første activity er
+            // Bruger er logget ind
+            // Åben ListActivity eller hvad den første activity er
         }
         else {
             //Set up suported builders
