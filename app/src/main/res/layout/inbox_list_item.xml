@@ -34,11 +34,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:text="@string/label_from_col"
         android:textSize="@dimen/text_size"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/inboxImgUser"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/label_from_col" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/inboxLabelRegarding"
