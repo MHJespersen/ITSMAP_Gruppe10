@@ -49,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Aarhus and move the camera + zoom
         LatLng latlng = new LatLng(coords[0], coords[1]);
         float zoomLevel = 10.0f; // max = 21
-        mMap.addMarker(new MarkerOptions().position(latlng).title("Item"));
+        mMap.addMarker(new MarkerOptions().position(latlng).title(getString(R.string.map_marker_text)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoomLevel));
     }
 }

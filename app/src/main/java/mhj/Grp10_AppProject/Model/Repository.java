@@ -184,8 +184,10 @@ public class Repository {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     ArrayList privateMessages = new ArrayList();
-                    for (QueryDocumentSnapshot snap : value) {
-                        privateMessages.add(PrivateMessage.fromSnapshot(snap));
+                    if (!value.isEmpty()) {
+                        for (QueryDocumentSnapshot snap : value) {
+                            privateMessages.add(PrivateMessage.fromSnapshot(snap));
+                        }
                     }
                     if (!privateMessages.isEmpty()) {
                         PrivateMessagesList.postValue(privateMessages);

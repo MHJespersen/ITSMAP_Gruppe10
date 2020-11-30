@@ -50,4 +50,17 @@
     <string name="label_eur_col">EUR:</string>
     <string name="notification_update_string">Ny besked ang.:</string>
     <string name="service_notification_string">Velkommen til SmartSale</string>
+    <string name="message_sent">Besked sendt</string>
+    <string name="logged_out">Du er blevet logget ud</string>
+    <string name="logged_out_already">Du er ikke logget ind</string>
+    <string name="logged_in">Du er nu logget ind</string>
+    <string name="logged_in_as">Du er nu logget ind som:</string>
+    <string name="log_in_first">Du skal logge ind først</string>
+    <string name="logged_in_already">Du er allerede logget ind</string>
+    <string name="canceled">Annulleret</string>
+    <string name="location_not_found">Kunne ikke finde lokation automatisk: Prøv igen eller skriv lokation manuelt.</string>
+    <string name="map_marker_text">Vare lokation</string>
+    <string name="reply_to">Svar til</string>
+    <string name="reply_sent">Svar sendt</string>
+
 </resources>

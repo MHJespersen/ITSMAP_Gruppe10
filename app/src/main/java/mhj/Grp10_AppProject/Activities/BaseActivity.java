@@ -68,7 +68,7 @@ public class BaseActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             FirebaseAuth.getInstance().signOut();
-            Toast.makeText(this, "You have logged out", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.logged_out), Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();
 
             Intent intent = new Intent(this, LoginActivity.class);

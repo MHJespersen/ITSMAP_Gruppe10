@@ -84,7 +84,7 @@ public class SendMessageActivity extends BaseActivity {
 
         // with message object to viewmodel.
         viewModel.sendMessage(privateMessage);
-        Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.message_sent), Toast.LENGTH_SHORT).show();
         finish();
     }
 }

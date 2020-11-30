@@ -216,7 +216,7 @@ public class CreateSaleActivity extends BaseActivity {
                 itemImage.setImageBitmap(bp);
 
             } else if(resultCode == RESULT_CANCELED){
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.canceled), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -287,7 +287,7 @@ public class CreateSaleActivity extends BaseActivity {
                             Log.d(Constants.CREATE_SALE_ACTIVITY, "getDeviceLocation: " + s);
                             location.setText(s);
                         } else {
-                            Toast.makeText(this, "Could not get location at this time. Try again or input manually.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getString(R.string.location_not_found), Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Log.d(Constants.CREATE_SALE_ACTIVITY, "Current location is null. Using defaults.");

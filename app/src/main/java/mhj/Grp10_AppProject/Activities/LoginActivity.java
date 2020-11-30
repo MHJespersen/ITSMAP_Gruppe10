@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity {
             auth = FirebaseAuth.getInstance();
         }
         if (auth.getCurrentUser() != null) {
-            Toast.makeText(context, "You're already logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.logged_in_already), Toast.LENGTH_SHORT).show();
             // Bruger er logget ind
             // Åben ListActivity eller hvad den første activity er
         }
@@ -76,8 +76,7 @@ public class LoginActivity extends BaseActivity {
 
         if(requestCode == Constants.REQUEST_LOGIN) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(context,  auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "You have logged in", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getString(R.string.logged_in_as) + " " + auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                 //Invalidate menu bar to load buttons and user Email
                 invalidateOptionsMenu();
             }
@@ -96,8 +95,11 @@ public class LoginActivity extends BaseActivity {
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             FirebaseAuth.getInstance().signOut();
-            Toast.makeText(this, "You have logged out", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.logged_out), Toast.LENGTH_SHORT).show();
             invalidateOptionsMenu();
+        } else {
+            Toast.makeText(this, getString(R.string.logged_out_already), Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -110,7 +112,7 @@ public class LoginActivity extends BaseActivity {
         else
         {
             view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-            Toast.makeText(this, "You need to log in first!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.log_in_first), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -123,7 +125,7 @@ public class LoginActivity extends BaseActivity {
         else
         {
             view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-            Toast.makeText(this, "You need to log in first!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.log_in_first), Toast.LENGTH_SHORT).show();
         }
     }
 }

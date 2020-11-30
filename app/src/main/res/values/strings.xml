@@ -50,4 +50,17 @@
     <string name="label_eur_col">EUR:</string>
     <string name="notification_update_string">New message regarding:</string>
     <string name="service_notification_string">Welcome to SmartSale</string>
+    <string name="message_sent">Message sent</string>
+    <string name="logged_out">You have been logged out</string>
+    <string name="logged_out_already">You are not logged in</string>
+    <string name="logged_in">You are now logged in</string>
+    <string name="logged_in_as">You are now logged in as:</string>
+    <string name="log_in_first">You must log in first</string>
+    <string name="logged_in_already">You are already logged in</string>
+    <string name="canceled">Canceled</string>
+    <string name="location_not_found">Could not get location at this time. Try again or input manually.</string>
+    <string name="map_marker_text">Item location</string>
+    <string name="reply_to">Reply to</string>
+    <string name="reply_sent">Reply sent</string>
+
 </resources>
