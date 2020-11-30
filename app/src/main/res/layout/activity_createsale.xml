@@ -15,9 +15,7 @@
         android:backgroundTint="#31FF9800"
         android:text="@string/btnTakePhoto"
         app:layout_constraintBottom_toBottomOf="@+id/btnPublish"
-        app:layout_constraintStart_toStartOf="@+id/editTxtEnterDescription"
-        app:layout_constraintEnd_toStartOf="@+id/btnPublish"
-        app:layout_constraintStart_toEndOf="@+id/btnBack" />
+        app:layout_constraintStart_toStartOf="@+id/editTxtEnterDescription" />
 
     <Button
         android:id="@+id/btnPublish"

@@ -57,6 +57,7 @@ public class CreateSaleActivity extends BaseActivity {
     private LocationUtility locationUtility;
 
     final String APP_TAG = "SmartSale";
+    private static final String TAG = "CreateSaleActivity";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final long MIN_TIME_BETWEEN_LOCATION_UPDATES = 5 * 1000;    // milisecs
     private static final float MIN_DISTANCE_MOVED_BETWEEN_LOCATION_UPDATES = 1;  // meters
@@ -237,9 +238,12 @@ public class CreateSaleActivity extends BaseActivity {
                         if (lastLocation != null) {
                             double lat = lastLocation.getLatitude();
                             double lon = lastLocation.getLongitude();
-                            Log.d(Constants.CREATE_SALE_ACTIVITY, "getDeviceLocation: " + lat + ", " + lon);
                             String s = locationUtility.getCityName(lat, lon);
+                            Log.d(Constants.CREATE_SALE_ACTIVITY, "getDeviceLocation: " + lat + ", " + lon);
+                            Log.d(Constants.CREATE_SALE_ACTIVITY, "getDeviceLocation: " + s);
                             location.setText(s);
+                        } else {
+                            Toast.makeText(context, "Could not get location at this time. Try again or input manually.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Log.d(Constants.CREATE_SALE_ACTIVITY, "Current location is null. Using defaults.");
@@ -315,6 +319,7 @@ public class CreateSaleActivity extends BaseActivity {
                     //Use criteria to chose best provider
                 } catch (SecurityException ex) {
                     //TODO: user have disabled location permission - need to validate this permission for newer versions
+                    Log.d(TAG, "startTrackingLocation: User has disabled location services");
                 }
             }
 
@@ -332,6 +337,7 @@ public class CreateSaleActivity extends BaseActivity {
                 isTrackingLocation = false;
             } catch (SecurityException ex) {
                 //TODO: user have disabled location permission - need to validate this permission for newer versions
+                Log.d(TAG, "startTrackingLocation: User has disabled location services");
             }
 
         } catch (Exception ex) {
@@ -344,10 +350,8 @@ public class CreateSaleActivity extends BaseActivity {
         @Override
         public void onLocationChanged(Location location) {
 
-            Log.d(Constants.CREATE_SALE_ACTIVITY, "onLocationChanged: " + location.getLatitude());
-//            userLocation = location;
-//            updateStatus();
-//            broadcastLocationUpdate(location);
+            Log.d(Constants.CREATE_SALE_ACTIVITY, "onLocationChanged: " + location.getLatitude() + ", " + location.getLongitude());
+
         }
 
         @Override
