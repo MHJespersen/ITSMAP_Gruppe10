@@ -97,6 +97,11 @@ public class CreateSaleActivity extends BaseActivity {
 
         startTrackingLocation();
         Log.d(Constants.CREATE_SALE_ACTIVITY, "onCreate: started tracking");
+        
+        if (savedInstanceState != null) {
+            Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString("photo"));
+            itemImage.setImageBitmap(bp);
+        }
 
         if(savedInstanceState != null){
             Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString("photo"));
@@ -232,6 +237,34 @@ public class CreateSaleActivity extends BaseActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_"+ timeStamp + ".jpg";
         return imageFileName;
+    }
+
+    public void Save(){
+        salesItem = new SalesItem();
+        if(photoFileName != null){
+            salesItem.setImage(photoFileName);
+        }
+        if(title.getText().toString() != null){
+            salesItem.setTitle(title.getText().toString());
+        }
+        if(price.getText().toString() != null){
+            salesItem.setPrice(Double.parseDouble(price.getText().toString()));
+        }
+        if(location.getText().toString() != null){
+            if(lastLocation == null){
+                Location loc = locationUtility.getLocationFromString(location.getText().toString());
+                salesItem.setLocation(loc);
+            }
+            else{
+                salesItem.setLocation(lastLocation);
+            }
+        }
+        if(description.getText().toString() != null){
+            salesItem.setDescription(description.getText().toString());
+        }
+        salesItem.setUser(auth.getCurrentUser().getEmail());
+        viewModel.updateSalesItem(salesItem);
+        finish();
     }
 
     // Location permissions - should apparently not be in view model?
@@ -379,32 +412,4 @@ public class CreateSaleActivity extends BaseActivity {
 
         }
     };
-
-    public void Save(){
-        salesItem = new SalesItem();
-        if(photoFileName != null){
-            salesItem.setImage(photoFileName);
-        }
-        if(title.getText().toString() != null){
-            salesItem.setTitle(title.getText().toString());
-        }
-        if(price.getText().toString() != null){
-            salesItem.setPrice(Double.parseDouble(price.getText().toString()));
-        }
-        if(location.getText().toString() != null){
-            if(lastLocation == null){
-                Location loc = locationUtility.getLocationFromString(location.getText().toString());
-                salesItem.setLocation(loc);
-            }
-            else{
-                salesItem.setLocation(lastLocation);
-            }
-        }
-        if(description.getText().toString() != null){
-            salesItem.setDescription(description.getText().toString());
-        }
-        salesItem.setUser(auth.getCurrentUser().getEmail());
-        viewModel.updateSalesItem(salesItem);
-        finish();
-    }
 }
