@@ -71,7 +71,7 @@ public class ViewMessageActivity extends AppCompatActivity {
         privateMessage.setRegarding(title);
         privateMessage.setMessageRead(false);
 
-        viewModel.reply(privateMessage);
+        //viewModel.reply(privateMessage);
         Toast.makeText(this, "Reply was sent: " + replyMessage, Toast.LENGTH_SHORT).show();
         finish();
     }

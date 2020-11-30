@@ -52,6 +52,7 @@ public class Repository {
     private MutableLiveData<SalesItem> SelectedItemLive;
     private MutableLiveData<PrivateMessage> SelectedMessageLive;
     private MutableLiveData<List<PrivateMessage>> PrivateMessagesList;
+    private MutableLiveData<List<SalesItem>> MarketsList;
     private NotificationChannel notiChannel;
     private NotificationManager notiManager;
 
@@ -74,6 +75,7 @@ public class Repository {
         SelectedMessageLive = new MutableLiveData<>();
         PrivateMessagesList = new MutableLiveData<>();
         SelectedItemLive = new MutableLiveData<>();
+        MarketsList = new MutableLiveData<>();
         firestore = FirebaseFirestore.getInstance();
         executor = Executors.newSingleThreadExecutor();
         auth = FirebaseAuth.getInstance();
@@ -113,9 +115,39 @@ public class Repository {
         return SelectedMessageLive;
     }
 
-    public Task<QuerySnapshot> getItems()
+    public MutableLiveData<List<SalesItem>> getItems()
     {
-        return firestore.collection("SalesItems").get();
+        setMarketsList();
+        return MarketsList;
+    }
+
+    private void setMarketsList()
+    {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("SalesItems")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshopValue,
+                                        @Nullable FirebaseFirestoreException error) {
+                        ArrayList<SalesItem> updatedListOfItems = new ArrayList<>();
+                        if(snapshopValue != null && !snapshopValue.isEmpty())
+                        {
+                            for (DocumentSnapshot item: snapshopValue.getDocuments()) {
+                                SalesItem newItem = new SalesItem(
+                                        item.get("title").toString(),
+                                        item.get("description").toString(),
+                                        Float.parseFloat(item.get("price").toString()),
+                                        item.get("user").toString(),
+                                        item.get("image").toString(),
+                                        SalesItem.createLocationPoint(item.get("location", GeoPoint.class)),
+                                        item.get("documentPath").toString()
+                                );
+                                updatedListOfItems.add(newItem);
+                            }
+                        }
+                        MarketsList.setValue(updatedListOfItems);
+                    }
+                });
     }
 
     public void sendMessage(PrivateMessage privateMessage)
