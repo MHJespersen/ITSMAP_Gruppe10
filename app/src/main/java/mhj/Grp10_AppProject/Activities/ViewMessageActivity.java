@@ -1,6 +1,5 @@
 package mhj.Grp10_AppProject.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -11,15 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
-import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.ViewMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.ViewMessageViewModelFactory;
 
@@ -57,9 +53,9 @@ public class ViewMessageActivity extends AppCompatActivity {
         privateMessage.setSender(_privatemessage.getReceiver());
         privateMessage.setReceiver(_privatemessage.getSender());
         privateMessage.setMessageBody(replyMessage);
-        privateMessage.setRegarding("Replay to: " +
-                (_privatemessage.getRegarding().contains("Replay to")?
-                        _privatemessage.getRegarding().split("Replay to: ")[1]:
+        privateMessage.setRegarding("Reply to: " +
+                (_privatemessage.getRegarding().contains("Reply to")?
+                        _privatemessage.getRegarding().split("Reply to: ")[1]:
                         _privatemessage.getRegarding()));
 
         viewModel.reply(privateMessage);

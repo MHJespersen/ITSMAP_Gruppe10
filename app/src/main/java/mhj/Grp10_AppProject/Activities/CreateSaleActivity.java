@@ -33,7 +33,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.rpc.context.AttributeContext;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -231,7 +230,7 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     private String createFileName(){
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         return "JPEG_" + timeStamp + ".jpg";
     }
 

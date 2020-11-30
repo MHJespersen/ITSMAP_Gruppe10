@@ -62,7 +62,6 @@ public class SendMessageActivity extends BaseActivity {
         btnSend.setOnClickListener(view -> sendMessage());
     }
 
-    //Real section
     //guide: https://www.youtube.com/watch?v=f1HKTg2hyf0&ab_channel=KODDev
     private void sendMessage() {
         auth = FirebaseAuth.getInstance();
@@ -70,11 +69,6 @@ public class SendMessageActivity extends BaseActivity {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss", Locale.getDefault()).format(new Date());
         String message = inputMessage.getText().toString();
         String sender = auth.getCurrentUser().getEmail();
-        //saving to database ->
-        //viewModel.sendMessage(receiver, sender, timeStamp, message);
-
-        //Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
-        //finish();
 
         //With Message Object.
         Intent intent = getIntent();
@@ -93,5 +87,4 @@ public class SendMessageActivity extends BaseActivity {
         Toast.makeText(this, "Message sent: " + message, Toast.LENGTH_SHORT).show();
         finish();
     }
-
 }
