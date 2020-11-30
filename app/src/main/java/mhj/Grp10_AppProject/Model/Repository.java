@@ -42,6 +42,7 @@ public class Repository {
     private MutableLiveData<SalesItem> SelectedItemLive;
     private MutableLiveData<PrivateMessage> SelectedMessageLive;
     private MutableLiveData<List<PrivateMessage>> PrivateMessagesList;
+    private MutableLiveData<List<SalesItem>> MarketsList;
     private NotificationChannel notiChannel;
     private NotificationManager notiManager;
 
@@ -63,6 +64,7 @@ public class Repository {
         SelectedMessageLive = new MutableLiveData<>();
         PrivateMessagesList = new MutableLiveData<>();
         SelectedItemLive = new MutableLiveData<>();
+        MarketsList = new MutableLiveData<>();
         firestore = FirebaseFirestore.getInstance();
         executor = Executors.newSingleThreadExecutor();
         auth = FirebaseAuth.getInstance();
@@ -93,38 +95,79 @@ public class Repository {
         return SelectedMessageLive;
     }
 
-    public Task<QuerySnapshot> getItems()
+    public MutableLiveData<List<SalesItem>> getItems()
     {
-        return firestore.collection("SalesItems").get();
+        setMarketsList();
+        return MarketsList;
+    }
+
+    private void setMarketsList()
+    {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                database.collection("SalesItems")
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot snapshopValue,
+                                                @Nullable FirebaseFirestoreException error) {
+                                ArrayList<SalesItem> updatedListOfItems = new ArrayList<>();
+                                if(snapshopValue != null && !snapshopValue.isEmpty())
+                                {
+                                    for (DocumentSnapshot item: snapshopValue.getDocuments()) {
+                                        SalesItem newItem = new SalesItem(
+                                                item.get("title").toString(),
+                                                item.get("description").toString(),
+                                                Float.parseFloat(item.get("price").toString()),
+                                                item.get("user").toString(),
+                                                item.get("image").toString(),
+                                                SalesItem.createLocationPoint(item.get("location", GeoPoint.class)),
+                                                item.get("documentPath").toString()
+                                        );
+                                        updatedListOfItems.add(newItem);
+                                    }
+                                }
+                                MarketsList.setValue(updatedListOfItems);
+                            }
+                        });
+            }
+        });
     }
 
     public void sendMessage(PrivateMessage privateMessage)
     {
-        Map<String, Object> map = new HashMap<>();
-        CollectionReference CollRef = firestore.collection("PrivateMessages").
-                document(privateMessage.getReceiver()).collection("Messages");
-        String UniqueID = CollRef.document().getId();
-        map.put("Receiver", privateMessage.getReceiver());
-        map.put("Sender", privateMessage.getSender());
-        map.put("MessageDate", privateMessage.getMessageDate());
-        map.put("MessageBody", privateMessage.getMessageBody());
-        map.put("Read", privateMessage.getMessageRead());
-        map.put("Regarding", privateMessage.getRegarding());
-        map.put("Path", UniqueID);
-        firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
-                .collection("Messages").document(UniqueID).set(map)
-                .addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        Log.d("PrivateMessages", "Completed");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("PrivateMessages", "Failed");
-                    }
-                });
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Map<String, Object> map = new HashMap<>();
+                CollectionReference CollRef = firestore.collection("PrivateMessages").
+                        document(privateMessage.getReceiver()).collection("Messages");
+                String UniqueID = CollRef.document().getId();
+                map.put("Receiver", privateMessage.getReceiver());
+                map.put("Sender", privateMessage.getSender());
+                map.put("MessageDate", privateMessage.getMessageDate());
+                map.put("MessageBody", privateMessage.getMessageBody());
+                map.put("Read", false);
+                map.put("Regarding", privateMessage.getRegarding());
+                map.put("Path", UniqueID);
+                firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
+                        .collection("Messages").document(UniqueID).set(map)
+                        .addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                Log.d("PrivateMessages", "Completed");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("PrivateMessages", "Failed");
+                            }
+                        });
+            }
+        });
+
     }
 
     public MutableLiveData<List<PrivateMessage>> getPrivateMessages(){
@@ -169,30 +212,44 @@ public class Repository {
     }
 
     public void createSale(SalesItem item){
-        GeoPoint geo = GeoCreater(item.getLocation());
-        Map<String, Object> map  = new HashMap<>();
-        CollectionReference CollRef = firestore.collection("SalesItems");
-        String UniqueID = CollRef.document().getId();
-        map.put("description", item.getDescription());
-        map.put("image", item.getImage());
-        map.put("location", geo);
-        map.put("price", item.getPrice());
-        map.put("title", item.getTitle());
-        map.put("user", item.getUser());
-        map.put("documentPath", UniqueID);
-        CollRef.document(UniqueID).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        executor.execute(new Runnable() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.d("Testing", "Completed");
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @SuppressLint("ShowToast")
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(con,"Creating sale Failed", Toast.LENGTH_SHORT);
+            public void run() {
+                GeoPoint geo = GeoCreater(item.getLocation());
+                Map<String, Object> map  = new HashMap<>();
+                CollectionReference CollRef = firestore.collection("SalesItems");
+                String UniqueID = CollRef.document().getId();
+                map.put("description", item.getDescription());
+                map.put("image", item.getImage());
+                map.put("location", geo);
+                map.put("price", item.getPrice());
+                map.put("title", item.getTitle());
+                map.put("user", item.getUser());
+                map.put("documentPath", UniqueID);
+                CollRef.document(UniqueID).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d("Testing", "Completed");
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @SuppressLint("ShowToast")
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(con,"Creating sale Failed", Toast.LENGTH_SHORT);
+                            }
+                        });
             }
         });
+    }
 
+    public void setSelectedMessage(PrivateMessage message) {
+        Task<DocumentSnapshot> d = firestore.collection("PrivateMessages").document(message.getReceiver()).collection("Messages").document(message.getPath()).get();
+        d.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                SelectedMessageLive.postValue(PrivateMessage.fromSnapshot(task.getResult()));
+            }
+        });
     }
 }

@@ -168,22 +168,26 @@ public class CreateSaleActivity extends BaseActivity {
 
     private void buttonCreate() {
         //Save file:
-        Uri file = Uri.fromFile(photoFile);
-        StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
-        imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                //Get a URL to the uploaded content
-                //Uri downloadUrl = taskSnapshot.getDownload();
-                Save();
-                Log.d("Successful upload!", APP_TAG);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Unsuccessful upload!", APP_TAG);
-            }
-        });
+        if(photoFile != null)
+        {
+            Uri file = Uri.fromFile(photoFile);
+            StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
+            imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("Successful upload!", APP_TAG);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Unsuccessful upload!", APP_TAG);
+                }
+            });
+        }
+        else
+        {
+            Save();
+        }
     }
 
     //Returns the File for a photo stored on disk given the fileName
@@ -226,7 +230,7 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     private String createFileName(){
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         return "JPEG_" + timeStamp + ".jpg";
     }
 
@@ -234,6 +238,10 @@ public class CreateSaleActivity extends BaseActivity {
         salesItem = new SalesItem();
         if(photoFileName != null){
             salesItem.setImage(photoFileName);
+        }
+        else
+        {
+            salesItem.setImage("emptycart.png");
         }
         if(title.getText().toString() != null){
             salesItem.setTitle(title.getText().toString());

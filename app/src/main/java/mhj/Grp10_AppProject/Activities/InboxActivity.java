@@ -13,7 +13,6 @@ import java.util.List;
 import mhj.Grp10_AppProject.Adapter.InboxAdapter;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.R;
-import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModel;
 import mhj.Grp10_AppProject.ViewModels.InboxViewModelFactory;
 
@@ -50,9 +49,10 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
 
     @Override
     public void onMessageClicked(int index) {
-        Intent intent = new Intent(this, ViewMessageActivity.class);
-        intent.putExtra(Constants.EXTRA_INDEX, index);
+
+        viewModel.SetSelectedMessage(index);
         viewModel.setRead(index);
-        startActivity(intent);
+        Intent ViewMessage = new Intent(this, ViewMessageActivity.class);
+        startActivity(ViewMessage);
     }
 }
