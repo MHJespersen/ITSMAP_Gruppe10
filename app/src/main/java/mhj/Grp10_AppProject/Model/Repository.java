@@ -121,17 +121,21 @@ public class Repository {
     public void sendMessage(PrivateMessage privateMessage)
     {
         Map<String, Object> map = new HashMap<>();
+        CollectionReference CollRef = firestore.collection("PrivateMessages").
+                document(privateMessage.getReceiver()).collection("Messages");
+        String UniqueID = CollRef.document().getId();
         map.put("Receiver", privateMessage.getReceiver());
         map.put("Sender", privateMessage.getSender());
         map.put("MessageDate", privateMessage.getMessageDate());
         map.put("MessageBody", privateMessage.getMessageBody());
         map.put("Read", privateMessage.getMessageRead());
         map.put("Regarding", privateMessage.getRegarding());
+        map.put("Path", UniqueID);
         firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
-                .collection("Messages").add(map)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                .collection("Messages").document(UniqueID).set(map)
+                .addOnCompleteListener(new OnCompleteListener() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                    public void onComplete(@NonNull Task task) {
                         Log.d("PrivateMessages", "Completed");
                     }
                 })
@@ -195,6 +199,22 @@ public class Repository {
                     .build();
             notiManager.notify(Constants.NOTIFICATION_ID, notification);
         }
+    }
+
+    public void setMessageRead(PrivateMessage message)
+    {
+        if(!message.getMessageRead())
+        {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    firestore.collection("PrivateMessages").
+                            document(auth.getCurrentUser().getEmail()).collection("Messages")
+                            .document(message.getPath()).update("Read", true);
+                }
+            });
+        }
+
     }
 
     public void createSale(SalesItem item){
