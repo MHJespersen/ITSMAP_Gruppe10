@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ViewMessageActivity">
+    tools:context=".Activities.ViewMessageActivity"
+    android:background="@color/backgroundColor">
 
     <TextView
         android:id="@+id/viewMessageLabelFrom"
@@ -77,7 +78,7 @@
         android:id="@+id/viewMessageBtnReply"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
-        android:backgroundTint="#31FF9800"
+        android:backgroundTint="@color/buttonColor"
         android:textSize="@dimen/button_text_size"
         android:layout_marginEnd="@dimen/margin_outer"
         android:layout_marginBottom="16dp"

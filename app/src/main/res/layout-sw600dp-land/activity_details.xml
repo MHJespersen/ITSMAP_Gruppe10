@@ -122,7 +122,7 @@
         android:id="@+id/detailsBtnMessage"
         android:layout_width="@dimen/button_layout_width"
         android:layout_height="@dimen/button_layout_heigth"
-        android:backgroundTint="#31FF9800"
+        android:backgroundTint="@color/buttonColor"
         android:textSize="@dimen/button_text_size"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
