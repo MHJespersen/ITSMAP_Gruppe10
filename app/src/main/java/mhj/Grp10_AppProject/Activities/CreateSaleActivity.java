@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -96,6 +98,10 @@ public class CreateSaleActivity extends BaseActivity {
         startTrackingLocation();
         Log.d(Constants.CREATE_SALE_ACTIVITY, "onCreate: started tracking");
 
+        if(savedInstanceState != null){
+            Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString("photo"));
+            itemImage.setImageBitmap(bp);
+        }
     }
 
     @Override
@@ -214,6 +220,12 @@ public class CreateSaleActivity extends BaseActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        outState.putString("photo", photoFile.getAbsolutePath());
+        super.onSaveInstanceState(outState);
     }
 
     private String createFileName(){
