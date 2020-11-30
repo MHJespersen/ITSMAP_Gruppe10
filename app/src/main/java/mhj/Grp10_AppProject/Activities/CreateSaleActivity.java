@@ -23,8 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -49,6 +47,7 @@ import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
 public class CreateSaleActivity extends BaseActivity {
 
+    private static final String KEY_PHOTO = "photo";
     //upload
     private FirebaseStorage firebaseStorage;
 
@@ -99,12 +98,7 @@ public class CreateSaleActivity extends BaseActivity {
         Log.d(Constants.CREATE_SALE_ACTIVITY, "onCreate: started tracking");
         
         if (savedInstanceState != null) {
-            Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString("photo"));
-            itemImage.setImageBitmap(bp);
-        }
-
-        if(savedInstanceState != null){
-            Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString("photo"));
+            Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString(KEY_PHOTO));
             itemImage.setImageBitmap(bp);
         }
     }
@@ -229,7 +223,7 @@ public class CreateSaleActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
-        outState.putString("photo", photoFile.getAbsolutePath());
+        outState.putString(KEY_PHOTO, photoFile.getAbsolutePath());
         super.onSaveInstanceState(outState);
     }
 
