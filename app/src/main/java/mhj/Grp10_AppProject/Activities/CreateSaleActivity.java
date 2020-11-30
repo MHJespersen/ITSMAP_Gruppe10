@@ -95,8 +95,7 @@ public class CreateSaleActivity extends BaseActivity {
         locationUtility = new LocationUtility(this);
 
         startTrackingLocation();
-        Log.d(Constants.CREATE_SALE_ACTIVITY, "onCreate: started tracking");
-        
+
         if (savedInstanceState != null) {
             Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString(KEY_PHOTO));
             itemImage.setImageBitmap(bp);
@@ -109,7 +108,6 @@ public class CreateSaleActivity extends BaseActivity {
 
         if(!isTrackingLocation){
             startTrackingLocation();
-            Log.d(Constants.CREATE_SALE_ACTIVITY, "onResume: started tracking");
         }
 
     }
@@ -117,7 +115,6 @@ public class CreateSaleActivity extends BaseActivity {
     @Override
     protected void onPause() {
         stopTrackingLocation();
-        Log.d(Constants.CREATE_SALE_ACTIVITY, "onPause: stopped tracking");
         super.onPause();
     }
 
@@ -126,7 +123,6 @@ public class CreateSaleActivity extends BaseActivity {
 
         if (isTrackingLocation) {
             stopTrackingLocation();
-            Log.d(Constants.CREATE_SALE_ACTIVITY, "onDestroy: stopped tracking");
         }
         super.onDestroy();
     }
@@ -223,7 +219,9 @@ public class CreateSaleActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
-        outState.putString(KEY_PHOTO, photoFile.getAbsolutePath());
+        if (photoFile != null) {
+            outState.putString(KEY_PHOTO, photoFile.getAbsolutePath());
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -361,6 +359,9 @@ public class CreateSaleActivity extends BaseActivity {
             }
 
             isTrackingLocation = true;
+            Log.d(TAG, "startTrackingLocation");
+
+
         } catch (Exception ex) {
             //things can go wrong
             Log.e("TRACKER", "Error starting location tracking", ex);
@@ -372,9 +373,11 @@ public class CreateSaleActivity extends BaseActivity {
             try {
                 locationManager.removeUpdates(locationListener);
                 isTrackingLocation = false;
+                Log.d(TAG, "stopTrackingLocation");
+
             } catch (SecurityException ex) {
                 // user has disabled location permission - need to validate this permission for newer versions?
-                Log.d(TAG, "startTrackingLocation: User has disabled location services");
+                Log.d(TAG, "stopTrackingLocation: User has disabled location services");
             }
 
         } catch (Exception ex) {
@@ -386,24 +389,16 @@ public class CreateSaleActivity extends BaseActivity {
     private LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-
             Log.d(Constants.CREATE_SALE_ACTIVITY, "onLocationChanged: " + location.getLatitude() + ", " + location.getLongitude());
-
         }
 
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
 
         @Override
-        public void onProviderEnabled(String provider) {
-
-        }
+        public void onProviderEnabled(String provider) {}
 
         @Override
-        public void onProviderDisabled(String provider) {
-
-        }
+        public void onProviderDisabled(String provider) {}
     };
 }
