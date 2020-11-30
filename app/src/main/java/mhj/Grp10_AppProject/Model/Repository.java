@@ -120,31 +120,37 @@ public class Repository {
 
     public void sendMessage(PrivateMessage privateMessage)
     {
-        Map<String, Object> map = new HashMap<>();
-        CollectionReference CollRef = firestore.collection("PrivateMessages").
-                document(privateMessage.getReceiver()).collection("Messages");
-        String UniqueID = CollRef.document().getId();
-        map.put("Receiver", privateMessage.getReceiver());
-        map.put("Sender", privateMessage.getSender());
-        map.put("MessageDate", privateMessage.getMessageDate());
-        map.put("MessageBody", privateMessage.getMessageBody());
-        map.put("Read", privateMessage.getMessageRead());
-        map.put("Regarding", privateMessage.getRegarding());
-        map.put("Path", UniqueID);
-        firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
-                .collection("Messages").document(UniqueID).set(map)
-                .addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        Log.d("PrivateMessages", "Completed");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("PrivateMessages", "Failed");
-                    }
-                });
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Map<String, Object> map = new HashMap<>();
+                CollectionReference CollRef = firestore.collection("PrivateMessages").
+                        document(privateMessage.getReceiver()).collection("Messages");
+                String UniqueID = CollRef.document().getId();
+                map.put("Receiver", privateMessage.getReceiver());
+                map.put("Sender", privateMessage.getSender());
+                map.put("MessageDate", privateMessage.getMessageDate());
+                map.put("MessageBody", privateMessage.getMessageBody());
+                map.put("Read", privateMessage.getMessageRead());
+                map.put("Regarding", privateMessage.getRegarding());
+                map.put("Path", UniqueID);
+                firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
+                        .collection("Messages").document(UniqueID).set(map)
+                        .addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                Log.d("PrivateMessages", "Completed");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("PrivateMessages", "Failed");
+                            }
+                        });
+            }
+        });
+
     }
 
     public MutableLiveData<List<PrivateMessage>> getPrivateMessages(){
@@ -166,7 +172,7 @@ public class Repository {
                 if(!privateMessages.isEmpty())
                 {
                     PrivateMessagesList.postValue(privateMessages);
-                    updateNotification(privateMessages.get(privateMessages.size() -1));
+                    updateNotification(privateMessages.get(0));
                 }
             }
         });
@@ -190,8 +196,11 @@ public class Repository {
     private void updateNotification(Object message)
     {
         PrivateMessage privMessage = (PrivateMessage) message;
+        Log.d("Message", "Message is ready " + privMessage.getMessageRead() + "Date: " +
+                privMessage.getMessageDate());
         if(notiManager != null && !privMessage.getMessageRead())
         {
+            Log.d("Message", "Done");
             String notificationUpdate = "New message from: " + privMessage.getSender();
             Notification notification = new NotificationCompat.Builder(con, Constants.SERVICE_CHANNEL)
                     .setContentTitle(notificationUpdate)
