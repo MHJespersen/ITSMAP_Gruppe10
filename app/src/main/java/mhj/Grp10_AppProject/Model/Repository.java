@@ -299,4 +299,14 @@ public class Repository {
             }
         });
     }
+
+    public void setSelectedMessage(PrivateMessage message) {
+        Task<DocumentSnapshot> d = firestore.collection("PrivateMessages").document(message.getReceiver()).collection("Messages").document(message.getPath()).get();
+        d.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                SelectedMessageLive.postValue(PrivateMessage.fromSnapshot(task.getResult()));
+            }
+        });
+    }
 }

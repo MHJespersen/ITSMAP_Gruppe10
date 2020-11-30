@@ -28,11 +28,13 @@ public class ViewMessageActivity extends AppCompatActivity {
     private Button btnReply;
     private ViewMessageViewModel viewModel;
     FirebaseAuth auth;
+    private PrivateMessage privatemessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_message);
+        setupUI();
 
         viewModel = new ViewModelProvider(this, new ViewMessageViewModelFactory(this.getApplicationContext()))
                 .get(ViewMessageViewModel.class);
@@ -41,7 +43,6 @@ public class ViewMessageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String index = intent.getStringExtra(Constants.EXTRA_INDEX);
 
-        setupUI();
     }
 
     private void setupUI() {
@@ -71,7 +72,7 @@ public class ViewMessageActivity extends AppCompatActivity {
         privateMessage.setRegarding(title);
         privateMessage.setMessageRead(false);
 
-        //viewModel.reply(privateMessage);
+        viewModel.reply(privateMessage);
         Toast.makeText(this, "Reply was sent: " + replyMessage, Toast.LENGTH_SHORT).show();
         finish();
     }
@@ -81,6 +82,7 @@ public class ViewMessageActivity extends AppCompatActivity {
         public void onChanged(PrivateMessage message) {
             if(message != null)
             {
+                privatemessage = message;
                 textMessage.setText(message.getMessageBody());
                 textRegarding.setText(message.getRegarding());
                 textSender.setText(message.getSender());

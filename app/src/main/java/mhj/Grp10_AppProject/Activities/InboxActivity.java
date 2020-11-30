@@ -50,9 +50,10 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
 
     @Override
     public void onMessageClicked(int index) {
-        Intent intent = new Intent(this, ViewMessageActivity.class);
-        intent.putExtra(Constants.EXTRA_INDEX, index);
+
+        viewModel.SetSelectedMessage(index);
         viewModel.setRead(index);
-        startActivity(intent);
+        Intent ViewMessage = new Intent(this, ViewMessageActivity.class);
+        startActivity(ViewMessage);
     }
 }
