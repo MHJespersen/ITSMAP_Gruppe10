@@ -313,12 +313,10 @@ public class CreateSaleActivity extends BaseActivity {
 
             if (locationManager != null) {
                 try {
-//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, locationListener);         //for specifying GPS provider
-//                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, locationListener);     //for specifying Network provider
-                    locationManager.requestLocationUpdates(minTime, minDistance, criteria, locationListener, null);
                     //Use criteria to chose best provider
+                    locationManager.requestLocationUpdates(minTime, minDistance, criteria, locationListener, null);
                 } catch (SecurityException ex) {
-                    //TODO: user have disabled location permission - need to validate this permission for newer versions
+                    // user has disabled location permission - need to validate this permission for newer versions?
                     Log.d(TAG, "startTrackingLocation: User has disabled location services");
                 }
             }
@@ -336,7 +334,7 @@ public class CreateSaleActivity extends BaseActivity {
                 locationManager.removeUpdates(locationListener);
                 isTrackingLocation = false;
             } catch (SecurityException ex) {
-                //TODO: user have disabled location permission - need to validate this permission for newer versions
+                // user has disabled location permission - need to validate this permission for newer versions?
                 Log.d(TAG, "startTrackingLocation: User has disabled location services");
             }
 
