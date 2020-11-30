@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import mhj.Grp10_AppProject.R;
+import mhj.Grp10_AppProject.Services.ForegroundService;
 import mhj.Grp10_AppProject.Utilities.Constants;
 import mhj.Grp10_AppProject.ViewModels.LoginViewModel;
 import mhj.Grp10_AppProject.ViewModels.LoginViewModelFactory;
@@ -35,6 +36,10 @@ public class LoginActivity extends BaseActivity {
         viewModel = new ViewModelProvider(this,
                 new LoginViewModelFactory(this.getApplicationContext())).get(LoginViewModel.class);
         auth = FirebaseAuth.getInstance();
+
+        // Start service
+        Intent serviceIntent = new Intent(this, ForegroundService.class);
+        startService(serviceIntent);
     }
 
     public void SignIn(View view) {

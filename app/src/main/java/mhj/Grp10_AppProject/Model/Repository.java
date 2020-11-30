@@ -1,20 +1,15 @@
 package mhj.Grp10_AppProject.Model;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
-import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -23,7 +18,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,10 +34,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import mhj.Grp10_AppProject.R;
-import mhj.Grp10_AppProject.Services.ForegroundService;
-import mhj.Grp10_AppProject.Utilities.Constants;
-
 public class Repository {
 
     private static Repository INSTANCE = null;
@@ -54,7 +44,6 @@ public class Repository {
     private MutableLiveData<List<PrivateMessage>> PrivateMessagesList;
     private NotificationChannel notiChannel;
     private NotificationManager notiManager;
-
 
     private ExecutorService executor;
     private static Context con;
@@ -78,15 +67,6 @@ public class Repository {
         executor = Executors.newSingleThreadExecutor();
         auth = FirebaseAuth.getInstance();
         initializePrivateMessages();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotification();
-        }
-    }
-
-    public void startMyForegroundService()
-    {
-        Intent foregroundService = new Intent(con, ForegroundService.class);
-        con.startService(foregroundService);
     }
 
     public GeoPoint GeoCreater(Location l){
@@ -153,51 +133,22 @@ public class Repository {
 
     private void initializePrivateMessages()
     {
-        firestore.collection(
-                "PrivateMessages").document(auth.getCurrentUser().getEmail()).
-                collection("Messages").orderBy("MessageDate",
-                Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                ArrayList privateMessages = new ArrayList();
-                for (QueryDocumentSnapshot snap : value) {
-                    privateMessages.add(PrivateMessage.fromSnapshot(snap));
+        if (auth.getCurrentUser() != null) {
+            firestore.collection(
+                    "PrivateMessages").document(auth.getCurrentUser().getEmail()).
+                    collection("Messages").orderBy("MessageDate",
+                    Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    ArrayList privateMessages = new ArrayList();
+                    for (QueryDocumentSnapshot snap : value) {
+                        privateMessages.add(PrivateMessage.fromSnapshot(snap));
+                    }
+                    if (!privateMessages.isEmpty()) {
+                        PrivateMessagesList.postValue(privateMessages);
+                    }
                 }
-                if(!privateMessages.isEmpty())
-                {
-                    PrivateMessagesList.postValue(privateMessages);
-                    updateNotification(privateMessages.get(privateMessages.size() -1));
-                }
-            }
-        });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createNotification()
-    {
-            notiChannel = new NotificationChannel(Constants.SERVICE_CHANNEL, "Foreground Service", NotificationManager.IMPORTANCE_DEFAULT);
-            notiManager = (NotificationManager) con.getSystemService(con.NOTIFICATION_SERVICE);
-            notiManager.createNotificationChannel(notiChannel);
-
-        Notification notification = new NotificationCompat.Builder(con, Constants.SERVICE_CHANNEL)
-                .setContentTitle("Welcome to SmartSale")
-                .setSmallIcon(R.drawable.ic_service_draw)
-                .build();
-
-        notiManager.notify(Constants.NOTIFICATION_ID, notification);
-    }
-
-    private void updateNotification(Object message)
-    {
-        PrivateMessage privMessage = (PrivateMessage) message;
-        if(notiManager != null && !privMessage.getMessageRead())
-        {
-            String notificationUpdate = "New message from: " + privMessage.getSender();
-            Notification notification = new NotificationCompat.Builder(con, Constants.SERVICE_CHANNEL)
-                    .setContentTitle(notificationUpdate)
-                    .setSmallIcon(R.drawable.ic_service_draw)
-                    .build();
-            notiManager.notify(Constants.NOTIFICATION_ID, notification);
+            });
         }
     }
 

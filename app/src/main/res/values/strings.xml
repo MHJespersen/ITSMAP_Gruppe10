@@ -48,4 +48,6 @@
     <string name="menu_user">User</string>
     <string name="menu_messages" >Messages</string>
     <string name="label_eur_col">EUR:</string>
+    <string name="notification_update_string">New message regarding:</string>
+    <string name="service_notification_string">Welcome to SmartSale</string>
 </resources>

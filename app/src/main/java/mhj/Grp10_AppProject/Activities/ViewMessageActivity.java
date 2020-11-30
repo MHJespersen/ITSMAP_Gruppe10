@@ -24,10 +24,12 @@ import mhj.Grp10_AppProject.ViewModels.ViewMessageViewModel;
 import mhj.Grp10_AppProject.ViewModels.ViewMessageViewModelFactory;
 
 public class ViewMessageActivity extends AppCompatActivity {
-    private TextView textSender, textRegarding, textMessage, textReply;
-    private Button btnReply;
     private ViewMessageViewModel viewModel;
     FirebaseAuth auth;
+
+    // widgets
+    private TextView textSender, textRegarding, textMessage, textReply;
+    private Button btnReply;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

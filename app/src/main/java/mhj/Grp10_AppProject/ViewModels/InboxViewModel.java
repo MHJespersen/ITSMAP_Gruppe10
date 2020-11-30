@@ -27,6 +27,7 @@ public class InboxViewModel extends ViewModel {
         return privateMessagelist;
     }
 
+
     private void UpdateList()
     {
         privateMessagelist = repository.getPrivateMessages();
