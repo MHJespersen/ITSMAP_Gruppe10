@@ -32,6 +32,10 @@ public class InboxViewModel extends ViewModel {
         privateMessagelist = repository.getPrivateMessages();
     }
 
+    public void setRead(int index) {
+        repository.setMessageRead(privateMessagelist.getValue().get(index));
+    }
+
 //    public void SetSelectedMessage(int index) {
 //        String d = privateMessagelist.getValue().get(index).getMessageDate();
 //        String k = String.valueOf(privateMessagelist.getValue().get(index).getSender());

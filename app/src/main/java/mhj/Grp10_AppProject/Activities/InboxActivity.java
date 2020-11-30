@@ -52,6 +52,7 @@ public class InboxActivity extends BaseActivity implements InboxAdapter.IMessage
     public void onMessageClicked(int index) {
         Intent intent = new Intent(this, ViewMessageActivity.class);
         intent.putExtra(Constants.EXTRA_INDEX, index);
+        viewModel.setRead(index);
         startActivity(intent);
     }
 }

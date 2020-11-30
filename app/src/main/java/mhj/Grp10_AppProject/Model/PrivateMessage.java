@@ -6,20 +6,21 @@ import java.io.Serializable;
 
 public class PrivateMessage implements Serializable{
 
-    private String messageBody, messageDate, receiver, sender, regarding;
+    private String messageBody, messageDate, receiver, sender, regarding, path;
     private Boolean messageRead;
 
     public PrivateMessage(){
     }
 
     public PrivateMessage(String receiver, String sender, String messageBody, String messageDate,
-                          Boolean messageRead, String regarding) {
+                          Boolean messageRead, String regarding, String path) {
         this.receiver = receiver;
         this.sender = sender;
         this.messageBody = messageBody;
         this.messageDate = messageDate;
         this.messageRead = messageRead;
         this.regarding = regarding;
+        this.path = path;
     }
 
     public static PrivateMessage fromSnapshot(DocumentSnapshot d) {
@@ -28,7 +29,7 @@ public class PrivateMessage implements Serializable{
                 d.get("MessageBody").toString(),
                 d.get("MessageDate").toString(),
                 Boolean.parseBoolean(d.get("Read").toString()),
-                d.get("Regarding").toString());
+                d.get("Regarding").toString(), d.get("Path").toString());
         return message;
     }
 
@@ -67,5 +68,7 @@ public class PrivateMessage implements Serializable{
     public void setMessageRead(Boolean messageRead) {
         this.messageRead = messageRead;
     }
+
+    public String getPath(){return this.path;}
 }
 
