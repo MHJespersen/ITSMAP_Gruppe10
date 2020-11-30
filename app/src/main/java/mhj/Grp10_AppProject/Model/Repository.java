@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -168,7 +167,7 @@ public class Repository {
                 map.put("Sender", privateMessage.getSender());
                 map.put("MessageDate", privateMessage.getMessageDate());
                 map.put("MessageBody", privateMessage.getMessageBody());
-                map.put("Read", privateMessage.getMessageRead());
+                map.put("Read", false);
                 map.put("Regarding", privateMessage.getRegarding());
                 map.put("Path", UniqueID);
                 firestore.collection("PrivateMessages").document(privateMessage.getReceiver())
@@ -203,8 +202,11 @@ public class Repository {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 ArrayList privateMessages = new ArrayList();
-                for (QueryDocumentSnapshot snap : value) {
-                    privateMessages.add(PrivateMessage.fromSnapshot(snap));
+                if(!value.isEmpty())
+                {
+                    for (QueryDocumentSnapshot snap : value) {
+                        privateMessages.add(PrivateMessage.fromSnapshot(snap));
+                    }
                 }
                 if(!privateMessages.isEmpty())
                 {
