@@ -1,7 +1,9 @@
 package mhj.Grp10_AppProject.Adapter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,9 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.common.io.Resources;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.rpc.context.AttributeContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +31,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         void onMessageClicked(int index);
     }
 
+    private Context con;
     private IMessageClickedListener listener;
     private FirebaseStorage mStorageRef;
     private List<PrivateMessage> messagelist;
@@ -34,6 +39,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     public InboxAdapter(IMessageClickedListener listener) {
         mStorageRef = FirebaseStorage.getInstance();
         this.listener = listener;
+        this.con = (Context)listener;
     }
 
     public void updateMessageList(List<PrivateMessage> list){
@@ -56,7 +62,8 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
         holder.senderUserName.setText(messagelist.get(position).getSender().split("@")[0]);
         holder.messageDate.setText(messagelist.get(position).getMessageDate());
         holder.itemRegarding.setText(messagelist.get(position).getRegarding());
-        holder.readStatus.setText(messagelist.get(position).getMessageRead()? "Read": "Unread");
+        holder.readStatus.setText(messagelist.get(position).getMessageRead()?
+                con.getString(R.string.label_read) : con.getString(R.string.label_unread));
         holder.readStatus.setTextColor(messagelist.get(position).getMessageRead()? Color.GREEN: Color.RED);
 
         Glide.with(holder.senderUserImg.getContext())
