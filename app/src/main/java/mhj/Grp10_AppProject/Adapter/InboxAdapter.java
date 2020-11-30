@@ -37,7 +37,6 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
     }
 
     public void updateMessageList(List<PrivateMessage> list){
-        Collections.reverse(list);
         messagelist = list;
         notifyDataSetChanged();
     }

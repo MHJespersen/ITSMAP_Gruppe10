@@ -40,7 +40,7 @@ public class ForegroundService extends Service {
         Log.d(Constants.SERVICE_START, "In service onStartCommand");
 
         if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(Constants.SERVICE_CHANNEL, "Foreground Service", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel channel = new NotificationChannel(Constants.SERVICE_CHANNEL, "Foreground Service", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
         }
@@ -53,7 +53,6 @@ public class ForegroundService extends Service {
         startForeground(Constants.NOTIFICATION_ID, notification);
 
         StartThread();
-        Log.d(Constants.SERVICE_START_BACKGROUND, "Starting background stuff");
         return START_STICKY;
     }
 
@@ -81,14 +80,8 @@ public class ForegroundService extends Service {
         execService.submit(new Runnable() {
             @Override
             public void run() {
-                //Do recursive work
+                //Check
                 //And call UpdateNotification with an update
-                try{
-                    Thread.sleep(60000);
-                    Log.d(Constants.FOREGROUND_SERVICE, "Fetching notification");
-                } catch (InterruptedException e) {
-                    Log.e(Constants.FOREGROUND_SERVICE, "run: ERROR", e);
-                }
                 if(started) {
                     RecursiveWork();
                 }
