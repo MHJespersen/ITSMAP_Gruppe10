@@ -132,6 +132,9 @@ public class CreateSaleActivity extends BaseActivity {
         btnCreate = findViewById(R.id.btnPublish);
         btnCreate.setOnClickListener(view -> {
             //Save file:
+            if(photoFile != null)
+            {
+
             Uri file = Uri.fromFile(photoFile);
             StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
             imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -146,6 +149,12 @@ public class CreateSaleActivity extends BaseActivity {
                     Log.d("Unsuccesfull upload!", APP_TAG);
                 }
             });
+            }
+            else
+            {
+                Save();
+            }
+
         });
 
         btnCapture = findViewById(R.id.btnTakePhoto);
@@ -185,30 +194,6 @@ public class CreateSaleActivity extends BaseActivity {
         // So as long as the result is not null, it's safe to use the intent.
         if(cInt.resolveActivity(getPackageManager()) != null){
             startActivityForResult(cInt, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    private void buttonCreate() {
-        //Save file:
-        if(photoFile != null)
-        {
-            Uri file = Uri.fromFile(photoFile);
-            StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
-            imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("Successful upload!", APP_TAG);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("Unsuccessful upload!", APP_TAG);
-                }
-            });
-        }
-        else
-        {
-            Save();
         }
     }
 
