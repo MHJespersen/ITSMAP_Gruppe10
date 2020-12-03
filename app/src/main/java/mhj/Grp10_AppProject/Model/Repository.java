@@ -101,6 +101,8 @@ public class Repository {
         return MarketsList;
     }
 
+    // get data
+    //https://firebase.google.com/docs/firestore/query-data/get-data
     private void setMarketsList()
     {
         executor.execute(new Runnable() {
@@ -135,6 +137,8 @@ public class Repository {
         });
     }
 
+    //Adding data
+    //https://firebase.google.com/docs/firestore/manage-data/add-data
     public void sendMessage(PrivateMessage privateMessage)
     {
         executor.execute(new Runnable() {
