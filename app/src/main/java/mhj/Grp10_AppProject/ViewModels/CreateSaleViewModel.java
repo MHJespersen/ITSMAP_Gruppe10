@@ -24,7 +24,6 @@ public class CreateSaleViewModel extends ViewModel {
         this.context = context;
         salesitemLiveData = new MutableLiveData<>();
         repository = Repository.getInstance(context);
-        //salesitemLiveData = repository.getItems();
     }
 
 

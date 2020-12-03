@@ -50,9 +50,4 @@ public class WebAPI {
             callback.OnApiCallback(exchangeRates);
         }
     }
-
-
-
-
-
 }

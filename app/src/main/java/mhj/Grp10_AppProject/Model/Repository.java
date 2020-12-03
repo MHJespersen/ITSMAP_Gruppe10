@@ -1,8 +1,6 @@
 package mhj.Grp10_AppProject.Model;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
@@ -43,8 +41,6 @@ public class Repository {
     private MutableLiveData<PrivateMessage> SelectedMessageLive;
     private MutableLiveData<List<PrivateMessage>> PrivateMessagesList;
     private MutableLiveData<List<SalesItem>> MarketsList;
-    private NotificationChannel notiChannel;
-    private NotificationManager notiManager;
 
     private ExecutorService executor;
     private static Context con;
@@ -101,6 +97,9 @@ public class Repository {
         return MarketsList;
     }
 
+    // get data
+    //https://firebase.google.com/docs/firestore/query-data/get-data
+    // https://firebase.google.com/docs/firestore/query-data/listen
     private void setMarketsList()
     {
         executor.execute(new Runnable() {
@@ -135,6 +134,9 @@ public class Repository {
         });
     }
 
+    //Adding data
+    //https://firebase.google.com/docs/firestore/manage-data/add-data
+    //https://stackoverflow.com/questions/51234670/firestore-oncompletelistener
     public void sendMessage(PrivateMessage privateMessage)
     {
         executor.execute(new Runnable() {
