@@ -103,6 +103,7 @@ public class Repository {
 
     // get data
     //https://firebase.google.com/docs/firestore/query-data/get-data
+    // https://firebase.google.com/docs/firestore/query-data/listen
     private void setMarketsList()
     {
         executor.execute(new Runnable() {
@@ -139,6 +140,7 @@ public class Repository {
 
     //Adding data
     //https://firebase.google.com/docs/firestore/manage-data/add-data
+    //https://stackoverflow.com/questions/51234670/firestore-oncompletelistener
     public void sendMessage(PrivateMessage privateMessage)
     {
         executor.execute(new Runnable() {
