@@ -17,7 +17,6 @@
         android:text="@string/btnTakePhoto"
         android:textSize="@dimen/button_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnBack"
         app:layout_constraintStart_toStartOf="parent" />
 
 
