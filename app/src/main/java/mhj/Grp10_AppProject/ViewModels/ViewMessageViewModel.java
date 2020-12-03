@@ -5,11 +5,9 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.firebase.database.core.Repo;
 
 import mhj.Grp10_AppProject.Model.PrivateMessage;
 import mhj.Grp10_AppProject.Model.Repository;
-import mhj.Grp10_AppProject.Model.SalesItem;
 
 public class ViewMessageViewModel extends ViewModel {
 
