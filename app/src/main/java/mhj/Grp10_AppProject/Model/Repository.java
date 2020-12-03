@@ -1,8 +1,6 @@
 package mhj.Grp10_AppProject.Model;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
@@ -43,8 +41,6 @@ public class Repository {
     private MutableLiveData<PrivateMessage> SelectedMessageLive;
     private MutableLiveData<List<PrivateMessage>> PrivateMessagesList;
     private MutableLiveData<List<SalesItem>> MarketsList;
-    private NotificationChannel notiChannel;
-    private NotificationManager notiManager;
 
     private ExecutorService executor;
     private static Context con;
