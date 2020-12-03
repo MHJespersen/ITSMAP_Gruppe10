@@ -48,8 +48,17 @@ import mhj.Grp10_AppProject.ViewModels.CreateSaleViewModelFactory;
 
 public class CreateSaleActivity extends BaseActivity {
 
-    private static final String TAG = "CreateSaleActivity";
+    //upload
+    private FirebaseStorage firebaseStorage;
+
+    public static CreateSaleActivity context;
+    private CreateSaleViewModel viewModel;
+    private SalesItem salesItem;
+    private LocationUtility locationUtility;
+
     final String APP_TAG = "SmartSale";
+    private static final String TAG = "CreateSaleActivity";
+
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final long MIN_TIME_BETWEEN_LOCATION_UPDATES = 5 * 1000;    // milliseconds
     private static final float MIN_DISTANCE_MOVED_BETWEEN_LOCATION_UPDATES = 1;  // meters
@@ -57,10 +66,7 @@ public class CreateSaleActivity extends BaseActivity {
     private static final String KEY_PHOTO = "photo";
     private static boolean locationPermissionGranted = false;
 
-    private FirebaseStorage firebaseStorage;
-    private LocationUtility locationUtility;
-    private CreateSaleViewModel viewModel;
-    private SalesItem salesItem;
+
 
     private LocationManager locationManager;
     private Location lastLocation = null;
@@ -124,7 +130,23 @@ public class CreateSaleActivity extends BaseActivity {
 
     private void setupUI() {
         btnCreate = findViewById(R.id.btnPublish);
-        btnCreate.setOnClickListener(view -> buttonCreate());
+        btnCreate.setOnClickListener(view -> {
+            //Save file:
+            Uri file = Uri.fromFile(photoFile);
+            StorageReference imgRef = firebaseStorage.getReference().child(photoFileName);
+            imgRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Save();
+                    Log.d("Successfull upload!", APP_TAG);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Unsuccesfull upload!", APP_TAG);
+                }
+            });
+        });
 
         btnCapture = findViewById(R.id.btnTakePhoto);
         btnCapture.setOnClickListener(view -> buttonCapture());
@@ -193,7 +215,7 @@ public class CreateSaleActivity extends BaseActivity {
     //Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName){
         // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // Use `getExternalFilesDir` to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
         //Create the storage dir if it doesn't exist
@@ -211,7 +233,6 @@ public class CreateSaleActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             if(resultCode == RESULT_OK){
-                //Bitmap bp = (Bitmap) data.getExtras().get("data");
                 Bitmap bp = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 itemImage.setImageBitmap(bp);
 
