@@ -17,7 +17,6 @@ import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.Observer;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import mhj.Grp10_AppProject.Activities.InboxActivity;
 import mhj.Grp10_AppProject.Model.PrivateMessage;
@@ -32,14 +31,11 @@ public class ForegroundService extends LifecycleService {
     private static final String SERVICE_NOTIFICATION_CHANNEL = "service_notification_channel";
     private static final int SERVICE_NOTIFICATION_ID = 40;
     private static final int NOTIFICATION_INTENT = 3;
-    ExecutorService execService;
-    boolean started = false;
     private final Repository repo =  Repository.getInstance(this);
     private NotificationChannel serviceNotificationChannel;
     private NotificationManager serviceNotificationManager;
     private NotificationChannel notificationChannel;
     private NotificationManager notificationManager;
-    private int count = 0;
 
     public ForegroundService() {
     }
@@ -57,13 +53,10 @@ public class ForegroundService extends LifecycleService {
             List<PrivateMessage> list = UpdatedItems;
             PrivateMessage lastMessage = list.get(list.size()-1);
             String regarding = lastMessage.getRegarding();
-            Log.d(TAG, "onChanged: new private message " + count);
-
-            // Ignore first change in livedata (happens on launch)
-            if (count > 0) {
+            boolean read = lastMessage.getMessageRead();
+            if (!read) {
                 updateNotification(regarding);
             }
-            count ++;
         }
     };
 

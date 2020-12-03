@@ -55,10 +55,7 @@ public class ViewMessageActivity extends AppCompatActivity {
         privateMessage.setSender(_privatemessage.getReceiver());
         privateMessage.setReceiver(_privatemessage.getSender());
         privateMessage.setMessageBody(replyMessage);
-        privateMessage.setRegarding("Reply to: " +
-                (_privatemessage.getRegarding().contains("Reply to")?
-                        _privatemessage.getRegarding().split("Reply to: ")[1]:
-                        _privatemessage.getRegarding()));
+        privateMessage.setRegarding(_privatemessage.getRegarding());
 
         viewModel.reply(privateMessage);
         Toast.makeText(this, getString(R.string.reply_sent), Toast.LENGTH_SHORT).show();
