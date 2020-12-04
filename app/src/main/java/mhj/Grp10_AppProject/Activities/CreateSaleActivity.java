@@ -98,9 +98,12 @@ public class CreateSaleActivity extends BaseActivity {
         startTrackingLocation();
 
         if (savedInstanceState != null) {
-            photoFile = new File(savedInstanceState.getString(KEY_PHOTO));
-            Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString(KEY_PHOTO));
-            itemImage.setImageBitmap(bp);
+            if(!savedInstanceState.getString(KEY_PHOTO).isEmpty())
+            {
+                photoFile = new File(savedInstanceState.getString(KEY_PHOTO));
+                Bitmap bp = BitmapFactory.decodeFile(savedInstanceState.getString(KEY_PHOTO));
+                itemImage.setImageBitmap(bp);
+            }
         }
     }
 
