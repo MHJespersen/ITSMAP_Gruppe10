@@ -97,7 +97,7 @@ public class CreateSaleActivity extends BaseActivity {
 
         startTrackingLocation();
 
-        if (savedInstanceState != null) {
+        if ( savedInstanceState != null && !savedInstanceState.isEmpty()) {
             if(!savedInstanceState.getString(KEY_PHOTO).isEmpty())
             {
                 photoFile = new File(savedInstanceState.getString(KEY_PHOTO));
@@ -233,8 +233,8 @@ public class CreateSaleActivity extends BaseActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState){
         if (photoFile != null) {
             outState.putString(KEY_PHOTO, photoFile.getAbsolutePath());
+            super.onSaveInstanceState(outState);
         }
-        super.onSaveInstanceState(outState);
     }
 
     private String createFileName(){
