@@ -27,7 +27,7 @@
         android:layout_marginEnd="8dp"
         android:maxLines="1"
         android:text="@string/txtItem"
-        android:textSize="@dimen/text_size"
+        android:textSize="@dimen/text_size_larger"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/txtSalePrice"
         app:layout_constraintStart_toEndOf="@+id/imgItem"
