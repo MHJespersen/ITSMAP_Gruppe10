@@ -176,8 +176,9 @@ public class Repository {
         return this.PrivateMessagesList;
     }
 
-    private void initializePrivateMessages()
+    public void initializePrivateMessages()
     {
+        auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             firestore.collection(
                     "PrivateMessages").document(auth.getCurrentUser().getEmail()).

@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(context, getString(R.string.logged_in_as) + " " + auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
                 //Invalidate menu bar to load buttons and user Email
+                viewModel.InitMessages();
                 invalidateOptionsMenu();
             }
         }
