@@ -236,7 +236,7 @@ public class CreateSaleActivity extends BaseActivity {
     }
 
     private String createFileName(){
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         return "JPEG_" + timeStamp + ".jpg";
     }
 
