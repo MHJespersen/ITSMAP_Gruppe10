@@ -51,7 +51,7 @@ public class ForegroundService extends LifecycleService {
         @Override
         public void onChanged(List<PrivateMessage> UpdatedItems) {
             List<PrivateMessage> list = UpdatedItems;
-            PrivateMessage lastMessage = list.get(list.size()-1);
+            PrivateMessage lastMessage = list.get(0);
             String regarding = lastMessage.getRegarding();
             boolean read = lastMessage.getMessageRead();
             if (!read) {
