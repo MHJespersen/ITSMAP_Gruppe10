@@ -48,14 +48,14 @@ public class Repository {
     public static Repository getInstance(Context context) {
         if (INSTANCE == null) {
             con = context;
-            INSTANCE = new Repository(context);
+            INSTANCE = new Repository();
             Log.d("Repo", "Created Instance: ");
         }
         Log.d("Repo", "Repo Already instantiated: ");
         return(INSTANCE);
     }
 
-    private Repository(Context context)
+    private Repository()
     {
         SelectedMessageLive = new MutableLiveData<>();
         PrivateMessagesList = new MutableLiveData<>();
