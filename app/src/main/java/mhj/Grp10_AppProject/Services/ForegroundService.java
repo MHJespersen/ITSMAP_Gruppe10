@@ -28,7 +28,6 @@ import mhj.Grp10_AppProject.Utilities.Constants;
 public class ForegroundService extends LifecycleService {
 
     private static final String TAG = "ForegroundService";
-    private static final String SERVICE_NOTIFICATION_CHANNEL = "service_notification_channel";
     private static final int SERVICE_NOTIFICATION_ID = 40;
     private static final int NOTIFICATION_INTENT = 3;
     private final Repository repo =  Repository.getInstance(this);
@@ -69,7 +68,7 @@ public class ForegroundService extends LifecycleService {
         createNotificationChannels();
 
         // create service notification
-        Notification notification = new NotificationCompat.Builder(this, SERVICE_NOTIFICATION_CHANNEL)
+        Notification notification = new NotificationCompat.Builder(this, Constants.SERVICE_NOTIFICATION_CHANNEL)
                 .setContentTitle(getString(R.string.service_notification_string))
                 .setSmallIcon(R.drawable.ic_service_draw)
                 .build();
@@ -82,7 +81,7 @@ public class ForegroundService extends LifecycleService {
     private void createNotificationChannels() {
         // create service notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            serviceNotificationChannel = new NotificationChannel(SERVICE_NOTIFICATION_CHANNEL, "Foreground Service", NotificationManager.IMPORTANCE_DEFAULT);
+            serviceNotificationChannel = new NotificationChannel(Constants.SERVICE_NOTIFICATION_CHANNEL, "Foreground Service", NotificationManager.IMPORTANCE_DEFAULT);
             serviceNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             serviceNotificationManager.createNotificationChannel(serviceNotificationChannel);
         }

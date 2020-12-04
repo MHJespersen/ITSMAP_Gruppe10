@@ -29,6 +29,7 @@ public class Constants {
     //ViewMessageActivity
 
     //Service
+    public static final String SERVICE_NOTIFICATION_CHANNEL = "service_notification_channel";
     public static final int NOTIFICATION_ID = 42;
     public static final String NOTIFICATION_CHANNEL = "notification_channel";
 
